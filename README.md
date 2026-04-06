@@ -512,6 +512,6 @@ SensAI uses a cache-first startup strategy to minimize time-to-interactive:
 
 **Proprietary.** All rights reserved by Immunisense Corp.
 
-[Website](https://immunisense.com) · [Releases](https://github.com/immunisense/sensai/releases) · [Issues](https://github.com/immunisense/sensai/issues)
+[Website](https://immunisense.com) · [Releases](https://github.com/immunisense/sensai/releases) · [Issues](https://github.com/immunisense/sensai/issues) · [Discord](https://discord.gg/a2jafdGrsx)
 
 </div>
