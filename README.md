@@ -285,11 +285,11 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 
 | Tier | Price | Monthly Credits | Model Access |
 |------|-------|-----------------|--------------|
-| Free | $0 | 50 | `grok-code-fast` at Low only |
+| Free | $0 | 50 | `grok-code-fast` |
 | Pro | $20 | 500 | All models + all reasoning |
-| Ultra | $40 | 1,500 | All models + priority routing |
-| Sense | $100 | 4,000 | + team seats, shared projects |
-| Sense Pro | $200 | 10,000 | + priority support |
+| Ultra | $40 | 1,500 | All models |
+| Sense | $100 | 4,000 |  |
+| Sense Pro | $200 | 10,000 |  |
 
 ```text
 $ sensai-cli credits
