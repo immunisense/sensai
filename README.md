@@ -79,13 +79,15 @@ sensai-cli auth login
   (WSL/SSH/headless: URL printed for manual copy)
         │
         ▼
-  User signs in → JWT + refresh token issued
+  User signs in (email/password, GitHub, or Google) → JWT + refresh token issued
         │
         ▼
   Tokens stored in OS keyring → Bearer JWT with silent refresh
 ```
 
 No raw model provider credentials are stored on the client.
+Social login (GitHub, Google) uses Supabase OAuth with PKCE — the proxy
+handles the provider redirect and token exchange transparently.
 
 ```bash
 sensai-cli auth login    # browser OAuth
