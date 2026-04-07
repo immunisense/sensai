@@ -287,9 +287,9 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 |------|-------|-----------------|--------------|
 | Free | $0 | 50 | `grok-code-fast` |
 | Pro | $20 | 500 | All models + all reasoning |
-| Ultra | $40 | 1,500 | All models |
-| Sense | $100 | 4,000 |  |
-| Sense Pro | $200 | 10,000 |  |
+| Ultra | $40 | 1,500 | All models + all reasoning |
+| Sense | $100 | 4,000 | All models + all reasoning |
+| Sense Pro | $200 | 10,000 | All models + all reasoning |
 
 ```text
 $ sensai-cli credits
