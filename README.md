@@ -52,6 +52,9 @@ you change them in the interface or config.
 curl -fsSL https://sensai.immunisense.com/install | bash
 ```
 
+If ripgrep is not found at runtime, SensAI auto-downloads it to
+`~/.sensai/bin/` on first use — no manual install needed.
+
 ---
 
 ## 🔄 Updating
@@ -118,6 +121,7 @@ sensai-cli auth logout   # clear credentials
 - Multi-agent orchestration (up to 4 concurrent)
 - Custom sub-agents from markdown
 - 9 LSP tools for semantic navigation
+- Auto-diagnose: fixes LSP errors after each turn
 - Smart MCP integration with circuit breakers
 
 </td>
@@ -126,7 +130,7 @@ sensai-cli auth logout   # clear credentials
 <td valign="top">
 
 ### 🔍 Search & Navigation
-- `search_code` — ripgrep-powered lexical search
+- `search_code` — ripgrep-powered lexical search (auto-installed)
 - `ast_search` — ast-grep structural pattern matching
 - LSP definition, references, hover, symbols
 - `@` context resolution (zero-cost, zero-latency)
@@ -138,8 +142,10 @@ sensai-cli auth logout   # clear credentials
 - Conversation checkpoints with full undo
 - Auto-formatting (25+ languages)
 - Image paste/drop as visual context
+- Dynamic editor input (grows from 2 to 11 lines)
 - Auto session continuation at 95% context
 - Self-update without package manager
+- Credit limit dialog with tier-aware upgrade options
 - Credit-based billing with 3 balance buckets
 
 </td>
@@ -152,7 +158,7 @@ sensai-cli auth logout   # clear credentials
 
 | Mode | Command | Description |
 |------|---------|-------------|
-| **Code** | `sensai-cli` | Default interactive mode for coding, edits, reviews, and tool use. Toggle `/todos` to force structured task lists. |
+| **Code** | `sensai-cli` | Default interactive mode for coding, edits, reviews, and tool use. Toggle `/todos` to force structured task lists. To-Do progress is shown in the sidebar. |
 | **Plan** | `sensai-cli plan` | Spec-driven planning: requirements → design → tasks → approval gates → task execution |
 | **Analyze** | `sensai-cli analyze` | Read-only exploration for safe codebase investigation |
 
@@ -233,11 +239,12 @@ full guide.
 | `Ctrl+L` | Model picker |
 | `Ctrl+S` | Session picker |
 | `Ctrl+N` | New session |
-| `Ctrl+J` | Insert newline |
+| `Ctrl+J` | Insert newline (editor grows dynamically) |
 | `Ctrl+C` | Quit |
 | `Ctrl+G` | Toggle help |
-| `Ctrl+V` | Paste image from clipboard |
+| `Ctrl+V` | Paste from clipboard (text or image) |
 | `Ctrl+F` | Add image via file picker |
+| Right-click | Paste text from clipboard (in editor) |
 
 Dialog buttons (permissions, quit, restore, welcome) are also mouse-clickable.
 
@@ -248,7 +255,10 @@ Dialog buttons (permissions, quit, restore, welcome) are also mouse-clickable.
 
 Paste or drop images directly into the chat as visual context for the AI:
 
-- `Ctrl+V` reads image data from the system clipboard (screenshots, copied images).
+- `Ctrl+V` reads image data from the system clipboard (screenshots, copied
+  images). If no image is found, pastes clipboard text into the editor.
+  Long pastes (>10 lines) prompt to attach as a `.txt` file.
+- Right-click in the editor pastes text from the clipboard.
 - `Ctrl+F` opens a file picker dialog for selecting image files.
 - Drag an image file from the file manager into the terminal — the pasted
   file path is detected and attached automatically. `file://` URIs from
@@ -288,10 +298,10 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 | Tier | Price | Monthly Credits | Model Access |
 |------|-------|-----------------|--------------|
 | Free | $0 | 50 | `grok-code-fast` |
-| Pro | $20 | 500 | All models + all reasoning |
-| Ultra | $40 | 1,500 | All models + all reasoning |
-| Sense | $100 | 4,000 | All models + all reasoning |
-| Sense Pro | $200 | 10,000 | All models + all reasoning |
+| Pro | $9/mo | 500 | All models + all reasoning |
+| Ultra | $29/mo | 1,500 | All models + all reasoning |
+| Sense | $49/mo | 4,000 | All models + all reasoning |
+| Sense Pro | $99/mo | 10,000 | All models + all reasoning |
 
 ```text
 $ sensai-cli credits
@@ -305,6 +315,11 @@ Consumed this period:  3.50
 Tier:                  Sense
 Period ends:           2026-05-01
 ```
+
+When credits run out mid-session, a tier-aware dialog appears automatically.
+Free-tier users see subscription plan options; paid-tier users see top-up and
+upgrade options. Dismiss with Esc to continue later — run `/topup` or
+`/billing` anytime.
 
 ---
 
@@ -325,6 +340,10 @@ mode = "warn"
 
 [permissions]
 allowed_tools = ["read_file", "list_dir", "search_code", "ast_search"]
+
+[options]
+auto_diagnose = true   # auto-fix LSP errors after each agent turn (default: true)
+auto_format = true     # format files after agent writes (default: true)
 ```
 
 <details>
@@ -338,8 +357,10 @@ work and executes tasks one-by-one. Toggle via `/todos` in the TUI or config:
 todo_list = true
 ```
 
-The editor info bar shows "To-Do" when active. Disable with `/todos` again or
-set `todo_list = false`.
+The editor info bar shows "To-Do" when active, and the sidebar displays task
+progress with status icons (✓ completed, → in progress, • pending) and a
+counter (e.g. "To-Do 2/5"). Disable with `/todos` again or set
+`todo_list = false`.
 
 </details>
 
@@ -507,6 +528,9 @@ SensAI uses a cache-first startup strategy to minimize time-to-interactive:
   models instead of rebuilding per agent.
 - **Inline splash**: the startup animation plays within the same alt screen
   session for a seamless transition with no terminal flash.
+- **Auto-diagnose**: after each agent turn, LSP diagnostics run on changed
+  files. If errors are found, the agent auto-fixes them (up to 2 retries).
+  Disable with `[options] auto_diagnose = false`.
 
 ---
 
