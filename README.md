@@ -108,8 +108,11 @@ sensai-cli auth logout   # clear credentials
 
 ### 🛡️ Security First
 - All LLM traffic through `sensai.immunisense.com`
-- Zero raw API keys — OAuth + OS keyring
-- Pre-flight secrets scanning
+- Zero raw API keys — OAuth + OS keyring with machine-derived fallback
+- Pre-flight secrets scanning (30+ patterns incl. Stripe, GCP, Azure, Anthropic)
+- AST-level shell command blocking (subshells, pipes, command substitution)
+- Symlink-aware path guards on all read/write tools
+- CSRF protection on admin API and OAuth login flows
 - Permission-aware tool execution
 - Audit logging & no-log mode
 
@@ -520,12 +523,20 @@ SensAI uses a cache-first startup strategy to minimize time-to-interactive:
 
 - **Cache-first provider catalog**: model catalog loads from disk cache
   instantly, with a background refresh for the next launch.
+- **SQLite connection pool tuning**: 4 open / 2 idle / 5m lifetime prevents
+  lock contention under concurrent writes.
+- **Concurrent LSP diagnostics**: changed files are checked in parallel with
+  a shared 15s deadline instead of sequentially.
+- **Bounded message queue**: per-session cap of 50 pending messages prevents
+  unbounded memory growth.
+- **Large-file checkpoint spill**: files >256 KB spill to disk instead of
+  being held in memory during checkpoint tracking.
+- **Zero-copy proxy retries**: request bodies are buffered once and reused
+  across retries.
 - **Migration skip**: a version marker file bypasses migration checks
   when the database is already up-to-date.
 - **Lazy agent building**: user-defined sub-agents are registered at startup
   but only constructed on first invocation.
-- **Cached model construction**: all agents share a single set of proxy-backed
-  models instead of rebuilding per agent.
 - **Inline splash**: the startup animation plays within the same alt screen
   session for a seamless transition with no terminal flash.
 - **Auto-diagnose**: after each agent turn, LSP diagnostics run on changed
