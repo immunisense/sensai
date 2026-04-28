@@ -1,3 +1,8 @@
+## v0.2.31
+
+### Infrastructure
+- Minor code quality improvements
+
 ## v0.2.30
 
 ### Core
