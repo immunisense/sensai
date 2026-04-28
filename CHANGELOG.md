@@ -10,7 +10,7 @@
 - Add token compression system with three levels (`lite`, `full`, `ultra`) to reduce output verbosity
 - Add Skills discovery and management with enable/disable toggle, GitHub import, and local folder import
 - Add Rules management for context rule files with enable/disable toggle and import support
-- Add `SENSAI.md` priority chain: checks `SENSAI.md` first, then `AGENTS.md`; only the first found is loaded
+- Add `SENSAI.md` priority chain: checks `SENSAI.md` first, then `AGENTS.md`; only the first found is loaded. `DESIGN.md` is always loaded when present as an additive context file
 - Add `/create-sensai` command to generate `SENSAI.md` from existing AI-assistant files (`CLAUDE.md`, `GEMINI.md`, etc.)
 - Fix race condition in concurrent map operations that could cause duplicate initialization
 - Fix symlink resolution in write-path guard propagating errors instead of silently swallowing them
