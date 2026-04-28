@@ -10,8 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Latest Release](https://img.shields.io/github/release/immunisense/sensai?style=flat-square&color=C4A035)](https://github.com/immunisense/sensai/releases)
-[![Build](https://img.shields.io/github/actions/workflow/status/immunisense/sensai/build.yml?style=flat-square&label=build)](https://github.com/immunisense/sensai/actions)
+[![Version](https://img.shields.io/badge/version-0.2.30-C4A035?style=flat-square)](public/CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -120,9 +119,11 @@ sensai-cli auth logout   # clear credentials
 <td width="50%" valign="top">
 
 ### 🤖 Agent Intelligence
-- Code, Plan, and Analyze workflows
+- Code, Plan, Chat, and Analyze workflows
+- Token compression (`lite`/`full`/`ultra`) for reduced output verbosity
 - Multi-agent orchestration (up to 4 concurrent)
 - Custom sub-agents from markdown
+- Skills and Rules management with enable/disable toggle
 - 9 LSP tools for semantic navigation
 - Auto-diagnose: fixes LSP errors after each turn
 - Smart MCP integration with circuit breakers
@@ -162,6 +163,7 @@ sensai-cli auth logout   # clear credentials
 | Mode | Command | Description |
 |------|---------|-------------|
 | **Code** | `sensai-cli` | Default interactive mode for coding, edits, reviews, and tool use. Toggle `/todos` to force structured task lists. To-Do progress is shown in the sidebar. |
+| **Chat** | `/chat` | Zero-tools conversation mode for freeform discussion without file access or tool use. Switch back with `/code`. |
 | **Plan** | `sensai-cli plan` | Spec-driven planning: requirements → design → tasks → approval gates → task execution |
 | **Analyze** | `sensai-cli analyze` | Read-only exploration for safe codebase investigation |
 
@@ -170,6 +172,11 @@ with a TUI approval dialog. After all phases are approved, choose "Run All"
 for automatic sequential execution or "Run Manually" to trigger tasks one at a
 time with `#run_task:N`. See [`docs/plan_mode.md`](docs/plan_mode.md) for the
 full guide.
+
+**Token Compression** reduces output verbosity to save context and credits.
+Three levels: `lite` (minor trimming), `full` (concise output), `ultra`
+(maximum compression). Toggle via `/compress` or the command palette. The
+current level is shown in the editor info bar (e.g. "Code (full)").
 
 ---
 
@@ -224,6 +231,10 @@ full guide.
 | `/credits` | Show credit balance breakdown |
 | `/profile` | Switch or manage model profiles |
 | `/sense` | Toggle Sense Mode (full context) |
+| `/chat` | Switch to Chat Mode (no tools) |
+| `/code` | Switch to Code Mode |
+| `/compress` | Toggle token compression or set level (`lite`/`full`/`ultra`) |
+| `/create-sensai` | Create `SENSAI.md` from existing AI-assistant files |
 | `/agents` | Manage and invoke sub-agents |
 | `/plan` | Switch to plan mode |
 | `/approve` | Approve the current plan phase |
@@ -237,7 +248,7 @@ full guide.
 | Shortcut | Action |
 |----------|--------|
 | `Tab` | Switch focus between editor and chat |
-| `Shift+Tab` | Toggle Code Mode ↔ Plan Mode |
+| `Shift+Tab` | Cycle Code → Plan → Chat → Code |
 | `Ctrl+P` | Command palette |
 | `Ctrl+L` | Model picker |
 | `Ctrl+S` | Session picker |
@@ -275,7 +286,10 @@ Paste or drop images directly into the chat as visual context for the AI:
 
 ## 💎 Model Catalog
 
-The launch catalog is xAI Grok models, served through the SensAI proxy.
+Models are served through the SensAI proxy. The catalog includes xAI Grok and
+Anthropic Claude.
+
+**xAI Grok**
 
 | Model | Type | Base Context | Sense Context |
 |-------|------|-------------|---------------|
@@ -287,9 +301,19 @@ The launch catalog is xAI Grok models, served through the SensAI proxy.
 | Grok 4.20 | Reasoning | 200K | 2M |
 | Grok 4.20 (Multi-Agent) | Multi-agent | 200K | 2M |
 
-**Sense Mode** unlocks the full 2M context window. Toggle via `/sense` or the
-command palette. Grok Code Fast uses its full 256K at standard context and does
-not support Sense mode.
+**Anthropic Claude**
+
+| Model | Type | Base Context | Sense Context |
+|-------|------|-------------|---------------|
+| Claude Haiku 4.5 | Non-reasoning | 200K | — |
+| Claude Sonnet 4.6 | Non-reasoning | 200K | 1M |
+| Claude Opus 4.6 | Non-reasoning | 200K | 1M |
+| Claude Opus 4.7 | Non-reasoning | 200K | 1M |
+
+**Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude).
+Toggle via `/sense` or the command palette. Grok Code Fast uses its full 256K
+at standard context and does not support Sense mode. Claude models have no
+long-context surcharge — Sense pricing is the same as standard.
 
 ---
 
@@ -333,6 +357,10 @@ Configuration is TOML, loaded from `~/.sensai/config.toml` → `.sensai/config.t
 ```toml
 model = "grok-code-fast"
 reasoning_level = "low"
+
+[compression]
+enabled = false
+level = "full"       # lite, full, or ultra
 
 [tui]
 compact_mode = false
