@@ -10,7 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Version](https://img.shields.io/badge/version-0.2.31-C4A035?style=flat-square)](public/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.32-C4A035?style=flat-square)](public/CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -306,9 +306,9 @@ Anthropic Claude.
 | Model | Type | Base Context | Sense Context |
 |-------|------|-------------|---------------|
 | Claude Haiku 4.5 | Non-reasoning | 200K | — |
-| Claude Sonnet 4.6 | Non-reasoning | 200K | 1M |
-| Claude Opus 4.6 | Non-reasoning | 200K | 1M |
-| Claude Opus 4.7 | Non-reasoning | 200K | 1M |
+| Claude Sonnet 4.6 | Reasoning | 200K | 1M |
+| Claude Opus 4.6 | Reasoning | 200K | 1M |
+| Claude Opus 4.7 | Reasoning | 200K | 1M |
 
 **Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude).
 Toggle via `/sense` or the command palette. Grok Code Fast uses its full 256K
@@ -325,10 +325,10 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 | Tier | Price | Monthly Credits | Model Access |
 |------|-------|-----------------|--------------|
 | Free | $0 | 50 | `grok-code-fast` |
-| Pro | $9/mo | 500 | All models + all reasoning |
-| Ultra | $29/mo | 1,500 | All models + all reasoning |
-| Sense | $49/mo | 4,000 | All models + all reasoning |
-| Sense Pro | $99/mo | 10,000 | All models + all reasoning |
+| Pro | $20/mo | 500 | All models + all reasoning |
+| Ultra | $40/mo | 1,500 | All models + all reasoning |
+| Sense | $100/mo | 4,000 | All models + all reasoning |
+| Sense Pro | $200/mo | 10,000 | All models + all reasoning |
 
 ```text
 $ sensai-cli credits

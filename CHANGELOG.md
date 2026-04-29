@@ -1,3 +1,8 @@
+## v0.2.32
+
+### Core
+- Add reasoning effort selection for Claude Opus 4.6, Opus 4.7, and Sonnet 4.6 — choose low/medium/high/xhigh/max via the same reasoning effort dialog used by xAI models
+
 ## v0.2.31
 
 ### Infrastructure
