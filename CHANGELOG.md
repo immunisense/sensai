@@ -1,3 +1,9 @@
+## v0.2.35
+
+### Core
+- Fix Opus 4.7 failing with "thinking.type.enabled is not supported" — now uses adaptive thinking with effort control
+- Fix model name stuck as previous model after switching (e.g. showing "grok-4.20-reasoning" after switching to Claude)
+
 ## v0.2.34
 
 ### Core
