@@ -1,3 +1,18 @@
+## v0.2.33
+
+### Core
+- Fix auto-summarize triggering against full context window instead of effective threshold when Sense mode is disabled on a Sense-capable model
+- Fix model IDs causing "The provided model identifier is invalid" errors for all Claude models
+- Fix "reasoning model `max` not supported" error on Opus 4.7 and Sonnet 4.6
+- Remove `max` reasoning level from Opus 4.7 and Sonnet 4.6
+- Remove `xhigh` reasoning level from Opus 4.7
+
+### TUI
+- Show update-available dialog to authenticated users who previously missed it by skipping the welcome screen
+
+### Infrastructure
+- Updated 11 Go dependencies to latest versions
+
 ## v0.2.32
 
 ### Core
