@@ -1,3 +1,9 @@
+## v0.2.34
+
+### Core
+- Fix Bedrock adaptive thinking errors on all Claude models
+- Fix system prompt showing wrong model name when using Claude models
+
 ## v0.2.33
 
 ### Core
