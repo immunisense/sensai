@@ -1,3 +1,17 @@
+## v0.2.36
+
+### Core
+- Fix Sense mode on Grok 4.20 using the wrong context window — Sense now uses the full 2M window while standard mode still respects the lower threshold
+- Improve oversized request handling for large chats and contexts with a clearer actionable "request too large" error
+- Load `.sensai/rules/` as per-file Markdown rules while keeping legacy `.sensai/rules.md` support
+
+### TUI
+- Fix `/compress` changes not taking effect immediately — compression updates now apply to the next turn without restarting
+- Update Rules management to treat each Markdown file in a rules directory as a separate rule, including per-file enable/disable state
+
+### CLI
+- Update `sensai-cli ctx` to count rule files inside rules directories individually and skip disabled rules
+
 ## v0.2.35
 
 ### Core
