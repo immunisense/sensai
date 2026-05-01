@@ -1,3 +1,9 @@
+## v0.2.37
+
+### Core
+- Fix Claude tool calls rendering as raw `<tool_use>` blocks instead of native tool UI
+- Fix Claude token usage not appearing in the sidebar by forwarding usage metadata
+
 ## v0.2.36
 
 ### Core
