@@ -1,3 +1,19 @@
+## v0.2.38
+
+### Core
+- Improve search and startup responsiveness, including faster search and less delay before turns begin
+- Fix file write and edit tools reporting failure after a successful write when history syncing fails
+- Fix runtime selection persistence across launches so model, reasoning effort, Sense mode, compression, and related preferences survive restarts
+- Fix first-run workspace bootstrap so local `.sensai/skills` are discovered and empty `skills/` and `rules/` directories are created automatically
+
+### TUI
+- Improve long-session redraw performance for chat and markdown-heavy sessions
+- Fix authenticated startup sometimes missing the update dialog
+- Improve sidebar usability in dense sessions with a wider layout, independent scrolling, and a visible scrollbar
+
+### Billing
+- Fix monthly credit resets across billing cycles so stale optimistic usage does not carry into the new period
+
 ## v0.2.37
 
 ### Core
