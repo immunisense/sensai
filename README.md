@@ -108,6 +108,7 @@ sensai-cli auth logout   # clear credentials
 ### 🛡️ Security First
 - All LLM traffic through `sensai.immunisense.com`
 - Zero raw API keys — OAuth + OS keyring with machine-derived fallback
+- Aegis-powered Security Mode for eligible Sense Pro accounts with a read-only audit workflow
 - Pre-flight secrets scanning (30+ patterns incl. Stripe, GCP, Azure, Anthropic)
 - AST-level shell command blocking (subshells, pipes, command substitution)
 - Symlink-aware path guards on all read/write tools
@@ -119,7 +120,7 @@ sensai-cli auth logout   # clear credentials
 <td width="50%" valign="top">
 
 ### 🤖 Agent Intelligence
-- Code, Plan, Chat, and Analyze workflows
+- Code, Security, Plan, Chat, and Analyze workflows
 - Token compression (`lite`/`full`/`ultra`) for reduced output verbosity
 - Multi-agent orchestration (up to 4 concurrent)
 - Custom sub-agents from markdown
@@ -163,6 +164,7 @@ sensai-cli auth logout   # clear credentials
 | Mode | Command | Description |
 |------|---------|-------------|
 | **Code** | `sensai-cli` | Default interactive mode for coding, edits, reviews, and tool use. Toggle `/todos` to force structured task lists. To-Do progress is shown in the sidebar. |
+| **Security** | `/security` | Aegis security audit mode with a read-only tool policy. Available only when the account has Sense Pro plus the Security add-on entitlement. |
 | **Chat** | `/chat` | Zero-tools conversation mode for freeform discussion without file access or tool use. Switch back with `/code`. |
 | **Plan** | `sensai-cli plan` | Spec-driven planning: requirements → design → tasks → approval gates → task execution |
 | **Analyze** | `sensai-cli analyze` | Read-only exploration for safe codebase investigation |
@@ -172,6 +174,10 @@ with a TUI approval dialog. After all phases are approved, choose "Run All"
 for automatic sequential execution or "Run Manually" to trigger tasks one at a
 time with `#run_task:N`. See [`docs/plan_mode.md`](docs/plan_mode.md) for the
 full guide.
+
+Security Mode appears only for accounts with both the Sense Pro tier and the
+Security add-on. Eligible users can switch with `/security` or from the
+command palette.
 
 **Token Compression** reduces output verbosity to save context and credits.
 Three levels: `lite` (minor trimming), `full` (concise output), `ultra`
@@ -231,6 +237,7 @@ current level is shown in the editor info bar (e.g. "Code (full)").
 | `/credits` | Show credit balance breakdown |
 | `/profile` | Switch or manage model profiles |
 | `/sense` | Toggle Sense Mode (full context) |
+| `/security` | Switch to Security Mode (requires Sense Pro + Security add-on) |
 | `/chat` | Switch to Chat Mode (no tools) |
 | `/code` | Switch to Code Mode |
 | `/compress` | Toggle token compression or set level (`lite`/`full`/`ultra`) |
@@ -248,7 +255,7 @@ current level is shown in the editor info bar (e.g. "Code (full)").
 | Shortcut | Action |
 |----------|--------|
 | `Tab` | Switch focus between editor and chat |
-| `Shift+Tab` | Cycle Code → Plan → Chat → Code |
+| `Shift+Tab` | Cycle Code → Security → Plan → Chat → Code when Security Mode is available; otherwise Code → Plan → Chat → Code |
 | `Ctrl+P` | Command palette |
 | `Ctrl+L` | Model picker |
 | `Ctrl+S` | Session picker |
@@ -297,6 +304,7 @@ Anthropic Claude.
 | Grok 4.1 Fast (Non-Reasoning) | Non-reasoning | 128K | 2M |
 | Grok 4.1 Fast | Reasoning | 128K | 2M |
 | Grok 4 Fast | Reasoning | 128K | 2M |
+| Grok 4.3 | Reasoning | 200K | 1M |
 | Grok 4.20 (Non-Reasoning) | Non-reasoning | 200K | 2M |
 | Grok 4.20 | Reasoning | 200K | 2M |
 | Grok 4.20 (Multi-Agent) | Multi-agent | 200K | 2M |
@@ -329,6 +337,10 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 | Ultra | $40/mo | 1,500 | All models + all reasoning |
 | Sense | $100/mo | 4,000 | All models + all reasoning |
 | Sense Pro | $200/mo | 10,000 | All models + all reasoning |
+
+Some premium capabilities are granted through separate feature entitlements on
+top of the base subscription tier. Security Mode currently requires both the
+Sense Pro tier and the Security add-on entitlement.
 
 ```text
 $ sensai-cli credits
