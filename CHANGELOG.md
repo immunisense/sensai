@@ -1,3 +1,23 @@
+## v0.2.39
+
+### Core
+- Add Security Mode for eligible Sense Pro users with the Security Mode add-on, using the Aegis security audit workflow and a read-only audit tool policy
+- Add Grok 4.3 to the model catalog with Sense mode support
+- Fix Sense Mode staying off after restart even when it was enabled previously
+- Fix Claude write reliability and stuck compaction by surfacing Bedrock stream errors and bounding summarization work
+
+### TUI
+- Add Security Mode switching through `/security` and the command palette when the account has the required entitlement
+- Hide Security Mode entry points for accounts without Sense Pro plus the Security Mode add-on
+- Improve sidebar usability in dense sessions with a wider layout and independent scrolling while keeping long lists accessible
+
+### Billing
+- Add feature entitlement support so paid add-ons such as Security Mode can be granted separately from the base subscription tier
+- Use Sense-specific token prices, including cached input pricing, when calculating credits for Sense-mode turns
+
+### Infrastructure
+- Update Go dependencies to latest compatible releases
+
 ## v0.2.38
 
 ### Core
@@ -9,7 +29,6 @@
 ### TUI
 - Improve long-session redraw performance for chat and markdown-heavy sessions
 - Fix authenticated startup sometimes missing the update dialog
-- Improve sidebar usability in dense sessions with a wider layout, independent scrolling, and a visible scrollbar
 
 ### Billing
 - Fix monthly credit resets across billing cycles so stale optimistic usage does not carry into the new period
