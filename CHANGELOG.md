@@ -1,3 +1,14 @@
+## v0.2.41
+
+### Core
+- Fix social login redirects falling back to default localhost callback so GitHub and Google sign-in return to the correct SensAI login flow
+
+### TUI
+- Show the main agent as running in the Agents status row while long turns are still in progress
+
+### Billing
+- Report credits per assistant response so multi-step turns, failed non-canceled steps, tool-error recovery, and auto-diagnose follow-ups each show their own credit line and usage log entry
+
 ## v0.2.40
 
 ### Core
