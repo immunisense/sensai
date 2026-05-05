@@ -1,3 +1,13 @@
+## v0.2.42
+
+### Core
+- Fix social login failing with `bad_oauth_state` and redirecting to Supabase's localhost site URL
+- Fix context percentage regressing to near-zero after the first step of a new turn by tracking the high-water mark of prompt tokens and counting cache-creation tokens toward context size
+
+### TUI
+- Brand the in-flight main-agent indicator as `Sensing…` in the editor prefix panel and textarea placeholder rotation
+- Fix diff line coloring so line number background matches the code/symbol background for insert and delete rows
+
 ## v0.2.41
 
 ### Core
