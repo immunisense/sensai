@@ -1,3 +1,15 @@
+## v0.2.40
+
+### Core
+- Fix browser login completion when an OAuth provider returns the code to the local callback listener root path instead of `/callback`
+
+### TUI
+- Fix sidebar scrolling in dense sessions so the expanded sidebar responds reliably to mouse-wheel input
+- Collapse the Modified Files list after seven entries and let it expand inline when you need the full set
+
+### Billing
+- Fix per-message credit usage so assistant info lines and usage logs report only the current turn's token usage and tool calls instead of accumulating prior session tool calls
+
 ## v0.2.39
 
 ### Core
