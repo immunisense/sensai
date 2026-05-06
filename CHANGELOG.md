@@ -1,3 +1,12 @@
+## v0.2.44
+
+### Core
+- Fix Claude retries failing after a canceled or failed tool call — the adapter now synthesizes a matching `tool_result` for any orphaned `tool_use` block before replaying history so Converse/ConverseStream no longer rejects the request
+
+### TUI
+- Animate the `Sensing…` indicator with a brand-gold braille spinner, bold label, and cycling ellipsis on a 100 ms tick so the main-agent line stays visually alive for the full turn
+- Fix `credits used` line under-reporting the turn cost for multi-step turns — credits from intermediate tool-use steps are now correctly merged into the final total
+
 ## v0.2.43
 
 ### TUI
