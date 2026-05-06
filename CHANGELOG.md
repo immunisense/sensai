@@ -1,3 +1,10 @@
+## v0.2.43
+
+### TUI
+- Show a single `credits used` line per user turn instead of one after every intermediate tool-use step
+- Fix diff line colored background gaps when chroma emits unstyled tokens (whitespace, punctuation)
+- Tick the `Sensing…` indicator with a live elapsed timer so the main agent's progress is always visible
+
 ## v0.2.42
 
 ### Core
