@@ -1,3 +1,12 @@
+## v0.2.45
+
+### Core
+- Fix `credits used` line diverging from the database on multi-step turns and over-counting on subsequent turns when a prior turn ended on a tool call — the coordinator now emits a single aggregated turn-completed notification so the TUI line matches the sum of per-step usage log entries exactly
+- Fix `todos` tool causing the agent to stop after updating the todo list instead of continuing with the next in-progress action in the same turn
+
+### Infrastructure
+- Update Go dependencies to latest versions
+
 ## v0.2.44
 
 ### Core
