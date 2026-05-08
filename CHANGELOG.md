@@ -1,3 +1,16 @@
+## v0.2.46
+
+### Core
+- Auto-install Node via nvm when `ast_search` cannot find npm to install ast-grep
+
+### Billing
+- Correct xAI token pricing to match current published rates — Grok 4.20 family input/output reduced, Grok Code Fast output corrected
+- Track cached input tokens separately so cache hits bill at the reduced cached rate instead of full input price
+
+### Infrastructure
+- Upgrade Go 1.26.2 → 1.26.3 (8 stdlib CVE fixes)
+- Update 5 Go dependencies to latest versions
+
 ## v0.2.45
 
 ### Core
