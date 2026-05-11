@@ -1,3 +1,19 @@
+## v0.2.47
+
+### Core
+- Expand compression injection to sub-agent and task prompts so every non-security prompt path respects the compression setting
+- Add `level = "auto"`: compression scales with live context usage (lite <50%, full 50–80%, ultra ≥80%)
+- Add per-mode compression overrides (`compression.modes.code|plan|chat|analyze|security`): empty inherits global, `"off"` disables for that mode; security mode is always off
+- Strengthen compression safeguards: URLs, regex patterns, env var names, commit messages, and structured payloads (JSON, YAML, TOML, XML, diffs, patches) are protected from abbreviation
+
+### TUI
+- Expand `/compress` command: `on`, `off`, `cycle`, `show`, and `auto` subcommands; `cycle` rotates off → lite → full → ultra → auto → off; `show` prints the current compression block being injected
+- Add "Auto" entry and level samples to the compression picker dialog (e.g. "cfg loaded. ok. no errs." for ultra)
+- Drop the "(compress off)" suffix from the editor info bar — the level indicator now only appears when compression is enabled, matching how `(Sense)` behaves
+
+### Infrastructure
+- Update 14 Go dependencies to latest versions including `golang.org/x/crypto`, `golang.org/x/net`, `ncruces/go-sqlite3`, `tidwall/gjson`, and charmbracelet packages
+
 ## v0.2.46
 
 ### Core
