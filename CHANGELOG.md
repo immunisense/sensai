@@ -1,3 +1,16 @@
+## v0.2.48
+
+### TUI
+- Fix compression level picker showing truncated/missing level names (Lite, Full, Ultra, Auto)
+- Redesign `@` file and `/` slash command completions popup: gold rounded border, separator between list and query input, bold query text with block cursor, gold prefix label, and muted placeholder when no filter is typed
+- Add mouse-clickable `✕` remove button to each attachment chip in the editor prefix row
+- Fix re-attach broken after keyboard or mouse removal: the same file can now be re-added in the same session after removing it
+
+### CLI
+- Add `sensai-cli uninstall` command: removes stored credentials, deletes `~/.sensai/`, and removes the binary; prompts for confirmation before acting, `--force` skips prompts
+- Restyle `sensai-cli --help` output to match the SensAI design system: brand gold for section titles, consistent text scale throughout
+- Group the root `--help` listing into four scannable sections: Chat, Account, Project, and System
+
 ## v0.2.47
 
 ### Core
