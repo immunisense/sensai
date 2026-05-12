@@ -1,3 +1,8 @@
+## v0.2.49
+
+### Infrastructure
+- Updated 5 Go dependencies to latest versions
+
 ## v0.2.48
 
 ### TUI
