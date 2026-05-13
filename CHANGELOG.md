@@ -1,3 +1,12 @@
+## v0.2.50
+
+### Core
+- Add user-selectable reasoning effort for Grok 4.3: choose `none` (3 credits), `low` (4), `medium` (6), or `high` (8) via the `/reasoning` slash command
+- Fix file-write tool calls retrying with the same large payload after upstream stream errors — the model now sees the real provider error (e.g. Bedrock stream timeout on a large write) and can switch to incremental edits on the next turn
+
+### Infrastructure
+- Updated 2 Go dependencies to latest versions
+
 ## v0.2.49
 
 ### Infrastructure
