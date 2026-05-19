@@ -1,3 +1,54 @@
+## v0.2.52
+
+### Security
+- Fix partial keyring writes leaving a fresh access token paired with a stale refresh token — all three keyring items (access token, refresh token, metadata) are now written atomically with rollback on failure
+- Fix multiple SensAI instances racing to refresh the same expired token and invalidating each other's newly-issued refresh tokens — refresh is now serialized within the process and skips the network call when the on-disk token is already valid
+- Reject malformed image attachments (corrupt PNG/JPEG/GIF/WebP) before they reach the provider — truncated or garbage payloads are dropped with a clear error instead of causing an irrecoverable provider 400
+- Fix permission grant race where a fast-follow request for the same tool/action/path could re-prompt instead of auto-approving — granted entries are now persisted before the notification fires
+- Replace O(n) permission scan with O(1) keyed map lookup so per-turn auth checks no longer slow down as approvals accumulate
+- Add `allowed_tools` whitelist support for MCP servers — when set, only the listed tools are exposed to the agent; configurable via `sensai-cli mcp add --allowed-tools tool1,tool2` or config
+
+### Models
+- Add OpenAI GPT-5.5, GPT-5.4, and GPT-5.3 Codex to the model catalog — GPT-5.5 and GPT-5.4 support Sense mode (>272K long-context pricing) and reasoning effort (none/low/medium/high/xhigh); GPT-5.3 Codex always reasons (low/medium/high/xhigh)
+
+### Core
+- Add full lifecycle hook system with 14 event types: run shell commands or trigger agents on tool calls (`pre_tool_use` / `post_tool_use`), file changes (`file_edited` / `file_created` / `file_deleted`), user input (`prompt_submit`), session end (`agent_stop`), manual trigger (`user_triggered`), and spec task transitions (`pre_task_execution` / `post_task_execution`). `pre_tool_use` hooks can block or rewrite tool calls before dispatch. Tool-type matchers support built-in categories (`read`, `write`, `shell`, `web`, `spec`, `*`) or regex against tool name. Hook data is exposed as `SENSAI_HOOK_<KEY>` env vars; `{{key}}` placeholder interpolation supported in command/prompt fields. Circular-fire detection prevents infinite loops. Config: `[[hooks]]` blocks in `~/.sensai/config.toml` or `.sensai/config.toml`
+- Add two built-in skills compiled into the binary: `sense-config` (TOML/JSON config schema reference) and `sense-hook` (hook events, action types, common patterns) — available out of the box without copying skill folders; disable via `options.disabled_skills`; user-authored skills with the same name override the built-in
+- Embed jq into the shell interpreter — `cat data.json | jq '.foo'` now works cross-platform without a separate jq install; supports `-r`, `-R`, `-s`, `-c`, `-n`, `-e`, `--arg`, `--argjson`, and combined short flags
+- Add `sense_info` tool: returns a JSON snapshot of active models, providers, MCP/LSP servers, compression level, and disabled tools/skills (sensitive values redacted to `has_api_key`/`has_oauth` booleans)
+- Add `sense_logs` tool: returns the tail of `sensai.log` with optional `tail` and `level` filters for self-debugging "why isn't X working?" questions
+- Support `$(command)` substitution in config values — e.g. `api_key = "$(vault kv get secret/sensai)"` for vault integration without exposing secrets to the filesystem; 5-minute timeout enforced per command
+- Fix session resume failing when a prior session was cancelled mid-tool-call — synthetic `tool_result` blocks are now injected for any orphaned `tool_use` IDs so providers no longer reject the next request with a 400
+- Fix image attachments sent to models that don't support images — attachments and binary file parts are stripped from prompts and history when the active model has `supports_images = false`, so switching from a vision model to a text-only model mid-session no longer errors
+- Fix `reasoning_effort` being sent to non-reasoning models and causing 400s from stricter providers
+- Fix `max_tokens = 0` causing 400s from local model servers (LM Studio, older OpenAI-compat backends) — the field is now omitted when zero or unset
+- Fix stale queued messages replaying on the continuation session after auto-summarization — the queue is cleared on the old session; summarization errors now surface to the UI instead of leaving the spinner running
+- Fix Grok 4.3 tool calls failing after any tool is in history — requests now go through `/v1/chat/completions` directly with `reasoning_effort` passed through instead of the Responses API, which rejected chat-completions-shaped messages
+- Fix "none" reasoning level missing from the live catalog for models like Grok 4.3, GPT-5.5, and GPT-5.4 that support disabling reasoning
+- Fix long-running Claude tool calls (e.g. large `write_file`) hitting repeated stream errors on AWS Bedrock by forcing HTTP/1.1 — eliminates the `stream error: INTERNAL_ERROR; received from peer` failures that caused the agent to retry the same large payload indefinitely
+- Fix `todos` tool causing the agent to stop after updating a task instead of immediately continuing with the next in-progress action in the same turn — strengthened end-of-turn invariant requiring every finished task to be flipped to `completed` before stopping
+- Cap `job_output` tool at 30 KB (first 15 KB + last 15 KB) so long-running background commands can't fill the context window
+- Cap `web_fetch` HTML-to-markdown output at 100 KB — use `download_file` for larger payloads
+- Fix LSP server permanently disabled after a transient startup failure — replaced sticky unavailable cache with a 5-minute retry backoff so installs in progress recover automatically
+- Fix `find_files` errors returned as Go errors — now returned as tool-level error responses so the model can adjust the pattern or path on failure
+- Fix image MIME type detection when the file extension is missing or misleading — magic bytes are now sniffed so a `.jpg` that is actually a PNG loads correctly
+- Fix stale LSP diagnostics shown after a file edit — the diagnostic snapshot for an edited URI is now cleared immediately so the auto-diagnose loop doesn't see pre-edit errors while the language server recomputes
+- Fix UTF-8 BOM in `SKILL.md` files silently excluding skills from discovery on Windows and CJK-locale systems
+- Fix Windows CRLF in pasted content carrying stale `\r` bytes into prompts and attachments
+- Hint the model about available helper CLIs (`gh`, `rg`) in the system prompt when they are present in `$PATH`
+- Resolve the data directory to an absolute path during config load so Git worktrees, symlinked checkouts, and relative `data_directory` overrides all land at the same place
+
+### TUI
+- Add "Manage Hooks" dialog (command palette → "Manage Hooks"): filterable list of all configured hooks with enabled/disabled status dots, event type, and description; `enter`/`space` toggles a hook on/off; `x` deletes it; changes persist immediately
+- Auto-detect unified-diff output from MCP tools and the generic tool renderer — output matching `@@` hunk headers is now rendered with the diff highlighter instead of as plain text
+
+### CLI
+- Add `sensai-cli hooks` command group: `list`, `create`, `toggle`, `delete`, and `run` subcommands for managing lifecycle hooks from the terminal; `--workspace` flag scopes changes to the project config
+
+### Infrastructure
+- Fix SQLite `SQLITE_BUSY` and occasional corruption under concurrent sub-agent writes by forcing all transactions to begin with `BEGIN IMMEDIATE`
+- Raise pubsub channel buffer from 64 → 4096 to prevent event drops under bursty load (concurrent sub-agents, MCP discovery, LSP diagnostics)
+
 ## v0.2.51
 
 ### Security

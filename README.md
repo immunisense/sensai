@@ -10,7 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Version](https://img.shields.io/badge/version-0.2.51-C4A035?style=flat-square)](public/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.52-C4A035?style=flat-square)](public/CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -108,7 +108,7 @@ sensai-cli auth logout   # clear credentials
 ### 🛡️ Security First
 - All LLM traffic through `sensai.immunisense.com`
 - Zero raw API keys — OAuth + OS keyring with machine-derived fallback
-- Aegis-powered Security Mode for eligible Sense Pro accounts with a read-only audit workflow
+- Security Mode for eligible Sense Pro accounts with a read-only audit workflow
 - Pre-flight secrets scanning (30+ patterns incl. Stripe, GCP, Azure, Anthropic)
 - AST-level shell command blocking (subshells, pipes, command substitution)
 - Symlink-aware path guards on all read/write tools
@@ -164,7 +164,7 @@ sensai-cli auth logout   # clear credentials
 | Mode | Command | Description |
 |------|---------|-------------|
 | **Code** | `sensai-cli` | Default interactive mode for coding, edits, reviews, and tool use. Toggle `/todos` to force structured task lists. To-Do progress is shown in the sidebar. |
-| **Security** | `/security` | Aegis security audit mode with a read-only tool policy. Available only when the account has Sense Pro plus the Security add-on entitlement. |
+| **Security** | `/security` | Sense Protocol security audit mode with a read-only tool policy. Available only when the account has Sense Pro plus the Security add-on entitlement. |
 | **Chat** | `/chat` | Zero-tools conversation mode for freeform discussion without file access or tool use. Switch back with `/code`. |
 | **Plan** | `sensai-cli plan` | Spec-driven planning: requirements → design → tasks → approval gates → task execution |
 | **Analyze** | `sensai-cli analyze` | Read-only exploration for safe codebase investigation |
