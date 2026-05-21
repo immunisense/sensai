@@ -1,3 +1,11 @@
+## v0.2.54
+
+### Core
+- Fix transient stream failures (EOF, INTERNAL_ERROR, network errors) silently aborting Plan mode phases — the proxy now retries up to 3 times when nothing has been emitted to the client yet, so single-blip stream errors recover without user intervention
+
+### TUI
+- Add MCP server "Add" form to the management dialog (`/mcp` or command palette → "Manage MCP Servers"): enter a name, pick transport type (stdio/sse/http) with ←/→, then provide a command+args or URL; the server is persisted and connected immediately. Title bar now shows `N/M active` server count
+
 ## v0.2.53
 
 ### Core
