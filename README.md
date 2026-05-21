@@ -10,7 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Version](https://img.shields.io/badge/version-0.2.52-C4A035?style=flat-square)](public/CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.53-C4A035?style=flat-square)](CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -121,10 +121,11 @@ sensai-cli auth logout   # clear credentials
 
 ### 🤖 Agent Intelligence
 - Code, Security, Plan, Chat, and Analyze workflows
-- Token compression (`lite`/`full`/`ultra`) for reduced output verbosity
+- Token compression (`lite`/`full`/`ultra`/`auto`) for reduced output verbosity
 - Multi-agent orchestration (up to 4 concurrent)
 - Custom sub-agents from markdown
 - Skills and Rules management with enable/disable toggle
+- Lifecycle hooks: run commands or trigger agents on tool calls, file changes, user input, and spec task transitions
 - 9 LSP tools for semantic navigation
 - Auto-diagnose: fixes LSP errors after each turn
 - Smart MCP integration with circuit breakers
@@ -137,6 +138,7 @@ sensai-cli auth logout   # clear credentials
 ### 🔍 Search & Navigation
 - `search_code` — ripgrep-powered lexical search (auto-installed)
 - `ast_search` — ast-grep structural pattern matching
+- `web_search` — proxy-backed web search with answer summaries
 - LSP definition, references, hover, symbols
 - `@` context resolution (zero-cost, zero-latency)
 
@@ -152,6 +154,7 @@ sensai-cli auth logout   # clear credentials
 - Self-update without package manager
 - Credit limit dialog with tier-aware upgrade options
 - Credit-based billing with 3 balance buckets
+- Embedded `jq` — works cross-platform without a separate install
 
 </td>
 </tr>
@@ -219,6 +222,12 @@ current level is shown in the editor info bar (e.g. "Code (full)").
 | `sensai-cli checkpoints restore` | Restore to a previous checkpoint |
 | `sensai-cli agents list` | List all configured agents |
 | `sensai-cli agents create` | Create a new custom agent |
+| `sensai-cli hooks list` | List all configured lifecycle hooks |
+| `sensai-cli hooks create` | Add a new lifecycle hook |
+| `sensai-cli hooks toggle` | Enable or disable a hook |
+| `sensai-cli hooks delete` | Remove a hook |
+| `sensai-cli hooks run` | Manually trigger a `user_triggered` hook |
+| `sensai-cli uninstall` | Remove credentials, data directory, and binary |
 
 </details>
 
@@ -246,6 +255,7 @@ current level is shown in the editor info bar (e.g. "Code (full)").
 | `/plan` | Switch to plan mode |
 | `/approve` | Approve the current plan phase |
 | `/analyze` | Analyze the current codebase |
+| `/hooks` | Open the Manage Hooks dialog |
 
 </details>
 
@@ -293,8 +303,8 @@ Paste or drop images directly into the chat as visual context for the AI:
 
 ## 💎 Model Catalog
 
-Models are served through the SensAI proxy. The catalog includes xAI Grok and
-Anthropic Claude.
+Models are served through the SensAI proxy. The catalog includes xAI Grok,
+Anthropic Claude, and OpenAI GPT-5.
 
 **xAI Grok**
 
@@ -318,10 +328,23 @@ Anthropic Claude.
 | Claude Opus 4.6 | Reasoning | 200K | 1M |
 | Claude Opus 4.7 | Reasoning | 200K | 1M |
 
-**Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude).
-Toggle via `/sense` or the command palette. Grok Code Fast uses its full 256K
-at standard context and does not support Sense mode. Claude models have no
-long-context surcharge — Sense pricing is the same as standard.
+**OpenAI GPT-5**
+
+| Model | Type | Base Context | Sense Context |
+|-------|------|-------------|---------------|
+| GPT-5.5 | Reasoning | 1.05M | 1.05M (>272K) |
+| GPT-5.4 | Reasoning | 1.05M | 1.05M (>272K) |
+| GPT-5.3 Codex | Always-reasoning | 400K | — |
+
+GPT-5.5 and GPT-5.4 support reasoning effort (none/low/medium/high/xhigh) and
+Sense mode with long-context surcharge above 272K tokens. GPT-5.3 Codex always
+reasons (low/medium/high/xhigh) with no Sense mode.
+
+**Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude,
+>272K surcharge for GPT-5.5/5.4). Toggle via `/sense` or the command palette.
+Grok Code Fast uses its full 256K at standard context and does not support
+Sense mode. Claude models have no long-context surcharge — Sense pricing is
+the same as standard.
 
 ---
 
@@ -365,6 +388,9 @@ upgrade options. Dismiss with Esc to continue later — run `/topup` or
 ## 🔧 Configuration
 
 Configuration is TOML, loaded from `~/.sensai/config.toml` → `.sensai/config.toml` → `SENSAI_*` env vars.
+
+Config values support `$VAR`/`${VAR}` environment variable expansion and
+`$(command)` shell substitution (e.g. `api_key = "$(vault kv get secret/sensai)"`).
 
 ```toml
 model = "grok-code-fast"
@@ -525,6 +551,60 @@ with `#agent:<name> <prompt>`:
 
 </details>
 
+<details>
+<summary><b>Lifecycle Hooks</b></summary>
+
+Hooks run shell commands or trigger agents automatically when events fire
+during a session. Configure via `[[hooks]]` blocks in `~/.sensai/config.toml`
+or `.sensai/config.toml`, or manage them with `sensai-cli hooks` / the
+"Manage Hooks" command palette entry.
+
+**Event types:** `pre_tool_use`, `post_tool_use`, `file_edited`,
+`file_created`, `file_deleted`, `prompt_submit`, `agent_stop`,
+`user_triggered`, `pre_task_execution`, `post_task_execution`.
+
+`pre_tool_use` hooks fire synchronously before a tool call and can block it
+(`{"action":"deny","reason":"..."}`) or rewrite its input
+(`{"action":"rewrite","new_input":{...}}`).
+
+Tool-type matchers accept built-in categories (`read`, `write`, `shell`,
+`web`, `spec`, `*`) or a regex against the tool name (e.g. `".*sql.*"`).
+Hook data is available as `SENSAI_HOOK_<KEY>` env vars; `{{key}}`
+placeholder interpolation is supported in `command` and `prompt` fields.
+
+```toml
+# Run linter after any TypeScript file is edited
+[[hooks]]
+event = "file_edited"
+file_patterns = ["*.ts", "*.tsx"]
+action = "run_command"
+command = "npm run lint"
+
+# Block writes outside src/
+[[hooks]]
+event = "pre_tool_use"
+tool_types = ["write"]
+action = "run_command"
+command = "echo '{\"action\":\"deny\",\"reason\":\"writes outside src/ are not allowed\"}'"
+
+# Ask the agent to summarize after each turn
+[[hooks]]
+event = "agent_stop"
+action = "ask_agent"
+prompt = "Summarize what you just did in one sentence."
+```
+
+Manage hooks from the terminal:
+
+```bash
+sensai-cli hooks list
+sensai-cli hooks create --event file_edited --file-patterns "*.go" --command "gofmt -w {{file}}"
+sensai-cli hooks toggle <hook-id>
+sensai-cli hooks delete <hook-id>
+```
+
+</details>
+
 ---
 
 ## 📖 Documentation
@@ -540,7 +620,31 @@ with `#agent:<name> <prompt>`:
 
 ---
 
-## 🔄 Conversation Checkpoints
+## �️ Built-in Tools
+
+The agent has access to a broad set of built-in tools beyond file read/write:
+
+| Tool | Description |
+|------|-------------|
+| `web_search` | Proxy-backed web search with answer summaries (Tavily) |
+| `http_request` | Full-verb HTTP calls (POST/PUT/PATCH/DELETE/HEAD/OPTIONS) for webhook/API debugging |
+| `apply_patch` | Apply multi-file unified diffs atomically with snapshot-based undo |
+| `git_log` | Structured commit history |
+| `git_commit` | Conventional Commits-validated commits (never amends/pushes/sets config) |
+| `scan_secrets` | Audit text or files for secrets before writing or committing |
+| `delete_file` | Delete a file |
+| `move_file` | Move or rename a file |
+| `make_dir` | Create a directory |
+| `code_review` | Dispatch a read-only review sub-agent across requested dimensions |
+| `sense_info` | JSON snapshot of active models, providers, MCP/LSP servers, and settings |
+| `sense_logs` | Tail of `sensai.log` with optional level filter for self-debugging |
+
+`jq` is embedded in the shell interpreter — `cat data.json | jq '.foo'` works
+cross-platform without a separate install.
+
+---
+
+## �🔄 Conversation Checkpoints
 
 Automatic per-turn snapshots of file changes with full undo. Restore to any
 point in the conversation, reverting all file modifications and truncating

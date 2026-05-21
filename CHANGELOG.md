@@ -1,3 +1,15 @@
+## v0.2.53
+
+### Core
+- Fix Claude streaming reliability — replaced the Converse API client with the native Anthropic SDK, eliminating repeated `stream error: INTERNAL_ERROR` failures on long tool calls (e.g. large `write_file`), double-counted token usage, and dropped reasoning effort on Opus 4.6/4.7/Sonnet 4.6
+- Fix GPT-5 tool calls failing with "Please use /v1/responses instead" — the proxy now routes `gpt-5*` requests with function tools through OpenAI's `/v1/responses` endpoint and translates the response back to Chat Completions format transparently
+
+### TUI
+- Add MCP server management dialog (command palette → "MCP"): filter servers by name, toggle enabled/disabled with `enter`/`space`, restart a server with `r`, remove it with `x`/`delete`; rows show transport type, connection state (connected/starting/error/disabled), and tool/prompt counts when connected
+
+### Infrastructure
+- Update Go dependencies to latest versions
+
 ## v0.2.52
 
 ### Security
