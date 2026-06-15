@@ -10,7 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Version](https://img.shields.io/badge/version-0.2.54-C4A035?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.55-C4A035?style=flat-square)](CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -184,8 +184,10 @@ command palette.
 
 **Token Compression** reduces output verbosity to save context and credits.
 Three levels: `lite` (minor trimming), `full` (concise output), `ultra`
-(maximum compression). Toggle via `/compress` or the command palette. The
-current level is shown in the editor info bar (e.g. "Code (full)").
+(maximum compression). Each level also caps the response's max output-token
+budget (lite 75%, full 50%, ultra 30% of the model limit, floored at 8192) so
+compression measurably reduces output. Toggle via `/compress` or the command
+palette. The current level is shown in the editor info bar (e.g. "Code (full)").
 
 ---
 
@@ -310,10 +312,7 @@ Anthropic Claude, and OpenAI GPT-5.
 
 | Model | Type | Base Context | Sense Context |
 |-------|------|-------------|---------------|
-| Grok Code Fast | Non-reasoning | 256K | — |
-| Grok 4.1 Fast (Non-Reasoning) | Non-reasoning | 128K | 2M |
-| Grok 4.1 Fast | Reasoning | 128K | 2M |
-| Grok 4 Fast | Reasoning | 128K | 2M |
+| Grok Build | Reasoning (auto, fixed) | 256K | — |
 | Grok 4.3 | Reasoning | 200K | 1M |
 | Grok 4.20 (Non-Reasoning) | Non-reasoning | 200K | 2M |
 | Grok 4.20 | Reasoning | 200K | 2M |
@@ -327,6 +326,8 @@ Anthropic Claude, and OpenAI GPT-5.
 | Claude Sonnet 4.6 | Reasoning | 200K | 1M |
 | Claude Opus 4.6 | Reasoning | 200K | 1M |
 | Claude Opus 4.7 | Reasoning | 200K | 1M |
+| Claude Opus 4.8 | Reasoning | 200K | 1M |
+| Claude Fable 5 | Reasoning | 200K | 1M |
 
 **OpenAI GPT-5**
 
@@ -342,9 +343,9 @@ reasons (low/medium/high/xhigh) with no Sense mode.
 
 **Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude,
 >272K surcharge for GPT-5.5/5.4). Toggle via `/sense` or the command palette.
-Grok Code Fast uses its full 256K at standard context and does not support
+Grok Build uses its full 256K at standard context and does not support
 Sense mode. Claude models have no long-context surcharge — Sense pricing is
-the same as standard.
+the same as standard. Claude Fable 5 is gated to the Sense Ultra tier.
 
 ---
 
@@ -355,11 +356,12 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 
 | Tier | Price | Monthly Credits | Model Access |
 |------|-------|-----------------|--------------|
-| Free | $0 | 50 | `grok-code-fast` |
+| Free | $0 | 50 | `grok-build-0.1` |
 | Pro | $20/mo | 500 | All models + all reasoning |
-| Ultra | $40/mo | 1,500 | All models + all reasoning |
-| Sense | $100/mo | 4,000 | All models + all reasoning |
-| Sense Pro | $200/mo | 10,000 | All models + all reasoning |
+| Ultra | $40/mo | 1,000 | All models + all reasoning |
+| Sense | $100/mo | 2,500 | All models + all reasoning |
+| Sense Pro | $200/mo | 5,000 | All models + all reasoning |
+| Sense Ultra | $400/mo | 10,000 | All models + priority routing + Fable 5 |
 
 Some premium capabilities are granted through separate feature entitlements on
 top of the base subscription tier. Security Mode currently requires both the
@@ -368,11 +370,11 @@ Sense Pro tier and the Security add-on entitlement.
 ```text
 $ sensai-cli credits
 
-Tier balance:          3996.50
+Tier balance:          2496.50
 Bonus balance:         100.00
 Top-up balance:        50.00
-Total balance:         4146.50
-Monthly allocation:    4000
+Total balance:         2646.50
+Monthly allocation:    2500
 Consumed this period:  3.50
 Tier:                  Sense
 Period ends:           2026-05-01
@@ -393,7 +395,7 @@ Config values support `$VAR`/`${VAR}` environment variable expansion and
 `$(command)` shell substitution (e.g. `api_key = "$(vault kv get secret/sensai)"`).
 
 ```toml
-model = "grok-code-fast"
+model = "grok-build-0.1"
 reasoning_level = "low"
 
 [compression]

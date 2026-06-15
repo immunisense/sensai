@@ -1,3 +1,21 @@
+## v0.2.55
+
+### Models
+- Add Claude Opus 4.8 and Claude Fable 5 (Anthropic via Bedrock) — both are 1M-context, adaptive-thinking models with image input. Opus 4.8 is available on all paid tiers; Fable 5 is a flagship long-horizon agentic model gated to the new Sense Ultra tier
+
+### Core
+- Token compression now caps the response's max output-token budget per level (lite 75%, full 50%, ultra 30% of the model limit, floored at 8192 to avoid truncating code), so enabling `/compress` measurably reduces output instead of relying on the prompt directive alone
+- Fix compression being suppressed when only a per-mode override was set with no global level
+
+### Billing
+- Add the Sense Ultra tier: 10,000 credits at $400/mo (or $4,320/yr, 10% off) with priority routing
+- Realign paid-tier credit allocations to the credit face value: Ultra 1,500 → 1,000, Sense 4,000 → 2,500, Sense Pro 10,000 → 5,000 (Pro unchanged at 500)
+- Fix monthly tier credits never resetting on schedule — every active user's tier balance now refills on the 1st of each month
+- Fix stale subscription prices and credit counts in the credit-limit-reached dialog (now shows current $20/$40/$100/$200 plans and the realigned allocations)
+
+### Infrastructure
+- Update 40+ Go dependencies to latest versions
+
 ## v0.2.54
 
 ### Core
