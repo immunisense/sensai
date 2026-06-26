@@ -10,7 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Version](https://img.shields.io/badge/version-0.2.55-C4A035?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.57-C4A035?style=flat-square)](CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -306,7 +306,7 @@ Paste or drop images directly into the chat as visual context for the AI:
 ## 💎 Model Catalog
 
 Models are served through the SensAI proxy. The catalog includes xAI Grok,
-Anthropic Claude, and OpenAI GPT-5.
+Anthropic Claude, OpenAI GPT-5, and Z.ai GLM (via Ollama Cloud).
 
 **xAI Grok**
 
@@ -327,7 +327,6 @@ Anthropic Claude, and OpenAI GPT-5.
 | Claude Opus 4.6 | Reasoning | 200K | 1M |
 | Claude Opus 4.7 | Reasoning | 200K | 1M |
 | Claude Opus 4.8 | Reasoning | 200K | 1M |
-| Claude Fable 5 | Reasoning | 200K | 1M |
 
 **OpenAI GPT-5**
 
@@ -341,11 +340,21 @@ GPT-5.5 and GPT-5.4 support reasoning effort (none/low/medium/high/xhigh) and
 Sense mode with long-context surcharge above 272K tokens. GPT-5.3 Codex always
 reasons (low/medium/high/xhigh) with no Sense mode.
 
+**Z.ai GLM (via Ollama Cloud)**
+
+| Model | Type | Base Context | Sense Context |
+|-------|------|-------------|---------------|
+| GLM-5.2 | Reasoning (auto) | 1M | — |
+
+GLM-5.2 is a long-horizon agentic model available on paid tiers. It reasons
+automatically (no user-selectable reasoning effort), is text-only, and does
+not support Sense mode.
+
 **Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude,
 >272K surcharge for GPT-5.5/5.4). Toggle via `/sense` or the command palette.
 Grok Build uses its full 256K at standard context and does not support
 Sense mode. Claude models have no long-context surcharge — Sense pricing is
-the same as standard. Claude Fable 5 is gated to the Sense Ultra tier.
+the same as standard.
 
 ---
 
@@ -361,7 +370,7 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 | Ultra | $40/mo | 1,000 | All models + all reasoning |
 | Sense | $100/mo | 2,500 | All models + all reasoning |
 | Sense Pro | $200/mo | 5,000 | All models + all reasoning |
-| Sense Ultra | $400/mo | 10,000 | All models + priority routing + Fable 5 |
+| Sense Ultra | $400/mo | 10,000 | All models + priority routing |
 
 Some premium capabilities are granted through separate feature entitlements on
 top of the base subscription tier. Security Mode currently requires both the

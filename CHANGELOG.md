@@ -1,3 +1,22 @@
+## v0.2.58
+
+### TUI
+- Fix every model showing a "NEW" badge in the picker — only models actually flagged new (currently GLM-5.2) now show the badge
+- GLM-5.2 now appears under the **Z.ai** provider in the model picker and sidebar
+- Fix the model provider label and badges not refreshing from a previous launch's cached catalog
+
+## v0.2.57
+
+### Core
+- Fix LSP-backed tools (references, definition, hover, rename, symbols, code actions, format, diagnostics) failing with "no LSP clients available" on the first language-server operation in a session — the tools now trigger on-demand server startup before checking for a client
+- Retry transient HTTP 503 "model temporarily overloaded" responses from the proxy with exponential backoff (up to 3 attempts), matching the existing 429 retry path; the upstream message reaches you if the model is still overloaded after retries
+
+## v0.2.56
+
+### Models
+- Add GLM-5.2 (Z.ai) — a 1M-context long-horizon agentic model available on paid tiers; text-only, reasons automatically (no user-selectable reasoning effort), and does not support Sense mode
+- Remove Claude Fable 5 from the model catalog — Anthropic withdrew the model shortly after launch (Claude Opus 4.8 is unaffected)
+
 ## v0.2.55
 
 ### Models
