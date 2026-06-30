@@ -1,3 +1,10 @@
+## v0.2.59
+
+### Models
+- Add **Google Gemma 4 31B** — the first non-Grok model available on the **free tier**. Multimodal (text + image), 256K context, reasons automatically (no user-selectable effort)
+- Add **Kimi K2.7 Code** (Moonshot AI) — a coding-focused agentic model, 256K context, multimodal, available on paid tiers
+- Add **MiniMax M3** (MiniMax) — a coding & agentic frontier model, 512K context, multimodal, available on paid tiers
+
 ## v0.2.58
 
 ### TUI

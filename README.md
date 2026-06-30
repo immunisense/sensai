@@ -306,7 +306,8 @@ Paste or drop images directly into the chat as visual context for the AI:
 ## 💎 Model Catalog
 
 Models are served through the SensAI proxy. The catalog includes xAI Grok,
-Anthropic Claude, OpenAI GPT-5, and Z.ai GLM (via Ollama Cloud).
+Anthropic Claude, OpenAI GPT-5, Google Gemma, Z.ai GLM, Moonshot AI Kimi,
+and MiniMax (the last three via Ollama Cloud).
 
 **xAI Grok**
 
@@ -350,6 +351,27 @@ GLM-5.2 is a long-horizon agentic model available on paid tiers. It reasons
 automatically (no user-selectable reasoning effort), is text-only, and does
 not support Sense mode.
 
+**Google Gemma**
+
+| Model | Type | Base Context | Sense Context |
+|-------|------|-------------|---------------|
+| Gemma 4 31B | Reasoning (auto) | 256K | — |
+
+Gemma 4 31B is the first non-Grok model available on the free tier. It is
+multimodal (text + image), reasons automatically (no user-selectable effort),
+and does not support Sense mode.
+
+**Moonshot AI & MiniMax (via Ollama Cloud)**
+
+| Model | Type | Base Context | Sense Context |
+|-------|------|-------------|---------------|
+| Kimi K2.7 Code | Reasoning (auto) | 256K | — |
+| MiniMax M3 | Reasoning (auto) | 512K | — |
+
+Kimi K2.7 Code (Moonshot AI) and MiniMax M3 are coding & agentic models
+available on paid tiers. Both are multimodal, reason automatically, and do
+not support Sense mode.
+
 **Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude,
 >272K surcharge for GPT-5.5/5.4). Toggle via `/sense` or the command palette.
 Grok Build uses its full 256K at standard context and does not support
@@ -365,7 +387,7 @@ Only tier credits reset each billing cycle — bonus and top-up carry over.
 
 | Tier | Price | Monthly Credits | Model Access |
 |------|-------|-----------------|--------------|
-| Free | $0 | 50 | `grok-build-0.1` |
+| Free | $0 | 50 | `grok-build-0.1`, `gemma-4-31b` |
 | Pro | $20/mo | 500 | All models + all reasoning |
 | Ultra | $40/mo | 1,000 | All models + all reasoning |
 | Sense | $100/mo | 2,500 | All models + all reasoning |
