@@ -1,3 +1,9 @@
+## v0.2.60
+
+### Core
+- Fix the models (GLM-5.2, Kimi K2.7, MiniMax M3) failing mid-turn with repeated "Bad Request" / "invalid tool call arguments" errors when the model emitted an empty tool-call argument
+- Fix Claude Haiku 4.5 failing with a "max_tokens must be greater than thinking.budget_tokens" error when token compression was enabled
+
 ## v0.2.59
 
 ### Models
