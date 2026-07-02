@@ -1,3 +1,16 @@
+## v0.2.61
+
+### Models
+- Add **Claude Sonnet 5** (Anthropic via Bedrock) — successor to Sonnet 4.6 with the same pricing, 1M context (Sense mode), and adaptive thinking with a selectable reasoning effort (low/medium/high/xhigh/max, default high); available on all paid tiers
+- Re-add **Claude Fable 5** (Anthropic via Bedrock) — a flagship long-horizon agentic model with 1M context (Sense mode) and adaptive thinking with selectable reasoning effort; gated to the Sense Ultra tier
+- Add a reasoning effort picker (low/medium/high/xhigh/max, default high) for Claude Sonnet 4.6, Opus 4.6, Opus 4.7, and Opus 4.8 — these adaptive-thinking models previously had no way to control reasoning effort from the TUI; effort does not change credit cost
+
+### Core
+- Fix the context-window indicator staying stuck at 0% for models that don't report token usage (GLM-5.2, Kimi K2.7, MiniMax M3) — usage is now estimated from prompt and response content so the context percentage reflects actual usage
+
+### Billing
+- Fix the sidebar credit balance showing a stale number after a plan change or the monthly tier-credit reset — the balance now also refreshes when the window regains focus or the credits dialog is opened
+
 ## v0.2.60
 
 ### Core

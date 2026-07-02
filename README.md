@@ -324,10 +324,17 @@ and MiniMax (the last three via Ollama Cloud).
 | Model | Type | Base Context | Sense Context |
 |-------|------|-------------|---------------|
 | Claude Haiku 4.5 | Non-reasoning | 200K | — |
-| Claude Sonnet 4.6 | Reasoning | 200K | 1M |
-| Claude Opus 4.6 | Reasoning | 200K | 1M |
-| Claude Opus 4.7 | Reasoning | 200K | 1M |
-| Claude Opus 4.8 | Reasoning | 200K | 1M |
+| Claude Sonnet 4.6 | Reasoning (adaptive) | 200K | 1M |
+| Claude Opus 4.6 | Reasoning (adaptive) | 200K | 1M |
+| Claude Opus 4.7 | Reasoning (adaptive) | 200K | 1M |
+| Claude Opus 4.8 | Reasoning (adaptive) | 200K | 1M |
+| Claude Sonnet 5 | Reasoning (adaptive) | 200K | 1M |
+| Claude Fable 5 | Reasoning (adaptive) | 200K | 1M |
+
+Claude Sonnet 4.6, Opus 4.6/4.7/4.8, Sonnet 5, and Fable 5 support a
+selectable reasoning effort (low/medium/high/xhigh/max, default high). Claude
+Fable 5 is a flagship long-horizon agentic model gated to the Sense Ultra
+tier; all other Claude models are available on any paid tier.
 
 **OpenAI GPT-5**
 
