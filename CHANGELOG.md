@@ -1,3 +1,21 @@
+## v0.2.63
+
+### Security
+- Fix a rare data-loss bug where a failed write during a file move or Node.js install could go unnoticed instead of surfacing an error
+
+### Core
+- Fix Claude models (Sonnet 4.6, Sonnet 5, Opus 4.6/4.7/4.8, Fable 5, Haiku 4.5) failing every turn with a stream EOF error — switched to a more compatible HTTP transport
+- Redesign the sign-in and account status pages with the immunisense look: dark background, gold accents
+- Fix provider names sometimes showing the wrong label instead of the model's actual maker
+- Fix a rare overflow when processing very large numbers in the built-in jq
+
+### Billing
+- Fix the credits-used figure accumulating all-time usage instead of resetting after the monthly tier-credit reset; plan changes and tier-credit adjustments now show up immediately
+- Update the subscription plan credit amounts shown in the credit-limit dialog (Ultra 1250, Sense 3500, Sense Pro 7500, Sense Ultra 16000)
+
+### Infrastructure
+- Update Go dependencies to latest versions
+
 ## v0.2.62
 
 ### Core

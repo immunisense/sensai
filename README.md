@@ -10,7 +10,7 @@
 
 **The AI that senses what your code needs — before you ask.**
 
-[![Version](https://img.shields.io/badge/version-0.2.62-C4A035?style=flat-square)](CHANGELOG.md)
+[![Version](https://img.shields.io/badge/version-0.2.63-C4A035?style=flat-square)](CHANGELOG.md)
 [![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
