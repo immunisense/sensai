@@ -1,8 +1,13 @@
+## v0.2.62
+
+### Core
+- Fix Claude models (Sonnet 4.6, Sonnet 5, Opus 4.6/4.7/4.8, Fable 5, Haiku 4.5) failing turns outright on transient upstream blips instead of retrying — retries now back off between attempts and recognize more transient AWS error types
+
 ## v0.2.61
 
 ### Models
-- Add **Claude Sonnet 5** (Anthropic via Bedrock) — successor to Sonnet 4.6 with the same pricing, 1M context (Sense mode), and adaptive thinking with a selectable reasoning effort (low/medium/high/xhigh/max, default high); available on all paid tiers
-- Re-add **Claude Fable 5** (Anthropic via Bedrock) — a flagship long-horizon agentic model with 1M context (Sense mode) and adaptive thinking with selectable reasoning effort; gated to the Sense Ultra tier
+- Add **Claude Sonnet 5** — successor to Sonnet 4.6 with the same pricing, 1M context (Sense mode), and adaptive thinking with a selectable reasoning effort (low/medium/high/xhigh/max, default high); available on all paid tiers
+- Re-add **Claude Fable 5** — a flagship long-horizon agentic model with 1M context (Sense mode) and adaptive thinking with selectable reasoning effort; gated to the Sense Ultra tier
 - Add a reasoning effort picker (low/medium/high/xhigh/max, default high) for Claude Sonnet 4.6, Opus 4.6, Opus 4.7, and Opus 4.8 — these adaptive-thinking models previously had no way to control reasoning effort from the TUI; effort does not change credit cost
 
 ### Core
