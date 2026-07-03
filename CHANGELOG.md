@@ -1,10 +1,14 @@
+## v0.2.64
+
+### Core
+- Fix Claude models (Sonnet 4.6, Sonnet 5, Opus 4.6/4.7/4.8, Fable 5, Haiku 4.5) intermittently failing turns with a stream error — the proxy previously held long-lived connections open that could go stale during idle gaps between turns; every request now uses a fresh connection
+
 ## v0.2.63
 
 ### Security
 - Fix a rare data-loss bug where a failed write during a file move or Node.js install could go unnoticed instead of surfacing an error
 
 ### Core
-- Fix Claude models (Sonnet 4.6, Sonnet 5, Opus 4.6/4.7/4.8, Fable 5, Haiku 4.5) failing every turn with a stream EOF error — switched to a more compatible HTTP transport
 - Redesign the sign-in and account status pages with the immunisense look: dark background, gold accents
 - Fix provider names sometimes showing the wrong label instead of the model's actual maker
 - Fix a rare overflow when processing very large numbers in the built-in jq
