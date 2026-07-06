@@ -1,3 +1,11 @@
+## v0.2.65
+
+### Core
+- Fix Claude models (Sonnet 4.6, Sonnet 5, Opus 4.6/4.7/4.8, Fable 5, Haiku 4.5) failing turns with a stream error even after streaming a complete response — AWS Bedrock ends a stream by closing the connection rather than a clean handoff, and the proxy now recognizes that as a normal completion instead of an error
+
+### TUI
+- Add a chat scrollbar so it's clear where you are when scrolling long sessions, with settings for auto-hide, always show, or never show
+
 ## v0.2.64
 
 ### Core
