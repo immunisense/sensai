@@ -1,3 +1,8 @@
+## v0.2.66
+
+### Core
+- Fix Claude models stopping mid-task and requiring you to type "continue" after a string of searches that turned up nothing — the agent now keeps trying different strategies instead of pausing to check in
+
 ## v0.2.65
 
 ### Core
