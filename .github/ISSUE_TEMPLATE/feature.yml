@@ -1,5 +1,5 @@
 name: Feature request
-description: A change or addition to SensAI CLI or SensAI IDE
+description: A change or addition to SensAI CLI, SensAI IDE, or SensAI-Agent
 title: "[feat] "
 labels: ["enhancement"]
 body:
@@ -7,11 +7,12 @@ body:
     id: product
     attributes:
       label: Product
-      description: After filing, add the `cli` and/or `ide` label if we missed it.
+      description: After filing, add the `cli`, `ide`, and/or `extension` label if we missed it.
       options:
         - SensAI CLI (terminal / TUI)
         - SensAI IDE
-        - Both
+        - SensAI-Agent (VS Code / Cursor / Windsurf)
+        - Multiple
       default: 0
     validations:
       required: true
