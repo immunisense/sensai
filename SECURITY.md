@@ -9,7 +9,7 @@ Email **security@immunisense.com** with:
 
 - A description of the vulnerability and its potential impact.
 - Steps to reproduce or a proof of concept.
-- The version of `sensai-cli` affected (run `sensai-cli version`).
+- The version of `sensai-cli` (`sensai-cli version`) or SensAI IDE (Help → About).
 
 We aim to acknowledge reports within 48 hours and provide a fix or mitigation
 timeline within 7 business days. Reporters will be credited in the release

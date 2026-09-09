@@ -1,0 +1,25 @@
+name: Feature request
+description: A change or addition to SensAI CLI or SensAI IDE
+title: "[feat] "
+labels: ["enhancement"]
+body:
+  - type: dropdown
+    id: product
+    attributes:
+      label: Product
+      description: After filing, add the `cli` and/or `ide` label if we missed it.
+      options:
+        - SensAI CLI (terminal / TUI)
+        - SensAI IDE
+        - Both
+      default: 0
+    validations:
+      required: true
+  - type: textarea
+    id: request
+    attributes:
+      label: What do you want
+      description: The problem and the change you want. GitHub-flavored Markdown is supported.
+    validations:
+      required: true
+

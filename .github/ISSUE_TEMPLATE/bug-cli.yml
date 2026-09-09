@@ -1,0 +1,26 @@
+name: CLI bug
+description: Something is broken in sensai-cli or the TUI
+title: "[cli] "
+labels: ["bug", "cli"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Steps, expected, actual. GitHub-flavored Markdown is supported. You can add screenshots after the issue opens.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: Output of `sensai-cli version`
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: Windows 11, macOS 15, Ubuntu 24.04
+    validations:
+      required: true
