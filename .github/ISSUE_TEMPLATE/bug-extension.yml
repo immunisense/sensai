@@ -1,0 +1,34 @@
+name: Extension bug
+description: Something is broken in SensAI-Agent (VS Code / Cursor / Windsurf)
+title: "[extension] "
+labels: ["bug", "extension"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Steps, expected, actual. GitHub-flavored Markdown is supported. You can add screenshots after the issue opens.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: SensAI-Agent version
+      description: Extensions view, or Sense Chat status (the · 0.0.x suffix)
+    validations:
+      required: true
+  - type: input
+    id: editor
+    attributes:
+      label: Editor
+      description: VS Code, Cursor, Windsurf, or SensAI IDE
+      placeholder: VS Code 1.96
+    validations:
+      required: true
+  - type: input
+    id: os
+    attributes:
+      label: OS
+      placeholder: Windows 11, macOS 15, Ubuntu 24.04
+    validations:
+      required: true
