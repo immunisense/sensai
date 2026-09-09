@@ -16,7 +16,7 @@
 
 <br />
 
-A secure, proxy-first AI coding assistant for the **terminal** (`sensai-cli`) and **SensAI IDE**.
+A secure, proxy-first AI coding assistant for the **terminal** (`sensai-cli`), **SensAI IDE**, and **SensAI-Agent** in VS Code / Cursor / Windsurf.
 Spec-driven planning · safe code execution · credits you can see — never a raw provider key.
 
 <br />
@@ -55,10 +55,12 @@ Windows CLI: `irm https://sensai.immunisense.com/install.ps1 | iex`
 
 **SensAI IDE** (Windows): installer from [immunisense.com](https://immunisense.com/solutions/sensai).
 
+**SensAI-Agent** (VS Code / Cursor / Windsurf): [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide). Same account as the CLI. Optional — the full cockpit is SensAI IDE.
+
 If ripgrep is not found at runtime, SensAI auto-downloads it to
 `~/.sensai/bin/` on first use — no manual install needed.
 
-Issues: [CLI](https://github.com/immunisense/sensai/issues?q=label%3Acli) · [IDE](https://github.com/immunisense/sensai/issues?q=label%3Aide). Use **Report issue** in the IDE, or open a [new issue](https://github.com/immunisense/sensai/issues/new/choose). Security reports: security@immunisense.com — not GitHub.
+Issues: [CLI](https://github.com/immunisense/sensai/issues?q=label%3Acli) · [IDE](https://github.com/immunisense/sensai/issues?q=label%3Aide) · [Extension](https://github.com/immunisense/sensai/issues?q=label%3Aextension). Use **Report issue** in the IDE or extension, or open a [new issue](https://github.com/immunisense/sensai/issues/new/choose). Security reports: security@immunisense.com — not GitHub.
 
 ---
 
@@ -739,6 +741,6 @@ SensAI uses a cache-first startup strategy to minimize time-to-interactive:
 
 **Proprietary.** All rights reserved by Immunisense Corp.
 
-[Website](https://immunisense.com) · [Releases](https://github.com/immunisense/sensai/releases) · [CLI issues](https://github.com/immunisense/sensai/issues?q=label%3Acli) · [IDE issues](https://github.com/immunisense/sensai/issues?q=label%3Aide) · [Discord](https://discord.gg/a2jafdGrsx)
+[Website](https://immunisense.com) · [Releases](https://github.com/immunisense/sensai/releases) · [CLI issues](https://github.com/immunisense/sensai/issues?q=label%3Acli) · [IDE issues](https://github.com/immunisense/sensai/issues?q=label%3Aide) · [Extension issues](https://github.com/immunisense/sensai/issues?q=label%3Aextension) · [Discord](https://discord.gg/a2jafdGrsx)
 
 </div>
