@@ -1,739 +1,264 @@
 <div align="center">
 
-```
-  ____  _____ _   _ ____    _    ___      ____ _     ___
- / ___|| ____| \ | / ___|  / \  |_ _|    / ___| |   |_ _|
- \___ \|  _| |  \| \___ \ / _ \  | |____| |   | |    | |
-  ___) | |___| |\  |___) / ___ \ | |____| |___| |___ | |
- |____/|_____|_| \_|____/_/   \_\___|    \____|_____|___|
-```
+<img src="docs/assets/hero.png" alt="SensAI — proxy-first coding agent. Terminal, IDE, SensAI-Agent, and web." width="100%">
 
-**The AI that senses what your code needs — before you ask.**
+**Proxy-first coding agent.** Terminal (`sensai-cli`), SensAI IDE, SensAI-Agent in VS Code / Cursor / Windsurf, and web at [sensai.immunisense.com](https://sensai.immunisense.com/). One login, many models, credits you can see.
 
-[![Version](https://img.shields.io/badge/version-0.2.66-C4A035?style=flat-square)](CHANGELOG.md)
-[![Go](https://img.shields.io/badge/go-%3E%3D1.23-00ADD8?style=flat-square&logo=go&logoColor=white)](https://go.dev)
+This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
+
+[![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.3.5-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
-<br />
-
-A secure, proxy-first AI coding assistant for the **terminal** (`sensai-cli`), **SensAI IDE**, and **SensAI-Agent** in VS Code / Cursor / Windsurf.
-Spec-driven planning · safe code execution · credits you can see — never a raw provider key.
-
-<br />
-
-[Install](#-installation) · [Quick Start](#-quick-start) · [Features](#-core-capabilities) · [Models](#-model-catalog) · [Docs](#-documentation)
+[Install](#installation) · [Quick start](#quick-start) · [Modes](#modes) · [Security Mode](#security-mode) · [Models](#model-catalog) · [Billing](#billing) · [Issues](#issues)
 
 </div>
 
+<img src="docs/assets/surfaces.png" alt="Four SensAI surfaces: Terminal, SensAI IDE, SensAI-Agent, and Web." width="100%">
+
+| Surface | Where | Issues |
+|---------|--------|--------|
+| **Terminal** | `sensai-cli` TUI | [`cli`](https://github.com/immunisense/sensai/issues?q=label%3Acli) |
+| **SensAI IDE** | Windows workbench | [`ide`](https://github.com/immunisense/sensai/issues?q=label%3Aide) |
+| **SensAI-Agent** | [VS Code / Cursor / Windsurf](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide) | [`extension`](https://github.com/immunisense/sensai/issues?q=label%3Aextension) |
+| **Web** | [sensai.immunisense.com](https://sensai.immunisense.com/) | [`web`](https://github.com/immunisense/sensai/issues?q=label%3Aweb) |
+
+Every model call goes through the SensAI proxy — never a raw provider key.
+
+<img src="docs/assets/cockpit.png" alt="sensai-cli TUI next to SensAI web: same login, same credit ledger." width="100%">
+
 ---
 
-## ⚡ Quick Start
+## Quick start
+
+**Unix**
 
 ```bash
-# Install
 curl -fsSL https://sensai.immunisense.com/install | bash
-
-# Authenticate
 sensai-cli auth login
-
-# Launch
 sensai-cli
 ```
 
-After login, SensAI uses your account defaults for model and reasoning until
-you change them in the interface or config.
+**Windows**
 
----
-
-## 📦 Installation
-
-```bash
-curl -fsSL https://sensai.immunisense.com/install | bash
-```
-
-Windows CLI: `irm https://sensai.immunisense.com/install.ps1 | iex`
-
-**SensAI IDE** (Windows): installer from [immunisense.com](https://immunisense.com/solutions/sensai).
-
-**SensAI-Agent** (VS Code / Cursor / Windsurf): [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide). Same account as the CLI. Optional — the full cockpit is SensAI IDE.
-
-If ripgrep is not found at runtime, SensAI auto-downloads it to
-`~/.sensai/bin/` on first use — no manual install needed.
-
-Issues: [CLI](https://github.com/immunisense/sensai/issues?q=label%3Acli) · [IDE](https://github.com/immunisense/sensai/issues?q=label%3Aide) · [Extension](https://github.com/immunisense/sensai/issues?q=label%3Aextension). Use **Report issue** in the IDE or extension, or open a [new issue](https://github.com/immunisense/sensai/issues/new/choose). Security reports: security@immunisense.com — not GitHub.
-
----
-
-## 🔄 Updating
-
-```bash
-sensai-cli update
-```
-
-The TUI also shows an "Update now" button when a newer version is available.
-Updates are downloaded from the SensAI proxy, verified against checksums, and
-the binary is replaced in-place.
-
----
-
-## 🔐 Authentication
-
-SensAI uses browser-based OAuth. Credentials are stored in the OS keyring
-(macOS Keychain, Windows Credential Manager, or Linux `libsecret`/`pass`).
-
-```text
+```powershell
+irm https://sensai.immunisense.com/install.ps1 | iex
 sensai-cli auth login
-        │
-        ▼
-  Open browser → sensai.immunisense.com/sensai-login
-  (WSL/SSH/headless: URL printed for manual copy)
-        │
-        ▼
-  User signs in (email/password, GitHub, or Google) → JWT + refresh token issued
-        │
-        ▼
-  Tokens stored in OS keyring → Bearer JWT with silent refresh
+sensai-cli
 ```
 
-No raw model provider credentials are stored on the client.
-Social login (GitHub, Google) uses Supabase OAuth with PKCE — the proxy
-handles the provider redirect and token exchange transparently.
-
-```bash
-sensai-cli auth login    # browser OAuth
-sensai-cli auth status   # check login state
-sensai-cli auth logout   # clear credentials
-```
-
----
-
-## 🧠 Core Capabilities
-
-<table>
-<tr>
-<td width="50%" valign="top">
-
-### 🛡️ Security First
-- All LLM traffic through `sensai.immunisense.com`
-- Zero raw API keys — OAuth + OS keyring with machine-derived fallback
-- Security Mode for eligible Sense Pro accounts with a read-only audit workflow
-- Pre-flight secrets scanning (30+ patterns incl. Stripe, GCP, Azure, Anthropic)
-- AST-level shell command blocking (subshells, pipes, command substitution)
-- Symlink-aware path guards on all read/write tools
-- CSRF protection on admin API and OAuth login flows
-- Permission-aware tool execution
-- Audit logging & no-log mode
-
-</td>
-<td width="50%" valign="top">
-
-### 🤖 Agent Intelligence
-- Code, Security, Plan, Chat, and Analyze workflows
-- Token compression (`lite`/`full`/`ultra`/`auto`) for reduced output verbosity
-- Multi-agent orchestration (up to 4 concurrent)
-- Custom sub-agents from markdown
-- Skills and Rules management with enable/disable toggle
-- Lifecycle hooks: run commands or trigger agents on tool calls, file changes, user input, and spec task transitions
-- 9 LSP tools for semantic navigation
-- Auto-diagnose: fixes LSP errors after each turn
-- Smart MCP integration with circuit breakers
-
-</td>
-</tr>
-<tr>
-<td valign="top">
-
-### 🔍 Search & Navigation
-- `search_code` — ripgrep-powered lexical search (auto-installed)
-- `ast_search` — ast-grep structural pattern matching
-- `web_search` — proxy-backed web search with answer summaries
-- LSP definition, references, hover, symbols
-- `@` context resolution (zero-cost, zero-latency)
-
-</td>
-<td valign="top">
-
-### ⚙️ Developer Experience
-- Conversation checkpoints with full undo
-- Auto-formatting (25+ languages)
-- Image paste/drop as visual context
-- Dynamic editor input (grows from 2 to 11 lines)
-- Auto session continuation at 95% context
-- Self-update without package manager
-- Credit limit dialog with tier-aware upgrade options
-- Credit-based billing with 3 balance buckets
-- Embedded `jq` — works cross-platform without a separate install
-
-</td>
-</tr>
-</table>
-
----
-
-## 🎯 Modes
-
-| Mode | Command | Description |
-|------|---------|-------------|
-| **Code** | `sensai-cli` | Default interactive mode for coding, edits, reviews, and tool use. Toggle `/todos` to force structured task lists. To-Do progress is shown in the sidebar. |
-| **Security** | `/security` | Sense Protocol security audit mode with a read-only tool policy. Available only when the account has Sense Pro plus the Security add-on entitlement. |
-| **Chat** | `/chat` | Zero-tools conversation mode for freeform discussion without file access or tool use. Switch back with `/code`. |
-| **Plan** | `sensai-cli plan` | Spec-driven planning: requirements → design → tasks → approval gates → task execution |
-| **Analyze** | `sensai-cli analyze` | Read-only exploration for safe codebase investigation |
-
-Plan Mode runs three sequential phases (Requirements → Design → Tasks), each
-with a TUI approval dialog. After all phases are approved, choose "Run All"
-for automatic sequential execution or "Run Manually" to trigger tasks one at a
-time with `#run_task:N`. See [`docs/plan_mode.md`](docs/plan_mode.md) for the
-full guide.
-
-Security Mode appears only for accounts with both the Sense Pro tier and the
-Security add-on. Eligible users can switch with `/security` or from the
-command palette.
-
-**Token Compression** reduces output verbosity to save context and credits.
-Three levels: `lite` (minor trimming), `full` (concise output), `ultra`
-(maximum compression). Each level also caps the response's max output-token
-budget (lite 75%, full 50%, ultra 30% of the model limit, floored at 8192) so
-compression measurably reduces output. Toggle via `/compress` or the command
-palette. The current level is shown in the editor info bar (e.g. "Code (full)").
-
----
-
-## 📋 Commands
-
-<details>
-<summary><b>CLI Commands</b></summary>
-
-| Command | Description |
-|---------|-------------|
-| `sensai-cli` | Launch the interactive TUI |
-| `sensai-cli run "prompt"` | Non-interactive single prompt |
-| `sensai-cli plan` | Create or resume a plan |
-| `sensai-cli analyze` | Safe read-only exploration |
-| `sensai-cli credits` | Show credit balance and burn rate |
-| `sensai-cli credits history` | Per-turn consumption history |
-| `sensai-cli usage` | Monthly usage stats |
-| `sensai-cli topup` | Open manual top-up flow |
-| `sensai-cli billing portal` | Open billing portal |
-| `sensai-cli invoices` | List invoices |
-| `sensai-cli auth status` | Show login state |
-| `sensai-cli auth logout` | Clear stored credentials |
-| `sensai-cli update` | Download and install the latest release |
-| `sensai-cli lsp list` | List configured and running LSP servers |
-| `sensai-cli lsp status` | Show LSP server health and diagnostics |
-| `sensai-cli mcp add` | Add an MCP server |
-| `sensai-cli mcp list` | List configured MCP servers |
-| `sensai-cli mcp status` | Show MCP server runtime status |
-| `sensai-cli mcp test` | Test MCP server connectivity |
-| `sensai-cli mcp enable/disable` | Toggle an MCP server |
-| `sensai-cli mcp restart` | Restart an MCP server |
-| `sensai-cli mcp remove` | Remove an MCP server |
-| `sensai-cli checkpoints list` | List checkpoints for the current session |
-| `sensai-cli checkpoints restore` | Restore to a previous checkpoint |
-| `sensai-cli agents list` | List all configured agents |
-| `sensai-cli agents create` | Create a new custom agent |
-| `sensai-cli hooks list` | List all configured lifecycle hooks |
-| `sensai-cli hooks create` | Add a new lifecycle hook |
-| `sensai-cli hooks toggle` | Enable or disable a hook |
-| `sensai-cli hooks delete` | Remove a hook |
-| `sensai-cli hooks run` | Manually trigger a `user_triggered` hook |
-| `sensai-cli uninstall` | Remove credentials, data directory, and binary |
-
-</details>
-
-<details>
-<summary><b>Slash Commands (TUI)</b></summary>
-
-| Command | Description |
-|---------|-------------|
-| `/compact` | Summarize conversation, continue in a new session |
-| `/review` | Trigger code review workflow |
-| `/reasoning` | Select reasoning effort |
-| `/model` | Switch the active model |
-| `/ctx` | Open the context manager |
-| `/formatter` | Configure auto-formatters |
-| `/todos` | Toggle To-Do list for Code Mode |
-| `/credits` | Show credit balance breakdown |
-| `/profile` | Switch or manage model profiles |
-| `/sense` | Toggle Sense Mode (full context) |
-| `/security` | Switch to Security Mode (requires Sense Pro + Security add-on) |
-| `/chat` | Switch to Chat Mode (no tools) |
-| `/code` | Switch to Code Mode |
-| `/compress` | Toggle token compression or set level (`lite`/`full`/`ultra`) |
-| `/create-sensai` | Create `SENSAI.md` from existing AI-assistant files |
-| `/agents` | Manage and invoke sub-agents |
-| `/plan` | Switch to plan mode |
-| `/approve` | Approve the current plan phase |
-| `/analyze` | Analyze the current codebase |
-| `/hooks` | Open the Manage Hooks dialog |
-
-</details>
-
-<details>
-<summary><b>Keyboard Shortcuts</b></summary>
-
-| Shortcut | Action |
-|----------|--------|
-| `Tab` | Switch focus between editor and chat |
-| `Shift+Tab` | Cycle Code → Security → Plan → Chat → Code when Security Mode is available; otherwise Code → Plan → Chat → Code |
-| `Ctrl+P` | Command palette |
-| `Ctrl+L` | Model picker |
-| `Ctrl+S` | Session picker |
-| `Ctrl+N` | New session |
-| `Ctrl+J` | Insert newline (editor grows dynamically) |
-| `Ctrl+C` | Quit |
-| `Ctrl+G` | Toggle help |
-| `Ctrl+V` | Paste from clipboard (text or image) |
-| `Ctrl+F` | Add image via file picker |
-| Right-click | Paste text from clipboard (in editor) |
-
-Dialog buttons (permissions, quit, restore, welcome) are also mouse-clickable.
-
-</details>
-
-<details>
-<summary><b>Image Context</b></summary>
-
-Paste or drop images directly into the chat as visual context for the AI:
-
-- `Ctrl+V` reads image data from the system clipboard (screenshots, copied
-  images). If no image is found, pastes clipboard text into the editor.
-  Long pastes (>10 lines) prompt to attach as a `.txt` file.
-- Right-click in the editor pastes text from the clipboard.
-- `Ctrl+F` opens a file picker dialog for selecting image files.
-- Drag an image file from the file manager into the terminal — the pasted
-  file path is detected and attached automatically. `file://` URIs from
-  Linux file managers are also handled.
-- Supported formats: `.jpg`, `.jpeg`, `.png`, `.gif`, `.webp`. Max 5 MB.
-- Models without image support automatically filter out image attachments.
-
-</details>
-
----
-
-## 💎 Model Catalog
-
-Models are served through the SensAI proxy. The catalog includes xAI Grok,
-Anthropic Claude, OpenAI GPT-5, Google Gemma, Z.ai GLM, Moonshot AI Kimi,
-and MiniMax (the last three via Ollama Cloud).
-
-**xAI Grok**
-
-| Model | Type | Base Context | Sense Context |
-|-------|------|-------------|---------------|
-| Grok Build | Reasoning (auto, fixed) | 256K | — |
-| Grok 4.3 | Reasoning | 200K | 1M |
-| Grok 4.20 (Non-Reasoning) | Non-reasoning | 200K | 2M |
-| Grok 4.20 | Reasoning | 200K | 2M |
-| Grok 4.20 (Multi-Agent) | Multi-agent | 200K | 2M |
-
-**Anthropic Claude**
-
-| Model | Type | Base Context | Sense Context |
-|-------|------|-------------|---------------|
-| Claude Haiku 4.5 | Non-reasoning | 200K | — |
-| Claude Sonnet 4.6 | Reasoning (adaptive) | 200K | 1M |
-| Claude Opus 4.6 | Reasoning (adaptive) | 200K | 1M |
-| Claude Opus 4.7 | Reasoning (adaptive) | 200K | 1M |
-| Claude Opus 4.8 | Reasoning (adaptive) | 200K | 1M |
-| Claude Sonnet 5 | Reasoning (adaptive) | 200K | 1M |
-| Claude Fable 5 | Reasoning (adaptive) | 200K | 1M |
-
-Claude Sonnet 4.6, Opus 4.6/4.7/4.8, Sonnet 5, and Fable 5 support a
-selectable reasoning effort (low/medium/high/xhigh/max, default high). Claude
-Fable 5 is a flagship long-horizon agentic model gated to the Sense Ultra
-tier; all other Claude models are available on any paid tier.
-
-**OpenAI GPT-5**
-
-| Model | Type | Base Context | Sense Context |
-|-------|------|-------------|---------------|
-| GPT-5.5 | Reasoning | 1.05M | 1.05M (>272K) |
-| GPT-5.4 | Reasoning | 1.05M | 1.05M (>272K) |
-| GPT-5.3 Codex | Always-reasoning | 400K | — |
-
-GPT-5.5 and GPT-5.4 support reasoning effort (none/low/medium/high/xhigh) and
-Sense mode with long-context surcharge above 272K tokens. GPT-5.3 Codex always
-reasons (low/medium/high/xhigh) with no Sense mode.
-
-**Z.ai GLM (via Ollama Cloud)**
-
-| Model | Type | Base Context | Sense Context |
-|-------|------|-------------|---------------|
-| GLM-5.2 | Reasoning (auto) | 1M | — |
-
-GLM-5.2 is a long-horizon agentic model available on paid tiers. It reasons
-automatically (no user-selectable reasoning effort), is text-only, and does
-not support Sense mode.
-
-**Google Gemma**
-
-| Model | Type | Base Context | Sense Context |
-|-------|------|-------------|---------------|
-| Gemma 4 31B | Reasoning (auto) | 256K | — |
-
-Gemma 4 31B is the first non-Grok model available on the free tier. It is
-multimodal (text + image), reasons automatically (no user-selectable effort),
-and does not support Sense mode.
-
-**Moonshot AI & MiniMax (via Ollama Cloud)**
-
-| Model | Type | Base Context | Sense Context |
-|-------|------|-------------|---------------|
-| Kimi K2.7 Code | Reasoning (auto) | 256K | — |
-| MiniMax M3 | Reasoning (auto) | 512K | — |
-
-Kimi K2.7 Code (Moonshot AI) and MiniMax M3 are coding & agentic models
-available on paid tiers. Both are multimodal, reason automatically, and do
-not support Sense mode.
-
-**Sense Mode** unlocks extended context windows (2M for Grok, 1M for Claude,
->272K surcharge for GPT-5.5/5.4). Toggle via `/sense` or the command palette.
-Grok Build uses its full 256K at standard context and does not support
-Sense mode. Claude models have no long-context surcharge — Sense pricing is
-the same as standard.
-
----
-
-## 💰 Billing & Credits
-
-Three balance buckets consumed in order: **tier → bonus → top-up**.
-Only tier credits reset each billing cycle — bonus and top-up carry over.
-
-| Tier | Price | Monthly Credits | Model Access |
-|------|-------|-----------------|--------------|
-| Free | $0 | 50 | `grok-build-0.1`, `gemma-4-31b` |
-| Pro | $20/mo | 500 | All models + all reasoning |
-| Ultra | $40/mo | 1,000 | All models + all reasoning |
-| Sense | $100/mo | 2,500 | All models + all reasoning |
-| Sense Pro | $200/mo | 5,000 | All models + all reasoning |
-| Sense Ultra | $400/mo | 10,000 | All models + priority routing |
-
-Some premium capabilities are granted through separate feature entitlements on
-top of the base subscription tier. Security Mode currently requires both the
-Sense Pro tier and the Security add-on entitlement.
+**Web** — open [sensai.immunisense.com](https://sensai.immunisense.com/), sign in, chat. Tools, diffs, and workspaces stay on the TUI and IDE.
 
 ```text
-$ sensai-cli credits
+$ sensai-cli auth login
+✓ Browser OAuth  →  JWT in OS keyring
 
-Tier balance:          2496.50
-Bonus balance:         100.00
-Top-up balance:        50.00
-Total balance:         2646.50
-Monthly allocation:    2500
-Consumed this period:  3.50
-Tier:                  Sense
-Period ends:           2026-05-01
+$ sensai-cli
+✓ Code  ·  Grok 4.5  ·  High (Sense)
+  SE full  ·  sandbox on  ·  ~2.40 this turn
 ```
-
-When credits run out mid-session, a tier-aware dialog appears automatically.
-Free-tier users see subscription plan options; paid-tier users see top-up and
-upgrade options. Dismiss with Esc to continue later — run `/topup` or
-`/billing` anytime.
-
----
-
-## 🔧 Configuration
-
-Configuration is TOML, loaded from `~/.sensai/config.toml` → `.sensai/config.toml` → `SENSAI_*` env vars.
-
-Config values support `$VAR`/`${VAR}` environment variable expansion and
-`$(command)` shell substitution (e.g. `api_key = "$(vault kv get secret/sensai)"`).
-
-```toml
-model = "grok-build-0.1"
-reasoning_level = "low"
-
-[compression]
-enabled = false
-level = "full"       # lite, full, or ultra
-
-[tui]
-compact_mode = false
-diff_mode = "unified"
-
-[secrets_scanner]
-mode = "warn"
-
-[permissions]
-allowed_tools = ["read_file", "list_dir", "search_code", "ast_search"]
-
-[options]
-auto_diagnose = true   # auto-fix LSP errors after each agent turn (default: true)
-auto_format = true     # format files after agent writes (default: true)
-```
-
-<details>
-<summary><b>Code Mode To-Do List</b></summary>
-
-When enabled, the agent always creates a structured task list before starting
-work and executes tasks one-by-one. Toggle via `/todos` in the TUI or config:
-
-```toml
-[options]
-todo_list = true
-```
-
-The editor info bar shows "To-Do" when active, and the sidebar displays task
-progress with status icons (✓ completed, → in progress, • pending) and a
-counter (e.g. "To-Do 2/5"). Disable with `/todos` again or set
-`todo_list = false`.
-
-</details>
-
-<details>
-<summary><b>Model Profiles</b></summary>
-
-Profiles save a model + provider + reasoning effort as a named preset. Switch
-between configurations with a single action via `/profile` in the TUI or the
-command palette ("Manage Profiles"). See [`docs/profiles.md`](docs/profiles.md)
-for the full guide.
-
-</details>
-
-<details>
-<summary><b>LSP Configuration</b></summary>
-
-SensAI auto-detects LSP servers from your toolchain. The agent has 9 LSP
-tools: diagnostics, references, definition, hover, symbols, rename, code
-actions, formatting, and restart. See [`docs/lsp.md`](docs/lsp.md) for the
-full guide.
-
-```toml
-# Minimal — auto-detected
-[lsp.go]
-command = "gopls"
-
-# Full configuration
-[lsp.typescript]
-command = "typescript-language-server"
-args = ["--stdio"]
-filetypes = [".ts", ".tsx", ".js", ".jsx"]
-root_markers = ["tsconfig.json", "package.json"]
-timeout = 30
-
-# Disable all LSP
-[options]
-auto_lsp = false
-```
-
-</details>
-
-<details>
-<summary><b>MCP Configuration</b></summary>
-
-MCP servers extend the agent with external tools. SensAI supports stdio, SSE,
-and HTTP transports with circuit breaker protection, health monitoring, rate
-limiting, response scanning, and audit logging. See [`docs/mcp.md`](docs/mcp.md)
-for the full guide.
-
-```toml
-[mcp.filesystem]
-type = "stdio"
-command = "node"
-args = ["/path/to/mcp-server.js"]
-
-[mcp.remote]
-type = "http"
-url = "https://example.com/mcp/"
-rate_limit = 60
-
-[mcp.remote.headers]
-Authorization = "Bearer $MCP_TOKEN"
-```
-
-</details>
-
-<details>
-<summary><b>Auto-Formatter</b></summary>
-
-Automatic formatting after every agent write: custom → LSP → 25+ built-in CLI
-formatters. See [`docs/formatter.md`](docs/formatter.md) for the full guide.
-
-```toml
-# Disable globally
-[options]
-auto_format = false
-
-# Custom formatter
-[formatter.my-sql-formatter]
-command = ["pg_format", "$FILE"]
-extensions = [".sql"]
-
-# Disable a built-in
-[formatter.prettier]
-disabled = true
-```
-
-</details>
-
-<details>
-<summary><b>Custom Agents</b></summary>
-
-Create specialized sub-agents from markdown files. Paid tiers get AI-powered
-generation; free tier creates manually. See [`docs/custom_agents.md`](docs/custom_agents.md).
 
 ```bash
-sensai-cli agents create code-reviewer        # AI-powered (paid)
-sensai-cli agents create code-reviewer --manual  # manual (all tiers)
+sensai-cli plan "Add billing webhooks"
+sensai-cli analyze "Where is JWT refresh handled?"
+sensai-cli run --json "List the public HTTP routes"
+sensai-cli workspace init
+sensai-cli workspace add ../other-repo --name other
 ```
 
-Agent files live in `.sensai/agents/` (project) or `~/.sensai/agents/` (global):
-
-```markdown
----
-description: Reviews code for quality and best practices
 ---
 
-You are a code reviewer. Focus on security, performance, and
-maintainability. Provide constructive feedback with file:line references.
-```
+## Installation
 
-Use `/agents` in the TUI to browse and select agents, or invoke directly
-with `#agent:<name> <prompt>`:
+| | |
+|---|---|
+| **curl** | `curl -fsSL https://sensai.immunisense.com/install \| bash` |
+| **Windows** | `irm https://sensai.immunisense.com/install.ps1 \| iex` |
+| **Web** | [sensai.immunisense.com](https://sensai.immunisense.com/) — chat, credits, subscribe, docs |
+| **SensAI IDE** | Windows installer from [immunisense.com/solutions/sensai](https://immunisense.com/solutions/sensai) |
+| **SensAI-Agent** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide) — VS Code, Cursor, Windsurf |
 
-```
-#agent:code-reviewer review the changes in src/auth/
-#agent:explorer where is the database connection configured?
-```
-
-</details>
-
-<details>
-<summary><b>Lifecycle Hooks</b></summary>
-
-Hooks run shell commands or trigger agents automatically when events fire
-during a session. Configure via `[[hooks]]` blocks in `~/.sensai/config.toml`
-or `.sensai/config.toml`, or manage them with `sensai-cli hooks` / the
-"Manage Hooks" command palette entry.
-
-**Event types:** `pre_tool_use`, `post_tool_use`, `file_edited`,
-`file_created`, `file_deleted`, `prompt_submit`, `agent_stop`,
-`user_triggered`, `pre_task_execution`, `post_task_execution`.
-
-`pre_tool_use` hooks fire synchronously before a tool call and can block it
-(`{"action":"deny","reason":"..."}`) or rewrite its input
-(`{"action":"rewrite","new_input":{...}}`).
-
-Tool-type matchers accept built-in categories (`read`, `write`, `shell`,
-`web`, `spec`, `*`) or a regex against the tool name (e.g. `".*sql.*"`).
-Hook data is available as `SENSAI_HOOK_<KEY>` env vars; `{{key}}`
-placeholder interpolation is supported in `command` and `prompt` fields.
-
-```toml
-# Run linter after any TypeScript file is edited
-[[hooks]]
-event = "file_edited"
-file_patterns = ["*.ts", "*.tsx"]
-action = "run_command"
-command = "npm run lint"
-
-# Block writes outside src/
-[[hooks]]
-event = "pre_tool_use"
-tool_types = ["write"]
-action = "run_command"
-command = "echo '{\"action\":\"deny\",\"reason\":\"writes outside src/ are not allowed\"}'"
-
-# Ask the agent to summarize after each turn
-[[hooks]]
-event = "agent_stop"
-action = "ask_agent"
-prompt = "Summarize what you just did in one sentence."
-```
-
-Manage hooks from the terminal:
+Installers download checksum-verified binaries from the proxy.
 
 ```bash
-sensai-cli hooks list
-sensai-cli hooks create --event file_edited --file-patterns "*.go" --command "gofmt -w {{file}}"
-sensai-cli hooks toggle <hook-id>
-sensai-cli hooks delete <hook-id>
+sensai-cli update    # checksum-verified from the proxy
 ```
 
-</details>
+The TUI shows **Update now** when a newer version is available.
 
 ---
 
-## 📖 Documentation
+## Isolation
 
-| Guide | Description |
-|-------|-------------|
-| [Custom Agents](docs/custom_agents.md) | Create specialized sub-agents for your workflows |
-| [Auto-Formatter](docs/formatter.md) | Automatic code formatting after every agent edit |
-| [LSP Integration](docs/lsp.md) | Language server support for 30+ languages |
-| [MCP Integration](docs/mcp.md) | Extend the agent with external tool servers |
-| [Plan Mode](docs/plan_mode.md) | Spec-driven planning workflow |
-| [Profiles](docs/profiles.md) | Named model presets with task-based routing |
+<img src="docs/assets/flow.png" alt="Plan, Isolate, Hunt, Undo — /plan, worktrees, /security, /rewind." width="100%">
 
----
+Agents cannot quietly damage HEAD, credentials, or the working tree.
 
-## �️ Built-in Tools
+```mermaid
+flowchart TD
+  HEAD[your checkout HEAD]
+  HEAD --> A[Analyze / Security<br/>throwaway detached worktree]
+  HEAD --> F["/fork sibling session"]
+  HEAD --> W[writing agents isolated worktrees]
+  A --> D[deleted on exit]
+```
 
-The agent has access to a broad set of built-in tools beyond file read/write:
-
-| Tool | Description |
-|------|-------------|
-| `web_search` | Proxy-backed web search with answer summaries (Tavily) |
-| `http_request` | Full-verb HTTP calls (POST/PUT/PATCH/DELETE/HEAD/OPTIONS) for webhook/API debugging |
-| `apply_patch` | Apply multi-file unified diffs atomically with snapshot-based undo |
-| `git_log` | Structured commit history |
-| `git_commit` | Conventional Commits-validated commits (never amends/pushes/sets config) |
-| `scan_secrets` | Audit text or files for secrets before writing or committing |
-| `delete_file` | Delete a file |
-| `move_file` | Move or rename a file |
-| `make_dir` | Create a directory |
-| `code_review` | Dispatch a read-only review sub-agent across requested dimensions |
-| `sense_info` | JSON snapshot of active models, providers, MCP/LSP servers, and settings |
-| `sense_logs` | Tail of `sensai.log` with optional level filter for self-debugging |
-
-`jq` is embedded in the shell interpreter — `cat data.json | jq '.foo'` works
-cross-platform without a separate install.
+| Layer | What it does |
+|-------|----------------|
+| **Git worktrees** | Analyze and Security never write HEAD. `/fork` binds a sibling tree. |
+| **OS sandbox** | `run_shell` on macOS and Linux. Credential paths denied. |
+| **Path guards** | Tools stay inside the workspace. |
+| **Secrets scanner** | 30+ patterns before a turn leaves the machine. |
+| **Checkpoints** | `/rewind` restores the last turn. |
+| **Proxy** | All LLM traffic → `https://sensai.immunisense.com`. No raw provider keys. |
 
 ---
 
-## �🔄 Conversation Checkpoints
+## Modes
 
-Automatic per-turn snapshots of file changes with full undo. Restore to any
-point in the conversation, reverting all file modifications and truncating
-history.
+| Mode | How | Behaviour |
+|------|-----|-----------|
+| **Code** | `sensai-cli` | Full tools, edits, shell, LSP, MCP. |
+| **Plan** | `sensai-cli plan` or `/plan` | Spec-driven: requirements → design → tasks → approval. |
+| **Chat** | `/chat` or [web](https://sensai.immunisense.com/chat) | Conversation only. No tools. |
+| **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only in a throwaway worktree. |
+| **Design** | `/design` | Architecture / DESIGN.md. No shell. |
+| **Security** | `/security` | Sense Protocol hunt. Read-only. Sense Pro + security add-on. |
+
+`Shift+Tab` cycles Code ↔ Plan. Analyze and Security are explicit so you cannot drop into a write mode by accident.
+
+---
+
+## Security Mode
+
+Class-by-class defensive hunt. Same contract on every catalog model.
+
+```text
+SCOPE → RECON → MAP → HUNT → VALIDATE → REPORT
+                         7-question gate
+```
+
+AuthZ, JWT, injection, SSRF, secrets, path traversal, XSS, CSRF, uploads, business logic, OAuth, supply chain, LLM/MCP, billing integrity, admin authz — **file:line evidence, no exploit payloads**.
+
+Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
+
+---
+
+## Session verbs
+
+| Command | What happens |
+|---------|----------------|
+| `/rewind` `/fork` `/replay` `/pr` | Undo, clone+worktree, re-run, open a PR |
+| `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
+| `/compact` | Summarize and continue |
+| `/security` | Security Mode (if entitled) |
 
 ```bash
 sensai-cli checkpoints list
-sensai-cli checkpoints restore <id>
+sensai-cli run --json "…"
 ```
-
-In the TUI, each user message shows a `[ Restore ]` button (click it with the
-mouse or press `r` when the message is focused). The confirmation dialog lists
-affected files with change indicators (`~` modified, `+` created, `-` deleted).
 
 ---
 
-## ⚡ Performance
+## Authentication
 
-SensAI uses a cache-first startup strategy to minimize time-to-interactive:
+Browser OAuth. CLI and IDE store tokens in the OS keyring (macOS Keychain, Windows Credential Manager, Linux `libsecret` / `pass`). Web uses an HttpOnly `sensai_session` cookie — never `localStorage`.
 
-- **Cache-first provider catalog**: model catalog loads from disk cache
-  instantly, with a background refresh for the next launch.
-- **SQLite connection pool tuning**: 4 open / 2 idle / 5m lifetime prevents
-  lock contention under concurrent writes.
-- **Concurrent LSP diagnostics**: changed files are checked in parallel with
-  a shared 15s deadline instead of sequentially.
-- **Bounded message queue**: per-session cap of 50 pending messages prevents
-  unbounded memory growth.
-- **Large-file checkpoint spill**: files >256 KB spill to disk instead of
-  being held in memory during checkpoint tracking.
-- **Zero-copy proxy retries**: request bodies are buffered once and reused
-  across retries.
-- **Migration skip**: a version marker file bypasses migration checks
-  when the database is already up-to-date.
-- **Lazy agent building**: user-defined sub-agents are registered at startup
-  but only constructed on first invocation.
-- **Inline splash**: the startup animation plays within the same alt screen
-  session for a seamless transition with no terminal flash.
-- **Auto-diagnose**: after each agent turn, LSP diagnostics run on changed
-  files. If errors are found, the agent auto-fixes them (up to 2 retries).
-  Disable with `[options] auto_diagnose = false`.
+```bash
+sensai-cli auth login
+sensai-cli auth status
+sensai-cli auth logout
+```
+
+---
+
+## Model catalog
+
+Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
+
+| Model | Provider | Context | Notes |
+|-------|----------|---------|-------|
+| Grok Build | xAI | 256K | Free |
+| Grok 4.5 | xAI | 500K | Sense ≥200K |
+| Grok 4.3 | xAI | 1M | Sense ≥200K |
+| Grok 4.6 | xAI | 500K | Sense ≥200K |
+| Claude Sonnet 5 / Opus 5 | Anthropic | 1M | Adaptive thinking |
+| Claude Fable 5.1 | Anthropic | 1M | Adaptive thinking |
+| GPT-6 Astra / GPT-5.6 Sol · Terra · Luna | OpenAI | 1.05M | |
+| GLM-5.3 / Flash | Z.ai | 1M | |
+| Kimi K3 | Moonshot | 1M | |
+| MiniMax M3 | MiniMax | 512K | |
+| DeepSeek V4 Flash / Pro | DeepSeek | 1M | |
+| Gemma 4 | Google | 256K | Free |
+| Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
+
+**Sense Mode:** `/sense` for full context at higher per-token rates.
+
+1 credit = $0.04. Local tools are $0 extra.
+
+---
+
+## Billing
+
+**tier → bonus → top-up**. HTTP 402 opens subscribe or top-up. Same ledger on CLI, IDE, Agent, and web.
+
+| Tier | Price | Monthly credits |
+|------|-------|-----------------|
+| Free | $0 | 50 |
+| Pro | $20 | 500 |
+| Ultra | $40 | 1,250 |
+| Sense | $100 | 3,500 |
+| Sense Pro | $200 | 7,500 |
+| Sense Ultra | $400 | 16,000 |
+
+Security Mode is a paid add-on on Sense Pro and Sense Ultra.
+
+```bash
+sensai-cli credits
+sensai-cli topup
+sensai-cli billing portal
+```
+
+Or manage credits in the [web account](https://sensai.immunisense.com/).
+
+---
+
+## Architecture
+
+```mermaid
+flowchart LR
+  T[sensai-cli] --> P[SensAI Proxy]
+  I[SensAI IDE] --> P
+  A[SensAI-Agent] --> P
+  W[Web] --> P
+  P --> JWT[JWT + tier]
+  JWT --> C{credits?}
+  C -->|402| D[LimitReached]
+  C -->|ok| U[Upstream]
+  U --> X[xAI]
+  U --> B[Bedrock / Gemini]
+  U --> L[Ollama Cloud]
+  U --> S[Settle credits]
+```
+
+No raw provider credentials on the client.
+
+---
+
+## Docs
+
+[`docs/web.md`](docs/web.md) · [`docs/plan_mode.md`](docs/plan_mode.md) · [`docs/mcp.md`](docs/mcp.md) · [`docs/formatter.md`](docs/formatter.md) · [`docs/custom_agents.md`](docs/custom_agents.md) · [`docs/lsp.md`](docs/lsp.md) · [`docs/profiles.md`](docs/profiles.md) · [`SECURITY.md`](SECURITY.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md)
+
+---
+
+## Issues
+
+Use a template so the right label is applied:
+
+[CLI bug](https://github.com/immunisense/sensai/issues/new?template=bug-cli.yml) · [IDE bug](https://github.com/immunisense/sensai/issues/new?template=bug-ide.yml) · [Extension bug](https://github.com/immunisense/sensai/issues/new?template=bug-extension.yml) · [Web bug](https://github.com/immunisense/sensai/issues/new?template=bug-web.yml) · [Feature](https://github.com/immunisense/sensai/issues/new?template=feature.yml)
+
+Vulnerabilities: **security@immunisense.com** — never a public issue.
 
 ---
 
@@ -741,6 +266,6 @@ SensAI uses a cache-first startup strategy to minimize time-to-interactive:
 
 **Proprietary.** All rights reserved by Immunisense Corp.
 
-[Website](https://immunisense.com) · [Releases](https://github.com/immunisense/sensai/releases) · [CLI issues](https://github.com/immunisense/sensai/issues?q=label%3Acli) · [IDE issues](https://github.com/immunisense/sensai/issues?q=label%3Aide) · [Extension issues](https://github.com/immunisense/sensai/issues?q=label%3Aextension) · [Discord](https://discord.gg/a2jafdGrsx)
+[App](https://sensai.immunisense.com/) · [Product](https://immunisense.com/solutions/sensai) · [Website](https://immunisense.com) · [Changelog](CHANGELOG.md)
 
 </div>

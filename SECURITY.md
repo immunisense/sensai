@@ -9,7 +9,9 @@ Email **security@immunisense.com** with:
 
 - A description of the vulnerability and its potential impact.
 - Steps to reproduce or a proof of concept.
-- The version of `sensai-cli` (`sensai-cli version`), SensAI IDE (Help → About), or SensAI-Agent (Extensions view).
+- The version of `sensai-cli` (`sensai-cli version`), SensAI IDE (Help → About),
+  SensAI-Agent (Extensions view), or for web: the page URL and browser.
+  Do not send cookies, JWTs, or backup codes.
 
 We aim to acknowledge reports within 48 hours and provide a fix or mitigation
 timeline within 7 business days. Reporters will be credited in the release
@@ -39,7 +41,8 @@ requests to the upstream provider.
 
 - Browser-based OAuth with PKCE.
 - JWT + refresh token stored in the OS keyring (macOS Keychain, Windows
-  Credential Manager, Linux `libsecret`/`pass`).
+  Credential Manager, Linux `libsecret`/`pass`). The web app uses an
+  HttpOnly `sensai_session` cookie, never `localStorage`.
 - Silent token refresh before expiry; no plaintext credentials on disk.
 - Optional MFA via TOTP (enroll, verify, disable through the CLI or TUI).
 - Headless/WSL/SSH fallback prints the login URL for manual use.
@@ -122,5 +125,4 @@ auto_format = false
 ## Responsible Disclosure
 
 We follow coordinated disclosure. If a fix requires a client update, we will
-publish a security advisory on the GitHub releases page and notify affected
-users through the TUI update prompt.
+notify affected users through the TUI update prompt and the web app.

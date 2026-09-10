@@ -1,0 +1,37 @@
+name: Web bug
+description: Something is broken on SensAI web (sensai.immunisense.com)
+title: "[web] "
+labels: ["bug", "web"]
+body:
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: Steps, expected, actual. GitHub-flavored Markdown is supported. You can add screenshots after the issue opens. Do not paste cookies, JWTs, or backup codes.
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: URL
+      description: Page on sensai.immunisense.com
+      placeholder: https://sensai.immunisense.com/chat
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser
+      placeholder: Chrome 131, Safari 18, Firefox 128
+    validations:
+      required: true
+  - type: dropdown
+    id: signed-in
+    attributes:
+      label: Signed in
+      options:
+        - "Yes"
+        - "No"
+        - Not sure
+    validations:
+      required: true

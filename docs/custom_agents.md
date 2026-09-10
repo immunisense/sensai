@@ -2,7 +2,7 @@
 
 SensAI supports user-defined agents — specialized AI assistants you can
 create for specific tasks and workflows. Custom agents run as sub-agents
-alongside the main coder agent, with up to 4 running simultaneously.
+alongside the main coder agent, with up to 12 running simultaneously.
 
 ## Quick Start
 
@@ -56,6 +56,8 @@ Each agent invocation:
 - Gets its own session (visible in session history)
 - Runs with the active model (inherits your current model selection)
 - Has access to read-only tools by default (search, read, list)
+- With `writable: true`, gets write/shell tools and runs in an isolated
+  git worktree (pass `local: true` on the agent tool to use HEAD)
 - Returns a single result to the parent agent
 - Costs are tracked and accumulated to the parent session
 
@@ -130,6 +132,7 @@ before answering. Always include file paths and line numbers.
 name: Security Auditor
 description: Performs security audits and identifies vulnerabilities
 mode: subagent
+writable: false
 ---
 
 You are a security expert. Analyze code for:
@@ -150,6 +153,7 @@ file:line, and a recommended fix.
 | `description` | yes      | —              | Short description of what the agent does |
 | `name`        | no       | from filename  | Display name (auto-generated if omitted) |
 | `mode`        | no       | `subagent`     | `subagent` or `primary`                  |
+| `writable`    | no       | `false`        | Grant write/shell tools; isolated worktree |
 | `disabled`    | no       | `false`        | Set to `true` to disable without deleting |
 
 The markdown body after the closing `---` is the agent's system prompt.
@@ -232,8 +236,10 @@ determines a specialist would help. You can also direct it:
 
 ### Concurrent execution
 
-Up to 4 sub-agents can run simultaneously. The coder agent can launch
-multiple agents in parallel for independent tasks:
+Up to 12 sub-agents can run simultaneously. Writing agents (`writable:
+true`) each get a git worktree under `.sensai/worktrees/` so they cannot
+collide with HEAD or each other. The coder agent can launch multiple
+agents in parallel for independent tasks:
 
 ```
 > search for all TODO comments (use explorer), review the auth module

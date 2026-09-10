@@ -36,8 +36,8 @@ you may not:
 Access to and use of the Software is permitted only for individuals and
 entities who have accepted the SensAI Terms of Service and authenticated
 through the SensAI platform. Authorized use is limited to interaction with the
-Software through its published interfaces (the CLI and TUI) in accordance with
-the applicable terms.
+Software through its published interfaces (the CLI and TUI, SensAI IDE,
+SensAI-Agent, and the SensAI web app) in accordance with the applicable terms.
 
 ### Trademarks
 

@@ -1,3 +1,21 @@
+## v0.3.5
+
+### Core
+- Public web app at [sensai.immunisense.com](https://sensai.immunisense.com/): landing, install, sign-in (GitHub / Google / password + TOTP), account credits (tier / bonus / top-up), Stripe subscribe / top-up / portal, docs, and tool-free chat. Same login and credit ledger as the CLI.
+
+### CLI
+- Windows and Unix installers put `sensai-cli` on PATH so new terminals find the binary.
+
+## v0.3.0
+
+### Core
+- Multi-repo workspaces, live sub-agent cap (max 12, stays under 90% CPU/RAM), session-bound worktrees, Design Mode, plan tasks as git commits, auto-test after edits
+- Faster search (ripgrep/ast-grep use all CPUs)
+
+### CLI
+- `sensai-cli workspace`, `sensai-cli pr`, `npm install -g sensai-cli` (proprietary installer)
+- Homebrew tap removed
+
 ## v0.2.66
 
 ### Core

@@ -1,5 +1,5 @@
 name: Feature request
-description: A change or addition to SensAI CLI, SensAI IDE, or SensAI-Agent
+description: A change or addition to SensAI CLI, SensAI IDE, SensAI-Agent, or web
 title: "[feat] "
 labels: ["enhancement"]
 body:
@@ -7,11 +7,12 @@ body:
     id: product
     attributes:
       label: Product
-      description: After filing, add the `cli`, `ide`, and/or `extension` label if we missed it.
+      description: After filing, add the `cli`, `ide`, `extension`, and/or `web` label if we missed it.
       options:
         - SensAI CLI (terminal / TUI)
         - SensAI IDE
         - SensAI-Agent (VS Code / Cursor / Windsurf)
+        - SensAI web (sensai.immunisense.com)
         - Multiple
       default: 0
     validations:
@@ -23,4 +24,3 @@ body:
       description: The problem and the change you want. GitHub-flavored Markdown is supported.
     validations:
       required: true
-
