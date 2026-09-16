@@ -40,6 +40,12 @@ EOF
 
 Restart SensAI and the agent is ready to use.
 
+SensAI does not auto-load agents, skills, or rules from other kits
+(`.grok/`, `.claude/`, `.cursor/`, `.gemini/`, `.kiro/`). On startup the
+TUI offers to copy them into `.sensai/agents`, `.sensai/skills`,
+`.sensai/rules`, and `SENSAI.md`. Run `/create-sensai` to import later.
+A SensAI agent in `.sensai/agents/` with the same filename wins.
+
 ## How It Works
 
 Custom agents are defined as markdown files with a small YAML frontmatter
@@ -57,8 +63,13 @@ Each agent invocation:
 - Runs with the active model (inherits your current model selection)
 - Has access to read-only tools by default (search, read, list)
 - With `writable: true`, gets write/shell tools and runs in an isolated
-  git worktree (pass `local: true` on the agent tool to use HEAD)
-- Returns a single result to the parent agent
+  git worktree (pass `local: true` on the agent tool to use HEAD). The
+  result ends with the worktree path and `sensai/agent-<id>` branch so
+  the parent knows where the changes live
+- Returns a single result to the parent agent. Independent launches in
+  one message run together. A Needs graph uses `background: true` plus
+  `wait_agent` so a finished leaf can unblock the next while others run
+- Shows up in the TUI Agents panel while running (one row per launch)
 - Costs are tracked and accumulated to the parent session
 
 ## Creating Agents
@@ -66,7 +77,7 @@ Each agent invocation:
 ### AI-Powered Creation (Paid Tiers)
 
 On Pro, Ultra, Sense, or Sense Pro tiers, `sensai-cli agents create` uses
-`grok-4-1-fast-reasoning` to generate a complete agent definition from your
+`grok-4.3` to generate a complete agent definition from your
 description. You provide a name and a short description of what the agent
 should do — SensAI generates the full system prompt with detailed
 instructions, workflow steps, and output formatting.
@@ -74,7 +85,7 @@ instructions, workflow steps, and output formatting.
 ```bash
 $ sensai-cli agents create security-auditor
 What should this agent do? audits code for security vulnerabilities and OWASP top 10 issues
-Generating agent with grok-4-1-fast-reasoning...
+Generating agent with grok-4.3...
   Tokens used: 487 (credits will be deducted)
 
 ✓ Created agent "security-auditor" → .sensai/agents/security-auditor.md
@@ -182,16 +193,24 @@ ID               MODE       SOURCE     STATUS   DESCRIPTION
 ────────────────────────────────────────────────────────────────────────────────
 coder            primary    builtin    active   An agent that helps with exec...
 task             subagent   builtin    active   An agent that helps with sear...
+designer         subagent   builtin    active   Writable UI specialist for web...
 code-reviewer    subagent   markdown   active   Reviews code for quality and ...
 explorer         subagent   markdown   active   Explores codebases and answer...
 ```
+
+Builtin `designer` is the web/UI specialist. Ask the coder to build a
+landing page, restyle a React app, audit existing UI, or study a
+screenshot, and it should spawn `designer` instead of doing the visual
+work itself. Designer follows `DESIGN.md` when present, ships real
+interaction states, and refuses fake stats and template layouts. A
+markdown file named `designer.md` overrides the builtin prompt.
 
 ### `sensai-cli agents create`
 
 Create a new agent interactively.
 
 ```bash
-# AI-powered (paid tiers — uses grok-4-1-fast-reasoning, costs credits)
+# AI-powered (paid tiers — uses grok-4.3, costs credits)
 sensai-cli agents create code-reviewer
 
 # Manual (all tiers — you write the prompt)

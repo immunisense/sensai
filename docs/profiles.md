@@ -15,13 +15,13 @@ doing.
 
 ```
 Profile: "daily-driver"
-├── default      → grok-4-1-fast-reasoning (medium)
-├── coding       → grok-code-fast
-├── research     → grok-4.20-reasoning (high)
-├── planning     → grok-4.20-reasoning (medium)
-├── analysis     → grok-4-fast-reasoning (medium)
-├── review       → grok-4.20-reasoning (high)
-└── subagent     → grok-4-1-fast-reasoning (low)
+├── default      → grok-4.3 (medium)
+├── coding       → grok-build-0.1
+├── research     → grok-4.6 (high)
+├── planning     → grok-4.5 (medium)
+├── analysis     → grok-4.3 (medium)
+├── review       → grok-4.6 (high)
+└── subagent     → grok-build-0.1
 ```
 
 All models in a profile must come from the available catalog. The `default`
@@ -91,9 +91,9 @@ based on the current context:
 - If no specific task mapping exists, the `default` model is used
 
 The editor info bar shows the active profile name at the end:
-`Code · Grok Code Fast · daily-driver`
+`Code · Grok Build · daily-driver`
 
-Switching to Plan Mode: `Plan · Grok 4.20 · Medium · daily-driver`
+Switching to Plan Mode: `Plan · Grok 4.5 · Medium · daily-driver`
 
 ## Configuration
 
@@ -110,37 +110,36 @@ name = "daily-driver"
 
 [profiles.tasks.default]
 provider = "xai"
-model = "grok-4-1-fast-reasoning"
+model = "grok-4.3"
 reasoning_effort = "medium"
 
 [profiles.tasks.coding]
 provider = "xai"
-model = "grok-code-fast"
+model = "grok-build-0.1"
 
 [profiles.tasks.research]
 provider = "xai"
-model = "grok-4.20-reasoning"
+model = "grok-4.6"
 reasoning_effort = "high"
 
 [profiles.tasks.planning]
 provider = "xai"
-model = "grok-4.20-reasoning"
+model = "grok-4.5"
 reasoning_effort = "medium"
 
 [profiles.tasks.analysis]
 provider = "xai"
-model = "grok-4-fast-reasoning"
+model = "grok-4.3"
 reasoning_effort = "medium"
 
 [profiles.tasks.review]
 provider = "xai"
-model = "grok-4.20-reasoning"
+model = "grok-4.6"
 reasoning_effort = "high"
 
 [profiles.tasks.subagent]
 provider = "xai"
-model = "grok-4-1-fast-reasoning"
-reasoning_effort = "low"
+model = "grok-build-0.1"
 ```
 
 ### Example: Simple Single-Model Profile
@@ -154,7 +153,7 @@ name = "all-fast"
 
 [profiles.tasks.default]
 provider = "xai"
-model = "grok-code-fast"
+model = "grok-build-0.1"
 ```
 
 ### Example: Cost-Conscious Profile
@@ -168,36 +167,47 @@ name = "budget"
 
 [profiles.tasks.default]
 provider = "xai"
-model = "grok-code-fast"
+model = "grok-build-0.1"
 
 [profiles.tasks.research]
 provider = "xai"
-model = "grok-4-1-fast-reasoning"
+model = "grok-4.3"
 reasoning_effort = "medium"
 
 [profiles.tasks.planning]
 provider = "xai"
-model = "grok-4-1-fast-reasoning"
+model = "grok-4.5"
 reasoning_effort = "high"
 ```
 
 ## Available Models
 
-All models in a profile must be from the live catalog. The current xAI
-launch catalog:
+All models in a profile must be from the live catalog:
 
-| Model ID                          | Display Name                    | Type            |
-|-----------------------------------|---------------------------------|-----------------|
-| `grok-code-fast`                  | Grok Code Fast                  | Non-Reasoning   |
-| `grok-4-1-fast-non-reasoning`     | Grok 4.1 Fast (Non-Reasoning)   | Non-Reasoning   |
-| `grok-4-1-fast-reasoning`         | Grok 4.1 Fast                   | Reasoning       |
-| `grok-4-fast-reasoning`           | Grok 4 Fast                     | Reasoning       |
-| `grok-4.20-non-reasoning`         | Grok 4.20 (Non-Reasoning)       | Non-Reasoning   |
-| `grok-4.20-reasoning`             | Grok 4.20                       | Reasoning       |
-| `grok-4.20-multi-agent`           | Grok 4.20 (Multi-Agent)         | Multi-Agent     |
+| Model ID | Display Name | Type |
+|----------|--------------|------|
+| `grok-build-0.1` | Grok Build | Reasoning (auto, no picker) |
+| `grok-4.3` | Grok 4.3 | Reasoning |
+| `grok-4.5` | Grok 4.5 | Reasoning |
+| `grok-4.6` | Grok 4.6 | Reasoning |
+| `claude-sonnet-5` | Claude Sonnet 5 | Reasoning |
+| `claude-opus-5` | Claude Opus 5 | Reasoning |
+| `claude-fable-5.1` | Claude Fable 5.1 | Reasoning |
+| `gpt-6-astra` | GPT-6 Astra | Reasoning |
+| `gpt-5.6-sol` | GPT-5.6 Sol | Reasoning |
+| `gpt-5.6-terra` | GPT-5.6 Terra | Reasoning |
+| `gpt-5.6-luna` | GPT-5.6 Luna | Reasoning |
+| `glm-5.3` | GLM-5.3 | Reasoning (low/high/max) |
+| `glm-5.3-flash` | GLM-5.3 Flash | Reasoning (low/high/max) |
+| `kimi-k3` | Kimi K3 | Reasoning (low/medium/high) |
+| `minimax-m3` | MiniMax M3 | Reasoning (auto, no picker) |
+| `deepseek-v4-flash` | DeepSeek V4 Flash | Reasoning (none/high/max) |
+| `deepseek-v4.1-flash` | DeepSeek V4.1 Flash | Reasoning (low/high/max) |
+| `deepseek-v4-pro` | DeepSeek V4 Pro | Reasoning (none/high/max) |
+| `gemma-4-31b` | Gemma 4 | Reasoning (auto, no picker) |
+| `gemini-3.8-flash` | Gemini 3.8 Flash | Reasoning (low/medium/high) |
 
-Non-reasoning models ignore the `reasoning_effort` field. Reasoning models
-default to the model's standard effort when the field is omitted.
+Retired IDs still resolve: `grok-code-fast` → `grok-build-0.1`; `grok-4-1-fast-*` and `grok-4-fast-*` → `grok-4.3`. Models without a picker ignore `reasoning_effort`. Other reasoning models default to the model's standard effort when the field is omitted. Effort does not change the credit rate.
 
 ## Keyboard Shortcuts
 
@@ -237,7 +247,7 @@ you can add task-specific mappings on top.
   that doesn't match a specific task type.
 - Use fast, cheap models for `coding` and `subagent` — these run
   frequently and burn the most credits.
-- Reserve flagship models (`grok-4.20-reasoning`) for `research` and
+- Reserve flagship models (`grok-4.6`, `grok-4.5`) for `research` and
   `planning` where deep reasoning pays off.
 - Sense mode is independent of profiles. Toggling `/sense` applies to
   whichever model is active for the current task.

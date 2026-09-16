@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.3.5-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.3.10-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -75,9 +75,12 @@ sensai-cli workspace add ../other-repo --name other
 |---|---|
 | **curl** | `curl -fsSL https://sensai.immunisense.com/install \| bash` |
 | **Windows** | `irm https://sensai.immunisense.com/install.ps1 \| iex` |
+| **npm** | `npm install -g sensai-cli` |
 | **Web** | [sensai.immunisense.com](https://sensai.immunisense.com/) — chat, credits, subscribe, docs |
 | **SensAI IDE** | Windows installer from [immunisense.com/solutions/sensai](https://immunisense.com/solutions/sensai) |
 | **SensAI-Agent** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide) — VS Code, Cursor, Windsurf |
+
+Pick **one** CLI installer per machine. Mixing `irm`/`curl` with `npm` puts two binaries on PATH.
 
 Installers download checksum-verified binaries from the proxy.
 
@@ -128,6 +131,8 @@ flowchart TD
 
 `Shift+Tab` cycles Code ↔ Plan. Analyze and Security are explicit so you cannot drop into a write mode by accident.
 
+Plan Mode: Requirements → Design → Tasks, each with a TUI approval dialog. Then **Run All** (disjoint tasks in parallel) or `#run_task:N`. Guide: [`docs/plan_mode.md`](docs/plan_mode.md). `/wide` can fan out design alternatives.
+
 ---
 
 ## Security Mode
@@ -150,8 +155,9 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 | Command | What happens |
 |---------|----------------|
 | `/rewind` `/fork` `/replay` `/pr` | Undo, clone+worktree, re-run, open a PR |
+| `/wide` | Isolated design alternatives, then a shortlist |
 | `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
-| `/compact` | Summarize and continue |
+| `/compact` | Summarize and continue (auto at 80–95%) |
 | `/security` | Security Mode (if entitled) |
 
 ```bash
@@ -186,14 +192,16 @@ Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 | Claude Sonnet 5 / Opus 5 | Anthropic | 1M | Adaptive thinking |
 | Claude Fable 5.1 | Anthropic | 1M | Adaptive thinking |
 | GPT-6 Astra / GPT-5.6 Sol · Terra · Luna | OpenAI | 1.05M | |
-| GLM-5.3 / Flash | Z.ai | 1M | |
-| Kimi K3 | Moonshot | 1M | |
-| MiniMax M3 | MiniMax | 512K | |
-| DeepSeek V4 Flash / Pro | DeepSeek | 1M | |
+| GLM-5.3 / Flash | Z.ai | 1M | Effort low/high/max |
+| Kimi K3 | Moonshot | 1M | Effort low/medium/high |
+| MiniMax M3 | MiniMax | 512K | Images. No effort picker |
+| DeepSeek V4 Flash / V4.1 Flash / Pro | DeepSeek | 1M | Effort picker. V4.1 Flash is multimodal |
 | Gemma 4 | Google | 256K | Free |
 | Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
 
 **Sense Mode:** `/sense` for full context at higher per-token rates.
+
+Reasoning effort does not change the credit rate. Higher effort costs more only when the model generates more tokens.
 
 1 credit = $0.04. Local tools are $0 extra.
 

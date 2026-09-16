@@ -1,3 +1,59 @@
+## v0.3.10
+
+### Core
+- `/wide` runs isolated design alternatives and a critic shortlist. Enter locks a pick; Esc keeps the report. Plan Mode design can use the same flow.
+- Plan Mode Run All executes disjoint tasks in parallel. Dependents start when they unblock. Branch-Verify runs once.
+- Sub-agents can run as a graph: independent calls still fan out in one message; a finished leaf can unblock the next while others keep running.
+- Later turns recap older work instead of replaying full tool dumps. Chat history is unchanged.
+- Designer builds, restyles, audits, and studies UI. It follows DESIGN.md and still refuses fake stats and theme packs.
+- The project graph stays current after writes. `code_map` can show callers, map, blast radius, and index.
+- Reasoning effort no longer changes the credit rate. Higher effort costs more only when the model generates more tokens.
+- GLM-5.3, GLM-5.3 Flash, Kimi K3, and DeepSeek V4 / V4.1 Flash / Pro expose a reasoning-effort picker. MiniMax M3 still has none.
+
+### TUI
+- `/wide` opens a shortlist dialog from the slash command and the command palette.
+- Restore mouse clicks and wheel on Windows.
+- Running sub-agents stay compact (name plus Sensing) until they finish.
+
+### CLI
+- Intel macOS Homebrew installs at `/usr/local/bin/sensai-cli` are classified as Homebrew.
+
+## v0.3.9
+
+### Core
+- Builtin Designer sub-agent for web UI. The coder routes landings and restyles there instead of inventing a theme pack.
+- Craft gate: after writes, scan the lines this turn changed for stubs, fake metrics, and template-UI tells.
+- Faster ranked codebase search. Code map builds in the background.
+- New tools: `question` (ask you in a dialog), `skill` (load a SKILL.md on demand), `lsp_replace_symbol`.
+- Other-assistant kits (CLAUDE.md, `.grok/`, `.claude/`, `.cursor/`, …) are not auto-loaded. An import dialog copies them into `SENSAI.md` and `.sensai/` (`/create-sensai`).
+- Credits and Sensing clear as soon as the model reply finishes, instead of holding the spinner through auto-diagnose.
+- Sense Engineer packing is allowlisted so reads, edits, diffs, and LSP source stay byte-exact.
+- `sensai-cli acp` streams session updates, tool permissions, catalog, and credits so the IDE never sends a raw JWT to the proxy.
+
+### TUI
+- Bang mode: prefix a prompt with `!` to run a local shell command without an LLM turn.
+- Drop the cycling scramble animation while the agent is working.
+- `ctrl+y` toggles yolo. `ctrl+end` jumps to the bottom and follows.
+
+### CLI
+- `sensai-cli run --reasoning-effort` sets effort for that invocation.
+- Piped or chained `run_shell` always prompts. Reads of `.env` / `.env.*` are blocked (examples and samples still allowed).
+
+## v0.3.8
+
+### Core
+- Code Mode delegates: explore/research/review todos go to read-only sub-agents; install/redesign/implement slices go to writable named agents. The TUI Agents panel shows each run.
+- Add **DeepSeek V4.1 Flash** (Ollama Cloud, 1M context, multimodal).
+- Enable Anthropic prompt cache on Claude via Bedrock so consecutive Fable/Sonnet/Opus turns can hit cache.
+- Re-encode pasted images as JPEG so Claude on Bedrock can read Windows clipboard screenshots.
+
+### TUI
+- Clipboard and file images are flattened to JPEG. Each paste is named `paste_2.png`, `paste_3.png`, … instead of repeating `paste_1.png`.
+- Mouse clicks hit the chat list again. The update dialog shows after splash instead of being dropped.
+
+### CLI
+- Refuse a second installer on the same machine (`irm`/`curl` vs npm) so PATH does not mix two `sensai-cli` copies.
+
 ## v0.3.5
 
 ### Core

@@ -3,7 +3,7 @@
 Plan Mode is SensAI's spec-driven planning workflow. It breaks complex work
 into three sequential phases — Requirements, Design, and Tasks — each
 requiring explicit approval before proceeding. Once all phases are approved,
-tasks can be executed automatically or one at a time.
+independent tasks run in parallel; dependents start when they unblock.
 
 ## Entering Plan Mode
 
@@ -26,13 +26,17 @@ and acceptance criteria.
 
 Based on the approved requirements, the agent produces a technical design
 document with Mermaid diagrams for architecture, data flow, and component
-relationships. Includes a TDD plan.
+relationships. Includes a TDD plan. `/wide` can fan out isolated
+alternatives and open a shortlist; Enter locks a pick, Esc keeps the
+report.
 
 ### Phase 3: Tasks
 
 Based on the approved design, the agent creates a granular task breakdown.
-Each task references specific files, includes estimated complexity, and
-lists dependencies.
+Each task lists **Owns** (files it may change), **Needs** (task numbers
+that must finish first), **Verify** (that leaf's test command, not the
+whole repo), and **Tier** (`judgment` or `mechanical`). A **Branch-Verify**
+line at the end is the whole-project check, run once.
 
 ## Approval Flow
 
@@ -67,8 +71,10 @@ options:
 
 ### Run All
 
-Executes every task sequentially. The task progress bar appears in the TUI
-showing status icons for each task:
+Executes ready tasks in parallel when they own disjoint files. A finished
+task unblocks its dependents immediately; overlapping Owns stay sequential.
+Each leaf runs only its Verify command; Branch-Verify runs once at the end.
+The task progress bar appears in the TUI showing status icons for each task:
 
 ```
  ████████░░░░░░░░ 3/8
@@ -117,6 +123,7 @@ tasks are tracked and cannot be re-run.
 |------------|------------------------------------------------|
 | `/plan`    | Switch to Plan Mode                            |
 | `/approve` | Approve the current plan phase                 |
+| `/wide`    | Isolated design alternatives, then a shortlist |
 
 ## CLI Subcommands
 
