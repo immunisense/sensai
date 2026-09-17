@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.3.10-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.3.11-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -156,6 +156,8 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 |---------|----------------|
 | `/rewind` `/fork` `/replay` `/pr` | Undo, clone+worktree, re-run, open a PR |
 | `/wide` | Isolated design alternatives, then a shortlist |
+| `/profile` | Named model presets (global or this project) |
+| `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
 | `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
 | `/compact` | Summarize and continue (auto at 80–95%) |
 | `/security` | Security Mode (if entitled) |
@@ -169,7 +171,7 @@ sensai-cli run --json "…"
 
 ## Authentication
 
-Browser OAuth. CLI and IDE store tokens in the OS keyring (macOS Keychain, Windows Credential Manager, Linux `libsecret` / `pass`). Web uses an HttpOnly `sensai_session` cookie — never `localStorage`.
+Browser OAuth. CLI and IDE store tokens in the OS keyring (macOS Keychain, Windows Credential Manager, Linux `libsecret` / `pass`). MCP env and header literals use the same keyring — config keeps a reference, not the secret. Web uses an HttpOnly `sensai_session` cookie — never `localStorage`.
 
 ```bash
 sensai-cli auth login

@@ -36,8 +36,8 @@ task is the fallback when no specific task mapping matches.
 | `research`  | Web search, codebase exploration, answering questions         |
 | `planning`  | Plan Mode — requirements, design, and task generation         |
 | `analysis`  | Safe Analysis Mode — read-only codebase exploration           |
-| `review`    | Code review via `/review` or the code-reviewer agent          |
-| `subagent`  | Sub-agent invocations (custom agents, task agent)             |
+| `review`    | Code review via `/review`, `code_review`, or a *review* agent |
+| `subagent`  | Fallback for spawned sub-agents when no more specific task matches |
 
 Each task mapping includes:
 
@@ -61,12 +61,16 @@ Ctrl+P → "Manage Profiles"
 
 1. Type `/profile` to open the dialog
 2. Press `n` or select "+ New profile"
-3. Enter a profile name and press `Enter`
-4. The task editor opens with all task types listed
-5. Use `↑`/`↓` to navigate tasks
-6. Press `Enter` to cycle through available models for the selected task
-7. Press `x` to clear a task mapping (reverts to default fallback)
-8. Press `s` to save the profile
+3. Press `Tab` to choose **Global** (all projects) or **Project**
+   (this workspace)
+4. Enter a profile name and press `Enter`
+5. The task editor opens with all task types listed
+6. Use `↑`/`↓` to navigate tasks
+7. Press `Enter` to cycle through available models for the selected task
+8. Press `Tab` to cycle reasoning effort for the selected task's model
+   (no-op when the model has no effort picker)
+9. Press `x` to clear a task mapping (reverts to default fallback)
+10. Press `s` to save the profile
 
 The default task is pre-populated with your current model. Other tasks
 show "(uses default)" until you assign a specific model.
@@ -81,14 +85,26 @@ show "(uses default)" until you assign a specific model.
 
 ## Automatic Task Routing
 
-When a profile is active, SensAI automatically applies the right model
-based on the current context:
+When a profile is active, SensAI applies the right model on every turn
+and whenever you switch modes:
 
-- Switching to Code Mode (`Shift+Tab` or default) applies the `coding`
-  task model
-- Switching to Plan Mode (`/plan` or `Shift+Tab`) applies the `planning`
-  task model
+- Code Mode and Design Mode apply the `coding` task model
+- Plan Mode applies the `planning` task model
+- Chat Mode applies the `research` task model
+- Analyze Mode and Security Mode apply the `analysis` task model
+- `/review` (and Code Review in the command palette) applies the `review`
+  task model for that turn
+- Spawned sub-agents pick a task from what they do, without changing
+  the parent model: `explore` / `scout` / default `task` → `research`;
+  `designer` and other writable agents → `coding`; `code_review` and
+  *review* agents → `review`; *plan* / *analy* in the name →
+  `planning` / `analysis`. If that task is unmapped, `subagent` is used,
+  then `default`
 - If no specific task mapping exists, the `default` model is used
+
+Saving or activating a profile applies the current mode's mapping
+immediately. Picking a model from `/model` deactivates the profile so
+the one-off choice is not overwritten.
 
 The editor info bar shows the active profile name at the end:
 `Code · Grok Build · daily-driver`
@@ -97,8 +113,13 @@ Switching to Plan Mode: `Plan · Grok 4.5 · Medium · daily-driver`
 
 ## Configuration
 
-Profiles are stored in the global config (`~/.sensai/config.toml`) under
-the `profiles` array and `active_profile` key.
+Global profiles are stored in the user data config
+(`~/.local/share/sensai/sensai.json` on Unix,
+`%LOCALAPPDATA%\sensai\sensai.json` on Windows). Project profiles are
+stored in the workspace file (`.sensai/sensai.json`) and apply only in
+that repo. A project profile that is active wins over a global one.
+
+Each file has a `profiles` array and an `active_profile` key.
 
 ### Example: Multi-Model Profile
 
@@ -221,7 +242,16 @@ Retired IDs still resolve: `grok-code-fast` → `grok-build-0.1`; `grok-4-1-fast
 | `e`        | Edit tasks for selected profile |
 | `d`        | Delete selected profile         |
 | `Esc`      | Close dialog                    |
-| Type       | Filter by name or model         |
+| Type       | Filter by name, model, or scope |
+
+### New Profile
+
+| Key        | Action                          |
+|------------|---------------------------------|
+| Type       | Profile name                    |
+| `Tab`      | Toggle Global / Project         |
+| `Enter`    | Continue to task editor         |
+| `Esc`      | Cancel and return to list       |
 
 ### Task Editor
 
@@ -229,6 +259,7 @@ Retired IDs still resolve: `grok-code-fast` → `grok-build-0.1`; `grok-4-1-fast
 |------------|---------------------------------|
 | `↑` / `↓`  | Navigate task types            |
 | `Enter`    | Cycle model for selected task   |
+| `Tab`      | Cycle reasoning effort          |
 | `x`        | Clear task (use default)        |
 | `s`        | Save profile                    |
 | `Esc`      | Cancel and return to list       |

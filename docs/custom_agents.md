@@ -60,7 +60,10 @@ changes."
 
 Each agent invocation:
 - Gets its own session (visible in session history)
-- Runs with the active model (inherits your current model selection)
+- Runs with the profile task for that job when a profile is active
+  (`explore`/`scout` → research, `designer` → coding, `code_review`
+  → review); otherwise inherits the current model. The parent stays
+  on its own mapping
 - Has access to read-only tools by default (search, read, list)
 - With `writable: true`, gets write/shell tools and runs in an isolated
   git worktree (pass `local: true` on the agent tool to use HEAD). The

@@ -52,6 +52,11 @@ timeout = 30
 GITHUB_PERSONAL_ACCESS_TOKEN = "${GITHUB_TOKEN}"
 ```
 
+The TUI **Add MCP Server** dialog (Manage MCP Servers → `a`) can set env vars
+for stdio servers and headers for HTTP/SSE servers. Literal values (API keys)
+are stored in the OS keyring; `$VAR` / `${VAR}` stay in config and resolve at
+runtime. Config never writes the secret itself.
+
 ### HTTP Server
 
 ```toml
@@ -80,8 +85,8 @@ url = "http://localhost:3000/mcp"
 | `command`       | string   | —       | Command to run (stdio only)                    |
 | `args`          | []string | —       | Command arguments (stdio only)                 |
 | `url`           | string   | —       | Server URL (sse/http only)                     |
-| `env`           | map      | —       | Environment variables (supports `${VAR}`)      |
-| `headers`       | map      | —       | HTTP headers (sse/http, supports `${VAR}`)     |
+| `env`           | map      | —       | Stdio env vars. `$VAR` interpolates; literals added from the TUI/CLI are stored in the OS keyring |
+| `headers`       | map      | —       | HTTP headers (sse/http). Same `$VAR` / keyring rules as `env` |
 | `timeout`       | int      | 15      | Connection timeout in seconds                  |
 | `disabled`      | bool     | false   | Disable without removing                       |
 | `disabled_tools`| []string | —       | Tools to hide from the agent                   |
@@ -98,9 +103,14 @@ Add a new MCP server.
 # Basic stdio server
 sensai-cli mcp add github npx -y @modelcontextprotocol/server-github
 
-# With environment variables
+# With environment variables (the token is stored in the OS keyring).
+# Prefer the TUI Add dialog when pasting keys so they never hit shell history.
 sensai-cli mcp add github npx -y @modelcontextprotocol/server-github \
   --env GITHUB_PERSONAL_ACCESS_TOKEN=ghp_xxx
+
+# Keep a value as a runtime interpolation instead of keyring
+sensai-cli mcp add github npx -y @modelcontextprotocol/server-github \
+  --env GITHUB_PERSONAL_ACCESS_TOKEN='$GITHUB_TOKEN'
 
 # HTTP server with auth header
 sensai-cli mcp add my-api --type http \
@@ -142,6 +152,8 @@ sensai-cli mcp status
 # Detailed info for one server
 sensai-cli mcp status github
 ```
+
+`mcp status` lists env and header **names** only, never values.
 
 Example output:
 
@@ -291,8 +303,8 @@ docker mcp version
 
 ## Environment Variable Resolution
 
-Config values support `${VAR}` syntax for environment variable
-interpolation:
+Config values support `$VAR` and `${VAR}` interpolation, including inside
+header values like `Bearer ${API_TOKEN}`:
 
 ```toml
 [mcp.github.env]
@@ -303,6 +315,14 @@ Authorization = "Bearer ${API_TOKEN}"
 ```
 
 Variables are resolved at runtime from your shell environment.
+
+When you add a **literal** secret from the TUI or `sensai-cli mcp add --env`
+/`--header`, SensAI stores the value in the OS keyring (macOS Keychain,
+Windows Credential Manager, or Linux `libsecret`/`pass`, with the same
+file-keyring fallback used for login). The config file keeps a
+`sensai:mcp:…` reference, not the secret. Deleting the server (TUI `x` or
+`sensai-cli mcp remove`) or running `sensai-cli uninstall` removes those
+keyring items.
 
 ## Troubleshooting
 

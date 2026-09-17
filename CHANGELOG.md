@@ -1,3 +1,27 @@
+## v0.3.11
+
+### Security
+- MCP API keys and other env/header literals entered in the TUI or `sensai-cli mcp add` are stored in the OS keyring. Config keeps a reference, not the secret. Delete/uninstall removes the items.
+
+### Core
+- Grok 4.3 / 4.6 tool turns stream Edit, View, and other function-call arguments as they arrive.
+- Gemini 3.8 Flash continues after the first tool call instead of stopping with the To-Do stuck on "Waiting for tool response…"
+- Queued prompts (text + image) run as the next turn after the agent finishes. They no longer get swallowed mid-stream.
+
+### TUI
+- Click chrome to act: editor clicks place the caret; credits, sessions, agent tabs, and split are clickable. `/cost` `/context` `/sessions` `/split` are first-class, and a persistent meter sits on the status line.
+- Add MCP Server can set env vars (stdio) or headers (HTTP/SSE). Values are masked while typing; `$VAR` stays visible. Literals go in the OS keyring.
+- Profiles apply on save, activate, mode switch, and each send. Chat uses `research`, `/review` uses `review`, Code/Design use `coding`, Plan uses `planning`, Analyze/Security use `analysis`. A manual `/model` pick deactivates the profile so the next turn is not snapped back.
+- Edit Tasks (`/profile` then `e`): `Enter` still cycles models, `Tab` cycles that model's effort levels.
+- New profiles can be Global (all projects) or Project (this workspace). `Tab` on the name prompt toggles the scope; a project profile that is active wins over a global one.
+- Spawned sub-agents use the profile task for the job (`explore`/`scout` → research, `designer` → coding, `code_review` → review).
+- Show `credits used` on the assistant info line after a finished turn.
+- Agents always use the tree (`▾ Agents` plus Sensing / completed rows), including when only the main agent is running.
+- Edit, View, Write, apply_patch, search, and shell rows show the file/path/diff as soon as arguments stream. In-progress Grok reasoning stays collapsed to Thinking...
+
+### CLI
+- `sensai-cli mcp add --env` / `--header` store literal values in the OS keyring and keep `$VAR` interpolations in config. `mcp remove` and `sensai-cli uninstall` delete those secrets. `mcp status` lists env/header **names** only.
+
 ## v0.3.10
 
 ### Core
