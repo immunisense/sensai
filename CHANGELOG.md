@@ -1,3 +1,36 @@
+## v0.4.0
+
+### Security
+- Fix a permission-prompt bypass in `run_shell`: a redirect on a safe-listed command (`env > secrets.txt`, `echo x >> ~/.bashrc`, `git log --output=/tmp/x`) ran with no prompt. The read-only check is now an allow-list over the command shape.
+- Cancelling a tool call now kills the whole process tree, not just the direct child.
+- Security Mode Sense Protocol v1.2: coverage-led hunt (focused vs full, quick/standard/deep), candidate gate with `confirmed` / `needs_validation` / `rejected` / `hardening`, and independent read-only hunters and verifiers. Still no write, shell, MCP, or exploit payloads.
+
+### Core
+- A model that emits malformed tool-call JSON no longer bricks the session. The bad input is stored as `{}` while the model still receives the validation error and self-corrects.
+- Content-filter refusals are visible. When the provider stops a response, the turn shows a `DECLINED` line with the reason and a hint to rephrase.
+- Provider retries are logged instead of silently spinning.
+- Shell commands cannot hang on a terminal that is not there: git editor and pager defaults fail fast.
+- Compacted sessions load only the post-summary tail instead of decoding the whole history on every turn.
+- `wait_agent` timeout is a poll, not a failure: a short timeout no longer shows ERROR "context deadline exceeded" or cancels in-flight sub-agents.
+- Long reasoning turns on Grok 4.6 and other reverse-proxied models no longer die with "the model took too long to respond" while the model is still thinking.
+
+### TUI
+- Mouse in the Sessions, Switch Model, and Commands dialogs: the wheel scrolls the list, a click selects a row, and clicking the highlighted row activates it.
+- Shell rows show the command with bash syntax highlighting, and a redundant `cd <cwd> &&` prefix is hidden for display only.
+- Expanding a long reasoning chain shows only its last 60 lines with an `… N earlier lines hidden` note.
+- When the browser cannot be opened for sign-in, the welcome dialog keeps the link and `u` copies it to the clipboard. The quit dialog notes that ctrl+c twice skips the confirmation.
+- Select folders as `@` context with Enter/Tab: folder rows attach a removable, ignore-aware file tree, with file contents read on demand.
+- Make `@` context matches readable on selected rows: gold selection marker, filename-preserving truncation, keyboard hints, and an explicit empty state.
+- Stop repeating the credit balance (and Working / this-turn) on the status meter. Live turn cost stays on the editor info bar.
+- Quieter chrome: dialogs drop the title rule and gradient and dim the live UI behind them. The landing page shows the wordmark, version, tagline, cwd, model, quick actions, and recent sessions.
+- Streaming no longer stutters: agent events are coalesced, the chat list caches item heights, and the sidebar renders from a cache.
+- Nothing blocks the UI: rule-file discovery, the plan design board, the shell sandbox label, and session transcripts load in the background.
+- Context % has one source of truth in the header, sidebar, and status meter.
+- Credits stay honest: optimistic spend is a display overlay, a 402 refetches the balance, and per-turn `credits used` lands on the session that ran it.
+- Layout fixes: the last input line is never clipped; nested tool rows are cancelled with their parent; terminals under 40×14 show a resize hint.
+- Design pass: gold is focus/brand only, one braille spinner, ` · ` separators, the editor prompt is `›` (`!` in yolo), and tool rows use friendly verbs (Shell, Read, Edit, Search…).
+- Sidebar diet: a top card followed by Files / LSP / MCP when present, and Sessions / History / Map / Skills / Rules behind a collapsed header.
+
 ## v0.3.11
 
 ### Security

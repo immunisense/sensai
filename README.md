@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.3.11-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.0-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -127,7 +127,7 @@ flowchart TD
 | **Chat** | `/chat` or [web](https://sensai.immunisense.com/chat) | Conversation only. No tools. |
 | **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only in a throwaway worktree. |
 | **Design** | `/design` | Architecture / DESIGN.md. No shell. |
-| **Security** | `/security` | Sense Protocol hunt. Read-only. Sense Pro + security add-on. |
+| **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Sense Pro + security add-on. |
 
 `Shift+Tab` cycles Code ↔ Plan. Analyze and Security are explicit so you cannot drop into a write mode by accident.
 
@@ -137,14 +137,25 @@ Plan Mode: Requirements → Design → Tasks, each with a TUI approval dialog. T
 
 ## Security Mode
 
-Class-by-class defensive hunt. Same contract on every catalog model.
+Gated Sense Protocol v1.2. Coverage-led defensive hunt that is **the same contract on every catalog model** — Grok, Claude, GPT, GLM, DeepSeek. Focused review of one surface, or a full audit (`quick` / `standard` / `deep`).
 
 ```text
-SCOPE → RECON → MAP → HUNT → VALIDATE → REPORT
-                         7-question gate
+SCOPE → RECON → COVERAGE → HUNT → REFUTE → CRITIC → REPORT
+                                 │
+                    independent verifier (not the hunter)
+                    7-question gate — one NO = not confirmed
 ```
 
-AuthZ, JWT, injection, SSRF, secrets, path traversal, XSS, CSRF, uploads, business logic, OAuth, supply chain, LLM/MCP, billing integrity, admin authz — **file:line evidence, no exploit payloads**.
+A finding is a trust-boundary failure with a named principal and result — not a checklist miss. Verdicts: `confirmed` (severity), `needs_validation` (named blocker, no severity), `rejected`, `hardening`. No exploit payloads. No live probing.
+
+| Hunt classes (skip with a one-line reason if the stack has no such surface) |
+|---|
+| AuthZ / IDOR / tenant bind · JWT / crypto · AuthN / MFA / session · OAuth |
+| Injection · XSS (source and sink) · SSRF · Path traversal · Secrets |
+| LLM / tools / MCP (action binding, confused deputy, metadata-as-policy) |
+| Data lifecycle · Billing / credits · Supply chain · Business logic |
+
+Read-only tools: `code_map`, `search_code`, `scan_secrets`, LSP, `ast_search`, plus read-only `agent` / `wait_agent` for class hunters and independent verifiers. Writable named agents are rejected. Write and shell stay blocked until a fix phase is approved.
 
 Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 
