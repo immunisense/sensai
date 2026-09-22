@@ -100,11 +100,31 @@ and whenever you switch modes:
   *review* agents → `review`; *plan* / *analy* in the name →
   `planning` / `analysis`. If that task is unmapped, `subagent` is used,
   then `default`
+- A model pinned to an agent by name (`agents.<id>`, see below) wins
+  over that agent's task
 - If no specific task mapping exists, the `default` model is used
 
 Saving or activating a profile applies the current mode's mapping
 immediately. Picking a model from `/model` deactivates the profile so
 the one-off choice is not overwritten.
+
+The `credits used` line of a turn covers every agent that worked for it:
+the main agent's steps plus each sub-agent run at the model and effort
+the profile routed it to.
+
+### Agent pins
+
+`agents` maps a sub-agent id (`explore`, `scout`, `designer`, `task`, or
+the file name of a `.sensai/agents` agent) to a model. It is edited in
+SensAI IDE (Configuration › Profiles, "By agent"); the TUI dialog keeps
+pins it does not show.
+
+```toml
+[profiles.agents.designer]
+provider = "xai"
+model = "grok-4.7"
+reasoning_effort = "high"
+```
 
 The editor info bar shows the active profile name at the end:
 `Code · Grok Build · daily-driver`
@@ -211,8 +231,10 @@ All models in a profile must be from the live catalog:
 | `grok-4.3` | Grok 4.3 | Reasoning |
 | `grok-4.5` | Grok 4.5 | Reasoning |
 | `grok-4.6` | Grok 4.6 | Reasoning |
+| `grok-4.7` | Grok 4.7 | Reasoning |
 | `claude-sonnet-5` | Claude Sonnet 5 | Reasoning |
 | `claude-opus-5` | Claude Opus 5 | Reasoning |
+| `claude-opus-5-5` | Claude Opus 5.5 | Reasoning (default medium) |
 | `claude-fable-5.1` | Claude Fable 5.1 | Reasoning |
 | `gpt-6-astra` | GPT-6 Astra | Reasoning |
 | `gpt-5.6-sol` | GPT-5.6 Sol | Reasoning |
@@ -278,7 +300,7 @@ you can add task-specific mappings on top.
   that doesn't match a specific task type.
 - Use fast, cheap models for `coding` and `subagent` — these run
   frequently and burn the most credits.
-- Reserve flagship models (`grok-4.6`, `grok-4.5`) for `research` and
+- Reserve flagship models (`grok-4.7`, `grok-4.6`, `grok-4.5`) for `research` and
   `planning` where deep reasoning pays off.
 - Sense mode is independent of profiles. Toggling `/sense` applies to
   whichever model is active for the current task.

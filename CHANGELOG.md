@@ -1,3 +1,35 @@
+## v0.4.1
+
+### Security
+- The public site sends a browser-isolation set (content security policy, referrer and permissions policies, and cross-origin isolation headers) on pages, assets, and redirects. Login and status pages no longer load fonts from Google.
+
+### Web
+- Chat is a full-bleed cockpit. Signed-in Chat, Account, Pricing, and Docs use a left app rail; the empty state is a headline plus composer; suggestions are quiet pills. Gold stays on the mark and Send.
+- The immunisense gold shield on a Pepper tile is the SensAI mark in the app rail and the favicon.
+- Pricing lists all six plans with the canonical credit table, catalog, and what every plan includes. Hosted docs cover install, modes, Sense Mode vs Security Mode, CLI, and credits.
+
+### TUI
+- Agent rows say who and what: each running sub-agent shows its real name and its current activity (`code-reviewer · Shell 18s`). Only the main agent keeps the Sensing verb.
+- Sidebar section headers (Skills, Map, Sessions, History, Rules) open and close on click instead of blinking.
+- The sidebar shows context usage once, as the Context bar. The old percentage line under the model name is gone.
+- Security Mode is discoverable when locked: `/security` and the palette entry stay listed and explain that the mode needs Sense Pro or Sense Ultra plus the Security add-on. Sense Ultra now qualifies.
+
+### Billing
+- Grok prices are USD per 1M tokens. A prompt over 200K uses the long-context card for every token in the request; 200K itself stays on the short card. Grok 4.7 and Grok 4.6 are $2 / $0.50 / $6 up to 200K and $4 / $1 / $12 above. Grok 4.5 is $2 / $0.30 / $6 and $4 / $0.60 / $12. Grok 4.3 is $1.25 / $0.20 / $2.50 and $2.50 / $0.40 / $5. Grok Build uses the same split on its 256K window ($1 / $0.20 / $2, then $2 / $0.40 / $4).
+- `credits used` on a turn includes every sub-agent that worked on it, at the model and effort that run actually used. Kimi K3 cache writes bill at $3.75 per 1M.
+
+### Core
+- Add **Grok 4.7** (`grok-4.7`). Paid tiers, image input, 500K context, reasoning low through xhigh. Same short-context token rates as Grok 4.6.
+- Add **Claude Opus 5.5** (`claude-opus-5-5`). Paid tiers, image input, 1M context, adaptive thinking default medium.
+- Profiles can pin a model to a named sub-agent. The pin wins over that agent's task. SensAI IDE edits pins; the TUI keeps pins it does not show.
+- `disabled: true` on an agent, or `[options] disabled_agents`, keeps the agent listed and blocks invocation.
+- Long replies from Claude and GPT models no longer stop at 16K output tokens. The cap now derives from the model's context window.
+- SensAI IDE and SensAI-Agent can reopen any stored session (including TUI sessions), show context usage, restore a checkpoint, and request an inline completion. A reply cut at the output cap is reported instead of ending silently. Security Mode fails with a clear not-entitled error when the add-on is missing. Editors can also see when the monthly credit allocation resets.
+- Editors can list MCP server status and reconnect one, and can view or edit merged configuration (servers, hooks, and disabled rules, skills, and agents). Literal secrets stay in the OS keyring.
+- Editors can list, save, and activate profiles, including per-agent pins.
+- The agent tool's not-found error names the registered sub-agents so the model can pick a real one.
+- Session updates carry what an editor needs to render a turn faithfully: message boundaries, parallel sub-agents, and usage after every step.
+
 ## v0.4.0
 
 ### Security

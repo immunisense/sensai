@@ -79,7 +79,7 @@ Each agent invocation:
 
 ### AI-Powered Creation (Paid Tiers)
 
-On Pro, Ultra, Sense, or Sense Pro tiers, `sensai-cli agents create` uses
+On Pro, Ultra, Sense, Sense Pro, or Sense Ultra tiers, `sensai-cli agents create` uses
 `grok-4.3` to generate a complete agent definition from your
 description. You provide a name and a short description of what the agent
 should do — SensAI generates the full system prompt with detailed

@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.0-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.1-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -127,7 +127,7 @@ flowchart TD
 | **Chat** | `/chat` or [web](https://sensai.immunisense.com/chat) | Conversation only. No tools. |
 | **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only in a throwaway worktree. |
 | **Design** | `/design` | Architecture / DESIGN.md. No shell. |
-| **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Sense Pro + security add-on. |
+| **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Sense Pro or Sense Ultra + security add-on. |
 
 `Shift+Tab` cycles Code ↔ Plan. Analyze and Security are explicit so you cannot drop into a write mode by accident.
 
@@ -167,7 +167,7 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 |---------|----------------|
 | `/rewind` `/fork` `/replay` `/pr` | Undo, clone+worktree, re-run, open a PR |
 | `/wide` | Isolated design alternatives, then a shortlist |
-| `/profile` | Named model presets (global or this project) |
+| `/profile` | Named model presets (global or this project), with optional per-agent model pins |
 | `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
 | `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
 | `/compact` | Summarize and continue (auto at 80–95%) |
@@ -198,11 +198,13 @@ Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 
 | Model | Provider | Context | Notes |
 |-------|----------|---------|-------|
-| Grok Build | xAI | 256K | Free |
-| Grok 4.5 | xAI | 500K | Sense ≥200K |
-| Grok 4.3 | xAI | 1M | Sense ≥200K |
-| Grok 4.6 | xAI | 500K | Sense ≥200K |
+| Grok Build | xAI | 256K | Free. Above 200K at 2× |
+| Grok 4.5 | xAI | 500K | Above 200K at 2× |
+| Grok 4.3 | xAI | 1M | Above 200K at 2× |
+| Grok 4.6 | xAI | 500K | Above 200K at 2× |
+| Grok 4.7 | xAI | 500K | Above 200K at 2× |
 | Claude Sonnet 5 / Opus 5 | Anthropic | 1M | Adaptive thinking |
+| Claude Opus 5.5 | Anthropic | 1M | Adaptive thinking, default medium |
 | Claude Fable 5.1 | Anthropic | 1M | Adaptive thinking |
 | GPT-6 Astra / GPT-5.6 Sol · Terra · Luna | OpenAI | 1.05M | |
 | GLM-5.3 / Flash | Z.ai | 1M | Effort low/high/max |
@@ -212,7 +214,7 @@ Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 | Gemma 4 | Google | 256K | Free |
 | Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
 
-**Sense Mode:** `/sense` for full context at higher per-token rates.
+**Sense Mode:** `/sense` for full context at the long-context per-token rate. Prices are per 1M tokens. On Grok, a prompt over 200K uses that higher rate for every token in the request. A 500K window does not make the listed rate the price of the whole prompt.
 
 Reasoning effort does not change the credit rate. Higher effort costs more only when the model generates more tokens.
 
@@ -224,16 +226,16 @@ Reasoning effort does not change the credit rate. Higher effort costs more only 
 
 **tier → bonus → top-up**. HTTP 402 opens subscribe or top-up. Same ledger on CLI, IDE, Agent, and web.
 
-| Tier | Price | Monthly credits |
-|------|-------|-----------------|
-| Free | $0 | 50 |
-| Pro | $20 | 500 |
-| Ultra | $40 | 1,250 |
-| Sense | $100 | 3,500 |
-| Sense Pro | $200 | 7,500 |
-| Sense Ultra | $400 | 16,000 |
+| Tier | Price | Monthly credits | Access |
+|------|-------|-----------------|--------|
+| Free | $0 | 50 | Grok Build + Gemma 4. Grok Build is 256K; prompts over 200K are 2× |
+| Pro | $20 | 500 | All models + all reasoning + Sense context |
+| Ultra | $40 | 1,250 | Same catalog, higher allocation |
+| Sense | $100 | 3,500 | + priority routing |
+| Sense Pro | $200 | 7,500 | + Security Mode add-on |
+| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode add-on |
 
-Security Mode is a paid add-on on Sense Pro and Sense Ultra.
+Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is a paid add-on on Sense Pro and Sense Ultra. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
 
 ```bash
 sensai-cli credits
