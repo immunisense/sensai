@@ -170,8 +170,11 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 | `/profile` | Named model presets (global or this project), with optional per-agent model pins |
 | `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
 | `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
-| `/compact` | Summarize and continue (auto at 80–95%) |
+| `/compact` | Summarize with Gemma 4 by default, then continue (auto at 80–95%) |
+| `/summarize-model` | Choose that model. **Chat model** keeps the conversation's model |
 | `/security` | Security Mode (Sense, Sense Pro, and Sense Ultra) |
+
+`/compact` and automatic summarization use `[options] summarize_model` (default `gemma-4-31b`). Set it to `current` to keep the chat model. The TUI command is `/summarize-model`. In SensAI IDE and SensAI-Agent, **Summarize model** follows that file when left empty.
 
 ```bash
 sensai-cli checkpoints list
@@ -212,7 +215,7 @@ Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 | Kimi K3 | Moonshot | 1M | Effort low/medium/high |
 | MiniMax M3 | MiniMax | 512K | Images. No effort picker |
 | DeepSeek V4 Flash / V4.1 Flash / Pro | DeepSeek | 1M | Effort picker. V4.1 Flash is multimodal |
-| Gemma 4 | Google | 256K | Free |
+| Gemma 4 | Google | 256K | Free. Default model for `/compact` |
 | Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
 
 **Sense Mode:** `/sense` for full context at the long-context per-token rate. Prices are per 1M tokens. On Grok, a prompt over 200K uses that higher rate for every token in the request. A 500K window does not make the listed rate the price of the whole prompt.

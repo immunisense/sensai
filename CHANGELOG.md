@@ -13,6 +13,7 @@
 - When a model provider fails, chat shows a short message and the session id to quote. The raw upstream error stays with support.
 
 ### TUI
+- `/compact` and automatic summarization use Gemma 4 by default, so the summary costs less than the chat model. `/summarize-model` and the command palette open a picker. **Chat model** keeps the conversation's model. The same choice is `[options] summarize_model` (`gemma-4-31b` or `current`). SensAI IDE and SensAI-Agent use **Summarize model**; leave it empty to follow that file.
 - Security Mode stays listed when locked. On plans that do not include it, `/security` explains that the mode comes with Sense, Sense Pro, or Sense Ultra.
 
 ### Core
