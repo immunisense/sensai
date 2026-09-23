@@ -75,7 +75,7 @@ Every tool invocation passes through the permission service
 - Security Mode (Sense Protocol v1.2) is a separate entitled mode: live
   tree, read-only hunt tools, class hunters with independent verifiers,
   no MCP instruction injection, no write/shell, no exploit payloads.
-  Requires Sense Pro or Sense Ultra plus the `security_mode` add-on. Product findings:
+  Included with Sense, Sense Pro, and Sense Ultra. Product findings:
   security@immunisense.com.
 
 ### MCP Security Controls

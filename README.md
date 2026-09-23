@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.1-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.2-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -127,7 +127,7 @@ flowchart TD
 | **Chat** | `/chat` or [web](https://sensai.immunisense.com/chat) | Conversation only. No tools. |
 | **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only in a throwaway worktree. |
 | **Design** | `/design` | Architecture / DESIGN.md. No shell. |
-| **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Sense Pro or Sense Ultra + security add-on. |
+| **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Included with Sense, Sense Pro, and Sense Ultra. |
 
 `Shift+Tab` cycles Code ↔ Plan. Analyze and Security are explicit so you cannot drop into a write mode by accident.
 
@@ -171,7 +171,7 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 | `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
 | `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
 | `/compact` | Summarize and continue (auto at 80–95%) |
-| `/security` | Security Mode (if entitled) |
+| `/security` | Security Mode (Sense, Sense Pro, and Sense Ultra) |
 
 ```bash
 sensai-cli checkpoints list
@@ -206,7 +206,8 @@ Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 | Claude Sonnet 5 / Opus 5 | Anthropic | 1M | Adaptive thinking |
 | Claude Opus 5.5 | Anthropic | 1M | Adaptive thinking, default medium |
 | Claude Fable 5.1 | Anthropic | 1M | Adaptive thinking |
-| GPT-6 Astra / GPT-5.6 Sol · Terra · Luna | OpenAI | 1.05M | |
+| GPT-6 Astra / Sol / Luna | OpenAI | 1.05M | Sense ≥272K |
+| GPT-5.6 Sol · Terra · Luna | OpenAI | 1.05M | |
 | GLM-5.3 / Flash | Z.ai | 1M | Effort low/high/max |
 | Kimi K3 | Moonshot | 1M | Effort low/medium/high |
 | MiniMax M3 | MiniMax | 512K | Images. No effort picker |
@@ -231,11 +232,11 @@ Reasoning effort does not change the credit rate. Higher effort costs more only 
 | Free | $0 | 50 | Grok Build + Gemma 4. Grok Build is 256K; prompts over 200K are 2× |
 | Pro | $20 | 500 | All models + all reasoning + Sense context |
 | Ultra | $40 | 1,250 | Same catalog, higher allocation |
-| Sense | $100 | 3,500 | + priority routing |
-| Sense Pro | $200 | 7,500 | + Security Mode add-on |
-| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode add-on |
+| Sense | $100 | 3,500 | Security Mode |
+| Sense Pro | $200 | 7,500 | Security Mode + priority routing |
+| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode + priority routing |
 
-Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is a paid add-on on Sense Pro and Sense Ultra. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
+Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is included with Sense, Sense Pro, and Sense Ultra. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
 
 ```bash
 sensai-cli credits

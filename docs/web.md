@@ -38,9 +38,9 @@ Code Mode tools, diffs, worktrees, Plan Mode, and Security Mode stay on the TUI 
 | **Chat** | `/chat` or [web chat](https://sensai.immunisense.com/chat) | Conversation only. No tools |
 | **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only tools in a throwaway git worktree |
 | **Design** | `/design` | Architecture / DESIGN.md. No shell |
-| **Security** | `/security` | Sense Protocol hunt. Sense Pro or Sense Ultra + add-on |
+| **Security** | `/security` | Sense Protocol hunt. Included with Sense, Sense Pro, and Sense Ultra. |
 
-`Shift+Tab` cycles Code → Plan → Chat (Code → Security → Plan → Chat when the Security add-on is active).
+`Shift+Tab` cycles Code → Plan → Chat (Code → Security → Plan → Chat on Sense, Sense Pro, and Sense Ultra).
 
 **Sense Mode** (`/sense`) is full-context pricing on capable models. It is not a subscription tier and it is not Security Mode.
 
@@ -55,9 +55,9 @@ Display is `float64` with two decimal places. Buckets consume in order: **tier �
 | Free | $0 | 50 | Grok Build + Gemma 4. Grok Build is 256K; prompts over 200K are 2× |
 | Pro | $20 | 500 | All models + all reasoning + Sense context |
 | Ultra | $40 | 1,250 | Same catalog, higher allocation |
-| Sense | $100 | 3,500 | + priority routing |
-| Sense Pro | $200 | 7,500 | + Security Mode add-on |
-| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode add-on |
+| Sense | $100 | 3,500 | Security Mode |
+| Sense Pro | $200 | 7,500 | Security Mode + priority routing |
+| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode + priority routing |
 
 Every plan includes the four surfaces, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner.
 

@@ -1,3 +1,34 @@
+## v0.4.2
+
+### Billing
+- Priority routing is Sense Pro and Sense Ultra only. When the proxy is busy, those plans take the next upstream slot, and 32 of 128 in-flight slots stay reserved for them. Sense, Ultra, Pro, and Free wait with everyone else.
+- AI-powered `sensai-cli agents create` is on every plan, including Free. It still spends credits. `--manual` skips the model call.
+- Security Mode is included with Sense, Sense Pro, and Sense Ultra. Pro, Ultra, and Free cannot run it. A separate security grant does not unlock it.
+- Security Mode follows the plan. Checkout turns it on for those Sense plans. A Stripe plan change or cancellation turns it off for Pro, Ultra, and Free, including a session already in Security Mode. Credits are not refilled on that plan change.
+- An upgrade applies immediately. A downgrade, including a cancel that still has time left in the period, keeps the current plan until the period ends.
+
+### Web
+- Chat names the model maker (Z.ai, DeepSeek, Google, xAI) and never the route. The composer has the model, reasoning, and Sense controls.
+- The gold shield shows on register, login, and the landing mark.
+- When a model provider fails, chat shows a short message and the session id to quote. The raw upstream error stays with support.
+
+### TUI
+- Security Mode stays listed when locked. On plans that do not include it, `/security` explains that the mode comes with Sense, Sense Pro, or Sense Ultra.
+
+### Core
+- A model provider failure shows a short message. Upstream dumps stay out of the chat. A conversation that is too long still says so, and SensAI can summarize it.
+- Craft, diagnostics, and tests run inside the turn. The reply is not marked finished while those checks are still going. A clean check does not start another model run. When something fails, one fix pass continues in the same turn.
+- Search outside the workspace asks first. Allow applies to this search, Always allow is saved in SensAI settings, and Deny stops it. Writes stay inside the workspace.
+- `wait_agent` with nothing left to collect is a normal result, not a failed tool call.
+- A Bedrock capacity blip (HTTP 503) is retried instead of ending the turn.
+- A live reply is saved about 30 times a second, and the last slice is still written when the turn finishes. Git status, diff, and log can run alongside other reads.
+- Questions wait for an answer, and only the main agent can ask. Sub-agents do not have the question tool.
+- GPT-5.6 Sol, Terra, and Luna use a 1.05M context window, the same as the rest of the OpenAI family.
+- Add **GPT-6 Sol** (`gpt-6-sol`) and **GPT-6 Luna** (`gpt-6-luna`). Paid tiers, image input, 1.05M context, reasoning none through max (default medium). Prompts over 272K use the long-context rate.
+- Earlier turns in a session are no longer replaced with a lossy recap. Every user and assistant message still goes out. Near the context limit, auto-summarize still opens a continuation session.
+- Editors can send up to four images in a prompt (5 MB each). A model without image input returns an error instead of dropping them.
+- The IDE reply footer shows elapsed time with the credit estimate, including when a session is reopened.
+
 ## v0.4.1
 
 ### Security

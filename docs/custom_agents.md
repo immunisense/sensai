@@ -7,12 +7,12 @@ alongside the main coder agent, with up to 12 running simultaneously.
 ## Quick Start
 
 ```bash
-# AI-powered creation (paid tiers) — just describe what you want
+# AI-powered creation (every plan, spends credits) — describe what you want
 sensai-cli agents create code-reviewer
 # → "What should this agent do?" → "reviews Go code for bugs and performance"
 # → SensAI generates a full agent definition automatically
 
-# Manual creation (all tiers)
+# Manual creation (skip the model call)
 sensai-cli agents create code-reviewer --manual
 
 # List all agents
@@ -77,9 +77,9 @@ Each agent invocation:
 
 ## Creating Agents
 
-### AI-Powered Creation (Paid Tiers)
+### AI-Powered Creation (Every Plan)
 
-On Pro, Ultra, Sense, Sense Pro, or Sense Ultra tiers, `sensai-cli agents create` uses
+On every plan, including Free, `sensai-cli agents create` uses
 `grok-4.3` to generate a complete agent definition from your
 description. You provide a name and a short description of what the agent
 should do — SensAI generates the full system prompt with detailed
@@ -213,10 +213,10 @@ markdown file named `designer.md` overrides the builtin prompt.
 Create a new agent interactively.
 
 ```bash
-# AI-powered (paid tiers — uses grok-4.3, costs credits)
+# AI-powered (every plan — uses the generation model, costs credits)
 sensai-cli agents create code-reviewer
 
-# Manual (all tiers — you write the prompt)
+# Manual (skip the model call — you write the prompt)
 sensai-cli agents create code-reviewer --manual
 
 # Save to global ~/.sensai/agents/ instead of project
