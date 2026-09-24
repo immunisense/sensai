@@ -1,3 +1,15 @@
+## v0.4.3
+
+### Security
+- Chat responses stay data, not a web page. The proxy sends only UTF-8 JSON, event streams, or plain text. HTML, XHTML, SVG, XML, and a non-UTF-8 charset are replaced before the body, and `<`, `>`, and `&` stay escaped.
+
+### Core
+- Sessions do not share a model or mode. Each prompt uses the choices for that session, including when two sessions pick the same model. One session does not change the other.
+- When Claude reports it is overloaded after a reply has already started, SensAI waits and tries again (1s, 2s, 4s, 8s, 16s). If it is still overloaded, the chat says the provider is busy.
+
+### TUI
+- Ctrl+N and the command palette start a new session while another turn is still running. Language servers for that turn stay up.
+
 ## v0.4.2
 
 ### Billing
