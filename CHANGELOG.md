@@ -29,6 +29,7 @@
 - `/pin`, `/unpin`, `/pack`, `/test`, and `/lint` are in the slash list.
 - While a turn is idle, ghost text offers one next prompt (Tab accepts it) and Ctrl+R searches past prompts. The first Ctrl+C still interrupts a running turn.
 - A single-select question can show a preview for the focused option.
+- Reasoning effort can be Auto. `/reasoning auto` (or Auto in the effort picker) picks low, medium, high, or xhigh from the prompt, and only from levels the model exposes. Max stays manual. A lookup does not pay for a deep thinking pass.
 
 ### Web
 - The browser tab shows the gold shield on the public site, the sign-in page, and the status pages.
