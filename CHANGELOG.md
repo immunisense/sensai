@@ -1,3 +1,19 @@
+## v0.4.5
+
+### Core
+- Diagnostics, craft, and tests finish before the summary, in the same reply. A clean run no longer starts a second call that repeats the summary.
+- Stopping a turn, or letting it finish, no longer stays on Sensing because a session title is still generating.
+- A patch the model wrote still applies when git would apply it. A trailing end marker, a missing old-side count, or a header count smaller than the body no longer fails the patch. A header that promises more lines than the body has is still rejected.
+- A Claude conversation on Bedrock recovers from a stale or duplicate tool result instead of failing the turn. A transient busy response waits and tries again.
+
+### Billing
+- Free accounts can select Gemma 4 as well as Grok Build.
+- Security Mode is included with Sense, Sense Pro, and Sense Ultra. Pro, Ultra, and Free stay locked. Priority routing stays Sense Pro and Sense Ultra only.
+
+### TUI
+- The sub-agent transcript opens at the latest line.
+- The model picker NEW badge follows the live catalog. Clearing it in the admin dashboard turns it off in the CLI.
+
 ## v0.4.4
 
 ### Security
