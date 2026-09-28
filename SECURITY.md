@@ -60,7 +60,9 @@ Configurable modes:
 | `off` | Disables scanning. |
 
 Custom patterns can be added alongside the built-in rules. Matched secrets
-are partially redacted in any user-facing output.
+are partially redacted in any user-facing output. A secret printed by a
+command, a fetch, or a file read is masked before it is stored and sent
+back to the model.
 
 ### Permission-Aware Tool Execution
 

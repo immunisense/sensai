@@ -1,3 +1,39 @@
+## v0.4.4
+
+### Security
+- A secret printed by a command, a fetch, or a file read is masked before it is stored and sent back to the model.
+- PowerShell writes stay inside the workspace. Ambiguous or compound commands are rejected.
+- Folder trust needs an exact `/trust yes`. Unrelated text that contains "yes" no longer grants it.
+- Reading a file outside the workspace asks permission for that file. Denied reads and `.env` files stay blocked. Writes stay inside the workspace.
+
+### Core
+- Large context windows compact at 80% used, smaller ones at 95%. After the summary, the agent continues from that session instead of stopping.
+- A missing file, a network error, or a database error goes back to the model as a tool error it can fix. Cancel, a denied permission, a dismissed question, and a credit limit still stop the turn.
+- Tool calls in one message run in the order they were written, so a later edit waits for the reads listed before it.
+- The credit banner matches the ledger: it no longer adds a local tool-call fee the proxy does not charge.
+- Credits count the packed tokens actually sent. A canceled turn bills the steps that finished, including cache, instead of the whole session.
+- Diagnostics, craft checks, and tests finish before the summary. A clean run is reported as passed. A failure starts a fix turn.
+- `!` output joins the session after a secrets scan. A rewrite that stands in for the old file with an ellipsis is refused. `/pin` keeps a file in the prompt and blocks writes until `/unpin`.
+- Edits are checked for syntax, lint, and tests before the turn ends. `/test` and `/lint` run the same checks on demand.
+- Skills load when you use them and run with `/name`. `/skillify` writes a procedure from an interview, not a transcript dump.
+- A hook can add context to a turn or stop it. A failed tool cannot be hidden by a hook. A hook cannot grant a path outside the workspace or turn the sandbox off.
+- The IDE and the CLI refresh a shared login one at a time, so they no longer sign each other out. A network error during refresh no longer counts as signed out.
+- Sense Chat runs the same local slash commands and hooks as the terminal. Restoring a checkpoint can put files back without cutting the chat.
+- `sensai-cli tasks` lists, creates, diffs, and archives isolated worktrees.
+- Signup campaigns and scheduled plan campaigns add bonus credits on their own. Those credits stay through the monthly refill.
+
+### TUI
+- Recent sessions open from the landing page.
+- The context bar shows tokens and the percentage, filled in gold. The bottom bar keeps the model, context, and credit balance.
+- Sub-agent rows name the task. A click opens that run. Only running sub-agents stay in the Agents panel.
+- `/pin`, `/unpin`, `/pack`, `/test`, and `/lint` are in the slash list.
+- While a turn is idle, ghost text offers one next prompt (Tab accepts it) and Ctrl+R searches past prompts. The first Ctrl+C still interrupts a running turn.
+- A single-select question can show a preview for the focused option.
+
+### Web
+- The browser tab shows the gold shield on the public site, the sign-in page, and the status pages.
+- The registration page lists active campaigns that are marked visible. One offer is shown in full. Several collapse into a Promos available banner.
+
 ## v0.4.3
 
 ### Security

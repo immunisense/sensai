@@ -11,7 +11,7 @@ Hosted docs on the same origin: [https://sensai.immunisense.com/docs](https://se
 | Page | Purpose |
 |------|---------|
 | Landing | Product pitch and install commands |
-| Sign in / register | GitHub, Google, or password. TOTP when enrolled |
+| Sign in / register | GitHub, Google, or password. TOTP when enrolled. Visible signup campaigns show on register |
 | Chat | Tool-free conversation through the proxy |
 | Account | Credits (tier / bonus / top-up, two decimal places), subscribe, top-up, billing portal |
 | Pricing | Six plans, catalog, credit buckets, Sense Mode vs Security Mode |

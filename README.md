@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.3-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.4-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -111,8 +111,8 @@ flowchart TD
 |-------|----------------|
 | **Git worktrees** | Analyze and Security never write HEAD. `/fork` binds a sibling tree. |
 | **OS sandbox** | `run_shell` on macOS and Linux. Credential paths denied. |
-| **Path guards** | Tools stay inside the workspace. |
-| **Secrets scanner** | 30+ patterns before a turn leaves the machine. |
+| **Path guards** | Writes stay inside the workspace. A read outside it asks first. |
+| **Secrets scanner** | 30+ patterns before a turn leaves the machine. Tool output is masked before the next step. |
 | **Checkpoints** | `/rewind` restores the last turn. |
 | **Proxy** | All LLM traffic → `https://sensai.immunisense.com`. No raw provider keys. |
 
@@ -166,11 +166,14 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 | Command | What happens |
 |---------|----------------|
 | `/rewind` `/fork` `/replay` `/pr` | Undo, clone+worktree, re-run, open a PR |
+| `sensai-cli tasks` | List, create, diff, and archive isolated worktrees |
 | `/wide` | Isolated design alternatives, then a shortlist |
 | `/profile` | Named model presets (global or this project), with optional per-agent model pins |
 | `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
 | `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
-| `/compact` | Summarize with Gemma 4 by default, then continue (auto at 80–95%) |
+| `/compact` | Summarize with Gemma 4 by default, then continue (auto at 80–95%). The agent resumes from the summary |
+| `/pin` `/pack` | Keep a file in the prompt, or copy a secrets-scanned pack of what this session read |
+| `/test` `/lint` | Run the turn's checks on demand |
 | `/summarize-model` | Choose that model. **Chat model** keeps the conversation's model |
 | `/security` | Security Mode (Sense, Sense Pro, and Sense Ultra) |
 
