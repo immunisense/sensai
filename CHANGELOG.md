@@ -1,3 +1,69 @@
+## v0.4.7
+
+### Security
+- Approving a file outside the workspace approves that file only, not its whole folder.
+- A symlink under `.sensai/plans` cannot redirect plan writes outside the workspace.
+
+### Core
+- `run_shell` with a working directory outside the workspace asks instead of failing.
+- `[permissions] allow_outside_search` covers every outside action: search, read, and shell working directory. When it is on, nothing asks. **Always allow** on any outside prompt turns it on and saves it.
+- An approved outside directory counts as workspace for the rest of the session. Denied or non-interactive runs still refuse.
+- Plan Mode cannot edit project code. Plan turns only write under `.sensai/plans`, in the terminal and in the IDE.
+- The IDE model picker shows the live catalog's NEW badges and credit multipliers on first open.
+
+### Terminal
+- Switching to Plan (Shift+Tab, `/plan`, or the commands palette) makes plan turns read-only, even from Chat or Security.
+- The Sensing spinner writes a braille "S" stroke by stroke, matching the IDE mark.
+- A `todos` update that only sends patches shows the real progress instead of "0/0".
+
+### Web
+- A stopped chat request that finishes late no longer clears the newer request's Stop button.
+
+## v0.4.6
+
+### Models
+- Add **Claude Sonnet 5.5**. Paid tiers, image input, 1M context, adaptive thinking default high.
+- Add **GPT-6.1 Sol**. Paid tiers, image input, 1M context, reasoning none through max (default medium). Prompts over 272K use the long-context rate.
+- Grok 4.7 is $2.20 / $0.55 cached / $6.60 per 1M tokens. A prompt over 200K is twice that, for every token in the request.
+
+### Billing
+- Monthly credits: Pro 450, Ultra 950, Sense 2,400, Sense Pro 5,000, Sense Ultra 10,000. Prices are unchanged.
+- Top-up credits are $0.05. Plan credits stay $0.04. A $10 top-up grants 200 credits.
+
+### Account
+- Sign in with a passkey, as well as email, GitHub, Google, and an authenticator.
+- Turning on two-factor shows 10 backup codes once. `sensai-cli auth mfa backup-codes` and the account page make a new set. A backup code works anywhere an authenticator code does.
+- Create an API key for scripts. It is shown once. It can call chat and read usage.
+- The account page lists signed-in devices and can sign one out.
+- Adding an authenticator, making new backup codes, adding or removing a passkey, creating an API key, or signing out other devices asks you to confirm again.
+- Sign-up always answers "check your email". It does not say whether that address already has an account.
+
+### Plan
+- `/plan` and `sensai-cli plan` survey the code first and write `00-research.md`, then Requirements, Design, and Tasks.
+- Each phase is checked before you approve it: requirement IDs, EARS, diagrams, the task graph, and coverage. Critical findings go back to the agent, up to two rounds, and anything left is shown on the dialog.
+- Tasks can be a JSON block (`id`, `owns`, `needs`, `verify`, `tier`, `covers`). The markdown form still works. Numbered steps inside a task stay in that task.
+- After tasks, the terminal writes `04-graph.md` (waves and critical path) and `05-trace.md` (which requirement each task covers).
+- The approval dialog can edit the file, diff it against the previous revision, and step back a phase. Older revisions are kept.
+- Plan Ready lists every shell command the plan will run. Run All verifies each task in its own worktree before merging. A failed task is retried once.
+- `/plan resume` and `sensai-cli plan resume` continue after a restart. `sensai-cli plan check` runs the same checks.
+
+### Terminal
+- Auto can be the saved reasoning default. `/reasoning auto` and `/default` write `reasoning_level = "auto"`, and new sessions start on Auto.
+- Alt+Enter inserts a newline when Shift+Enter or Ctrl+J does not arrive.
+- The thinking row shows how long reasoning took. Space expands it. GPT-5 and GPT-6 reasoning shows in the terminal and in Sense Chat.
+- The effort picker fits every level. Click a row to select it.
+- Stopping a session also stops its background agents.
+- Clearing a profile returns the chat to your default model.
+
+### CLI
+- `sensai-cli changelog` shows what changed. `/release-notes` shows the same notes. A What's new card appears once after an update. A banner warns when your version is older than a critical or high security fix.
+- `sensai-cli stats tools` reports tool calls, error rate, and edit failures from local sessions.
+
+### Editor
+- Sense Chat closes the thinking block when reasoning finishes and shows how long it took.
+- Two agents can edit the same repo. Edits that do not overlap both land. Overlapping edits are refused and nothing is written.
+- `undo_edit` reverts the last edit. `outline` lists a file's symbols. `check` runs the project checker and reports `file:line`. `git_show` and `git_blame` read history. `pkg_info` shows package versions and known advisories.
+
 ## v0.4.5
 
 ### Core

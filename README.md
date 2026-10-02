@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.5-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.4.7-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -77,8 +77,8 @@ sensai-cli workspace add ../other-repo --name other
 | **Windows** | `irm https://sensai.immunisense.com/install.ps1 \| iex` |
 | **npm** | `npm install -g sensai-cli` |
 | **Web** | [sensai.immunisense.com](https://sensai.immunisense.com/) — chat, credits, subscribe, docs |
-| **SensAI IDE** | Windows installer from [immunisense.com/solutions/sensai](https://immunisense.com/solutions/sensai) |
-| **SensAI-Agent** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide) — VS Code, Cursor, Windsurf |
+| **SensAI IDE** | Windows installer from [immunisense.com/solutions/sensai](https://immunisense.com/solutions/sensai). Guide: [`docs/ide.md`](docs/ide.md) |
+| **SensAI-Agent** | [Marketplace](https://marketplace.visualstudio.com/items?itemName=IMMUNISENSECORP.sensai-ide) — VS Code, Cursor, Windsurf. Same guide |
 
 Pick **one** CLI installer per machine. Mixing `irm`/`curl` with `npm` puts two binaries on PATH.
 
@@ -88,7 +88,19 @@ Installers download checksum-verified binaries from the proxy.
 sensai-cli update    # checksum-verified from the proxy
 ```
 
-The TUI shows **Update now** when a newer version is available.
+The TUI shows **Update now** when a newer version is available. `sensai-cli changelog` shows what changed. Command reference: [`docs/cli.md`](docs/cli.md).
+
+### Uninstall
+
+Full wipe (login, `~/.sensai/`, this binary):
+
+```bash
+sensai-cli uninstall
+```
+
+Remove only the npm copy and keep the login: `npm uninstall -g sensai-cli`.
+
+Remove only the Windows script copy and keep the login: delete `%LOCALAPPDATA%\sensai\bin\sensai-cli.exe`, drop that folder from the user PATH, and delete the `# sensai-cli PATH` block from your PowerShell profile.
 
 ---
 
@@ -103,17 +115,18 @@ flowchart TD
   HEAD[your checkout HEAD]
   HEAD --> A[Analyze / Security<br/>throwaway detached worktree]
   HEAD --> F["/fork sibling session"]
-  HEAD --> W[writing agents isolated worktrees]
+  HEAD --> W["writing agents<br/>.sensai/worktrees — cap 12"]
   A --> D[deleted on exit]
 ```
 
 | Layer | What it does |
 |-------|----------------|
-| **Git worktrees** | Analyze and Security never write HEAD. `/fork` binds a sibling tree. |
-| **OS sandbox** | `run_shell` on macOS and Linux. Credential paths denied. |
+| **Git worktrees** | Analyze and Security never write HEAD. Writing sub-agents (`writable: true`) get `.sensai/worktrees/`. `/fork` binds the new session to that tree. |
+| **Multi-repo workspace** | `.sensai/workspace.toml`. Mention `@repo:name` or `name:src/app.ts`. |
+| **OS sandbox** | `run_shell` on macOS and Linux. Credential paths (`~/.ssh`, `~/.aws`, `~/.sensai`) are denied. Windows has no sandbox. |
 | **Path guards** | Writes stay inside the workspace. A read outside it asks first. |
 | **Secrets scanner** | 30+ patterns before a turn leaves the machine. Tool output is masked before the next step. |
-| **Checkpoints** | `/rewind` restores the last turn. |
+| **Checkpoints** | Every turn snapshots files. `/rewind` restores one. |
 | **Proxy** | All LLM traffic → `https://sensai.immunisense.com`. No raw provider keys. |
 
 ---
@@ -122,16 +135,16 @@ flowchart TD
 
 | Mode | How | Behaviour |
 |------|-----|-----------|
-| **Code** | `sensai-cli` | Full tools, edits, shell, LSP, MCP. |
+| **Code** | `sensai-cli` | Full tools, edits, shell, LSP, MCP. `/todos` forces a task list. |
 | **Plan** | `sensai-cli plan` or `/plan` | Spec-driven: requirements → design → tasks → approval. |
 | **Chat** | `/chat` or [web](https://sensai.immunisense.com/chat) | Conversation only. No tools. |
 | **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only in a throwaway worktree. |
 | **Design** | `/design` | Architecture / DESIGN.md. No shell. |
 | **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Included with Sense, Sense Pro, and Sense Ultra. |
 
-`Shift+Tab` cycles Code ↔ Plan. Analyze and Security are explicit so you cannot drop into a write mode by accident.
+`Shift+Tab` cycles Code → Security → Plan → Chat on Sense, Sense Pro, and Sense Ultra. On other plans it skips Security. `/security` stays in the list and explains the requirement. Analyze (`/analyze`) and Design (`/design`) are explicit.
 
-Plan Mode: Requirements → Design → Tasks, each with a TUI approval dialog. Then **Run All** (disjoint tasks in parallel) or `#run_task:N`. Guide: [`docs/plan_mode.md`](docs/plan_mode.md). `/wide` can fan out design alternatives.
+Plan Mode starts with a research pass, then Requirements → Design → Tasks. Each phase is checked and approved. Then **Run All** (disjoint tasks in parallel worktrees) or `#run_task:N`. Guide: [`docs/plan_mode.md`](docs/plan_mode.md). `/wide` can fan out design alternatives.
 
 ---
 
@@ -165,17 +178,20 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 
 | Command | What happens |
 |---------|----------------|
-| `/rewind` `/fork` `/replay` `/pr` | Undo, clone+worktree, re-run, open a PR |
+| `/rewind` `/fork` `/replay` `/pr` | Undo, clone into a worktree, re-run, open a PR |
+| `/skillify` | Write a `SKILL.md` from this session. See [`docs/skills.md`](docs/skills.md) |
 | `sensai-cli tasks` | List, create, diff, and archive isolated worktrees |
 | `/wide` | Isolated design alternatives, then a shortlist |
 | `/profile` | Named model presets (global or this project), with optional per-agent model pins |
 | `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
-| `/sense-engineer` | Talk packing + YAGNI ladder (`light`/`full`/`ultra`/`auto`) |
+| `/sense-engineer` | Talk packing (`light`/`full`/`ultra`/`auto`). `/compress` is the same command |
 | `/compact` | Summarize with Gemma 4 by default, then continue (auto at 80–95%). The agent resumes from the summary |
 | `/pin` `/pack` | Keep a file in the prompt, or copy a secrets-scanned pack of what this session read |
 | `/test` `/lint` | Run the turn's checks on demand |
 | `/summarize-model` | Choose that model. **Chat model** keeps the conversation's model |
 | `/security` | Security Mode (Sense, Sense Pro, and Sense Ultra) |
+
+The full slash list, keyboard shortcuts, and `config.toml` are in [`docs/cli.md`](docs/cli.md). Hooks: [`docs/hooks.md`](docs/hooks.md).
 
 `/compact` and automatic summarization use `[options] summarize_model` (default `gemma-4-31b`). Set it to `current` to keep the chat model. The TUI command is `/summarize-model`. In SensAI IDE and SensAI-Agent, **Summarize model** follows that file when left empty.
 
@@ -188,12 +204,15 @@ sensai-cli run --json "…"
 
 ## Authentication
 
-Browser OAuth. CLI and IDE store tokens in the OS keyring (macOS Keychain, Windows Credential Manager, Linux `libsecret` / `pass`). MCP env and header literals use the same keyring — config keeps a reference, not the secret. Web uses an HttpOnly `sensai_session` cookie — never `localStorage`.
+Browser sign-in. The CLI and IDE store the login in the OS keyring (macOS Keychain, Windows Credential Manager, Linux `libsecret` / `pass`). MCP env and header literals use the same keyring — config keeps a reference, not the secret. Web uses an HttpOnly session cookie — never `localStorage`.
+
+Sign in with email, GitHub, Google, or a passkey. An authenticator is optional. Turning it on shows backup codes once. The [account page](https://sensai.immunisense.com/) can create an API key for scripts (shown once, chat and usage). Changing an authenticator, backup codes, a passkey, an API key, or other signed-in devices asks you to confirm again.
 
 ```bash
 sensai-cli auth login
 sensai-cli auth status
 sensai-cli auth logout
+sensai-cli auth mfa status
 ```
 
 ---
@@ -202,30 +221,42 @@ sensai-cli auth logout
 
 Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 
-| Model | Provider | Context | Notes |
-|-------|----------|---------|-------|
-| Grok Build | xAI | 256K | Free. Above 200K at 2× |
-| Grok 4.5 | xAI | 500K | Above 200K at 2× |
-| Grok 4.3 | xAI | 1M | Above 200K at 2× |
-| Grok 4.6 | xAI | 500K | Above 200K at 2× |
-| Grok 4.7 | xAI | 500K | Above 200K at 2× |
-| Claude Sonnet 5 / Opus 5 | Anthropic | 1M | Adaptive thinking |
-| Claude Opus 5.5 | Anthropic | 1M | Adaptive thinking, default medium |
-| Claude Fable 5.1 | Anthropic | 1M | Adaptive thinking |
-| GPT-6 Astra / Sol / Luna | OpenAI | 1.05M | Sense ≥272K |
-| GPT-5.6 Sol · Terra · Luna | OpenAI | 1.05M | |
-| GLM-5.3 / Flash | Z.ai | 1M | Effort low/high/max |
-| Kimi K3 | Moonshot | 1M | Effort low/medium/high |
-| MiniMax M3 | MiniMax | 512K | Images. No effort picker |
-| DeepSeek V4 Flash / V4.1 Flash / Pro | DeepSeek | 1M | Effort picker. V4.1 Flash is multimodal |
-| Gemma 4 | Google | 256K | Free. Default model for `/compact` |
-| Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
+| Model | Provider | Input / cached / output per 1M | Context | Notes |
+|-------|----------|--------------------------------|---------|-------|
+| Grok Build | xAI | $1.00 / $0.20 / $2.00 | 256K | Free. Above 200K at 2× |
+| Grok 4.5 | xAI | $2.00 / $0.30 / $6.00 | 500K | Above 200K at 2× |
+| Grok 4.3 | xAI | $1.25 / $0.20 / $2.50 | 1M | Above 200K at 2× |
+| Grok 4.6 | xAI | $2.00 / $0.50 / $6.00 | 500K | Above 200K at 2× |
+| Grok 4.7 | xAI | $2.20 / $0.55 / $6.60 | 500K | Above 200K at 2× |
+| Claude Sonnet 5 | Anthropic | $3.00 / $0.30 / $15.00 | 1M | Adaptive thinking |
+| Claude Sonnet 5.5 | Anthropic | $2.00 / $0.20 / $10.00 | 1M | Adaptive thinking, default high |
+| Claude Opus 5 | Anthropic | $5.00 / $0.50 / $25.00 | 1M | Adaptive thinking |
+| Claude Opus 5.5 | Anthropic | $4.00 / $0.20 / $20.00 | 1M | Adaptive thinking, default medium |
+| Claude Fable 5.1 | Anthropic | $10.00 / $0.25 / $50.00 | 1M | Adaptive thinking |
+| GPT-6 Astra | OpenAI | $10.00 / $1.00 / $50.00 | 1.05M | Sense ≥272K |
+| GPT-6 Sol | OpenAI | $2.00 / $0.20 / $10.00 | 1.05M | Sense ≥272K |
+| GPT-6.1 Sol | OpenAI | $2.20 / $0.22 / $11.00 | 1M | Sense ≥272K |
+| GPT-6 Luna | OpenAI | $0.10 / $0.01 / $0.50 | 1.05M | Sense ≥272K |
+| GPT-5.6 Sol | OpenAI | $4.00 / $0.40 / $20.00 | 1.05M | |
+| GPT-5.6 Terra | OpenAI | $2.00 / $0.20 / $12.00 | 1.05M | |
+| GPT-5.6 Luna | OpenAI | $0.20 / $0.02 / $1.20 | 1.05M | |
+| GLM-5.3 | Z.ai | $1.40 / $0.26 / $4.40 | 1M | Effort low/high/max |
+| GLM-5.3 Flash | Z.ai | $0.15 / $0.03 / $0.50 | 1M | Images. Effort low/high/max |
+| Kimi K3 | Moonshot | $3.00 / $0.30 / $15.00 | 1M | Images. Effort low/medium/high |
+| MiniMax M3 | MiniMax | $0.60 / $0.12 / $2.40 | 512K | Images. No effort picker |
+| DeepSeek V4 Flash | DeepSeek | $0.14 / $0.014 / $0.28 | 1M | Effort none/high/max |
+| DeepSeek V4.1 Flash | DeepSeek | $0.15 / $0.003 / $0.60 | 1M | Images. Effort low/high/max |
+| DeepSeek V4 Pro | DeepSeek | $0.44 / $0.04 / $0.87 | 1M | Effort none/high/max |
+| Gemma 4 | Google | $0.14 / — / $0.40 | 256K | Free. Default model for `/compact` |
+| Gemini 3.8 Flash | Google | $0.75 / $0.075 / $3.75 | 1M | Thinking low/medium/high |
 
-**Sense Mode:** `/sense` for full context at the long-context per-token rate. Prices are per 1M tokens. On Grok, a prompt over 200K uses that higher rate for every token in the request. A 500K window does not make the listed rate the price of the whole prompt.
+Prices are USD per 1M tokens. On Grok, a prompt over 200K uses twice the listed rate for every token in that request.
+
+**Sense Mode** (`/sense`) uses the full context window at that long-context rate. It is not a subscription tier and it is not Security Mode.
 
 Reasoning effort does not change the credit rate. Higher effort costs more only when the model generates more tokens.
 
-1 credit = $0.04. Local tools are $0 extra.
+1 plan credit = $0.04. Top-up credits are $0.05. Local tools are $0 extra.
 
 ---
 
@@ -236,13 +267,13 @@ Reasoning effort does not change the credit rate. Higher effort costs more only 
 | Tier | Price | Monthly credits | Access |
 |------|-------|-----------------|--------|
 | Free | $0 | 50 | Grok Build + Gemma 4. Grok Build is 256K; prompts over 200K are 2× |
-| Pro | $20 | 500 | All models + all reasoning + Sense context |
-| Ultra | $40 | 1,250 | Same catalog, higher allocation |
-| Sense | $100 | 3,500 | Security Mode |
-| Sense Pro | $200 | 7,500 | Security Mode + priority routing |
-| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode + priority routing |
+| Pro | $20 | 450 | All models + all reasoning + Sense context |
+| Ultra | $40 | 950 | Same catalog, higher allocation |
+| Sense | $100 | 2,400 | Security Mode |
+| Sense Pro | $200 | 5,000 | Security Mode + priority routing |
+| Sense Ultra | $400 | 10,000 | Highest allocation + Security Mode + priority routing |
 
-Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is included with Sense, Sense Pro, and Sense Ultra. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
+Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is included with Sense, Sense Pro, and Sense Ultra. A $10 top-up grants 200 credits. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
 
 ```bash
 sensai-cli credits
@@ -278,7 +309,7 @@ No raw provider credentials on the client.
 
 ## Docs
 
-[`docs/web.md`](docs/web.md) · [`docs/plan_mode.md`](docs/plan_mode.md) · [`docs/mcp.md`](docs/mcp.md) · [`docs/formatter.md`](docs/formatter.md) · [`docs/custom_agents.md`](docs/custom_agents.md) · [`docs/lsp.md`](docs/lsp.md) · [`docs/profiles.md`](docs/profiles.md) · [`SECURITY.md`](SECURITY.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md)
+[`docs/cli.md`](docs/cli.md) · [`docs/ide.md`](docs/ide.md) · [`docs/web.md`](docs/web.md) · [`docs/plan_mode.md`](docs/plan_mode.md) · [`docs/skills.md`](docs/skills.md) · [`docs/hooks.md`](docs/hooks.md) · [`docs/mcp.md`](docs/mcp.md) · [`docs/formatter.md`](docs/formatter.md) · [`docs/custom_agents.md`](docs/custom_agents.md) · [`docs/lsp.md`](docs/lsp.md) · [`docs/profiles.md`](docs/profiles.md) · [`SECURITY.md`](SECURITY.md) · [`CONTRIBUTING.md`](CONTRIBUTING.md)
 
 ---
 

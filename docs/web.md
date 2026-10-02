@@ -25,8 +25,8 @@ Code Mode tools, diffs, worktrees, Plan Mode, and Security Mode stay on the TUI 
 | Surface | Where | What it is for |
 |---------|--------|----------------|
 | **sensai-cli** | Terminal TUI | Code Mode, tools, diffs, Plan Mode, Security Mode |
-| **SensAI IDE** | Windows workbench | Same engine, editor chrome |
-| **SensAI-Agent** | VS Code / Cursor / Windsurf | ACP session in your editor |
+| **SensAI IDE** | Windows workbench | Editor, Sense Chat, cockpit, plans. [Guide](ide.md) |
+| **SensAI-Agent** | VS Code / Cursor / Windsurf | The same chat in your editor. [Guide](ide.md) |
 | **Web** | this host | Chat Mode, credits, subscribe, docs |
 
 ## Modes
@@ -34,30 +34,30 @@ Code Mode tools, diffs, worktrees, Plan Mode, and Security Mode stay on the TUI 
 | Mode | How | Behaviour |
 |------|-----|-----------|
 | **Code** | `sensai-cli` or `/code` | Default. Full tools, edits, shell, LSP, MCP |
-| **Plan** | `sensai-cli plan` or `/plan` | Requirements → design → tasks → approval → Run All |
+| **Plan** | `sensai-cli plan` or `/plan` | Research, then requirements → design → tasks. [Guide](plan_mode.md) |
 | **Chat** | `/chat` or [web chat](https://sensai.immunisense.com/chat) | Conversation only. No tools |
 | **Analyze** | `sensai-cli analyze` or `/analyze` | Read-only tools in a throwaway git worktree |
 | **Design** | `/design` | Architecture / DESIGN.md. No shell |
 | **Security** | `/security` | Sense Protocol hunt. Included with Sense, Sense Pro, and Sense Ultra. |
 
-`Shift+Tab` cycles Code → Plan → Chat (Code → Security → Plan → Chat on Sense, Sense Pro, and Sense Ultra).
+`Shift+Tab` cycles Code → Plan → Chat. On Sense, Sense Pro, and Sense Ultra it is Code → Security → Plan → Chat. Analyze and Design stay on `/analyze` and `/design`.
 
 **Sense Mode** (`/sense`) is full-context pricing on capable models. It is not a subscription tier and it is not Security Mode.
 
 ## Credits
 
-Display is `float64` with two decimal places. Buckets consume in order: **tier → bonus → top-up**. Only the tier bucket resets each cycle. Top-ups never expire. HTTP 402 when a hold cannot be placed.
+Credits show two decimal places. Buckets are spent in order: **tier → bonus → top-up**. Only the tier bucket resets each cycle. Top-ups never expire. When a turn cannot start, SensAI opens subscribe or top-up.
 
-1 credit = $0.04 after a 1.25 platform margin. Local bash / edit / grep are $0 extra.
+1 plan credit = $0.04. Top-up credits are $0.05. A $10 top-up grants 200 credits. Local bash / edit / grep are $0 extra.
 
 | Tier | Price | Monthly credits | Access |
 |------|-------|-----------------|--------|
 | Free | $0 | 50 | Grok Build + Gemma 4. Grok Build is 256K; prompts over 200K are 2× |
-| Pro | $20 | 500 | All models + all reasoning + Sense context |
-| Ultra | $40 | 1,250 | Same catalog, higher allocation |
-| Sense | $100 | 3,500 | Security Mode |
-| Sense Pro | $200 | 7,500 | Security Mode + priority routing |
-| Sense Ultra | $400 | 16,000 | Highest allocation + Security Mode + priority routing |
+| Pro | $20 | 450 | All models + all reasoning + Sense context |
+| Ultra | $40 | 950 | Same catalog, higher allocation |
+| Sense | $100 | 2,400 | Security Mode |
+| Sense Pro | $200 | 5,000 | Security Mode + priority routing |
+| Sense Ultra | $400 | 10,000 | Highest allocation + Security Mode + priority routing |
 
 Every plan includes the four surfaces, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner.
 

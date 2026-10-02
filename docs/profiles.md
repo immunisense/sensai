@@ -39,13 +39,17 @@ task is the fallback when no specific task mapping matches.
 | `review`    | Code review via `/review`, `code_review`, or a *review* agent |
 | `subagent`  | Fallback for spawned sub-agents when no more specific task matches |
 
+SensAI IDE and SensAI-Agent pick a profile in the Sense Chat composer, next
+to Autopilot, and edit profiles under Configuration → Profiles. Those files
+are the same ones `/profile` uses in the terminal.
+
 Each task mapping includes:
 
 | Field             | Required | Description                                      |
 |-------------------|----------|--------------------------------------------------|
 | `provider`        | yes      | Provider ID (e.g. `xai`)                         |
 | `model`           | yes      | Model ID from the available catalog               |
-| `reasoning_effort`| no       | `low`, `medium`, `high`, or empty for model default |
+| `reasoning_effort`| no       | `low`, `medium`, `high`, `auto`, or empty for the model default. Some models also offer `xhigh` or `max` |
 
 ## Quick Start
 
@@ -233,11 +237,13 @@ All models in a profile must be from the live catalog:
 | `grok-4.6` | Grok 4.6 | Reasoning |
 | `grok-4.7` | Grok 4.7 | Reasoning |
 | `claude-sonnet-5` | Claude Sonnet 5 | Reasoning |
+| `claude-sonnet-5-5` | Claude Sonnet 5.5 | Reasoning (default high) |
 | `claude-opus-5` | Claude Opus 5 | Reasoning |
 | `claude-opus-5-5` | Claude Opus 5.5 | Reasoning (default medium) |
 | `claude-fable-5.1` | Claude Fable 5.1 | Reasoning |
 | `gpt-6-astra` | GPT-6 Astra | Reasoning |
 | `gpt-6-sol` | GPT-6 Sol | Reasoning (default medium) |
+| `gpt-6.1-sol` | GPT-6.1 Sol | Reasoning (default medium) |
 | `gpt-6-luna` | GPT-6 Luna | Reasoning (default medium) |
 | `gpt-5.6-sol` | GPT-5.6 Sol | Reasoning |
 | `gpt-5.6-terra` | GPT-5.6 Terra | Reasoning |

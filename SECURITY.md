@@ -44,7 +44,10 @@ requests to the upstream provider.
   Credential Manager, Linux `libsecret`/`pass`). The web app uses an
   HttpOnly `sensai_session` cookie, never `localStorage`.
 - Silent token refresh before expiry; no plaintext credentials on disk.
-- Optional MFA via TOTP (enroll, verify, disable through the CLI or TUI).
+- Optional authenticator (enroll, verify, and disable through the CLI, the TUI, or the account page). Turning it on shows backup codes once. `sensai-cli auth mfa backup-codes` makes a new set.
+- Passkey sign-in from the account page.
+- API keys for scripts, created on the account page and shown once. A key can call chat and read usage.
+- Changing an authenticator, backup codes, a passkey, an API key, or other signed-in devices asks you to confirm again.
 - Headless/WSL/SSH fallback prints the login URL for manual use.
 
 ### Pre-Flight Secrets Scanning
@@ -106,10 +109,9 @@ External MCP tool calls are protected by multiple layers:
 ### Build and Supply Chain
 
 - Binaries are built with `CGO_ENABLED=0` (pure Go, no C dependencies).
-- Releases are produced by GoReleaser through GitHub Actions with checksum
-  verification.
-- The `sensai-cli update` flow downloads from the proxy, verifies SHA-256
-  checksums, and replaces the binary in-place.
+- Installers and `sensai-cli update` download the binary from the SensAI
+  proxy and verify the SHA-256 checksum before replacing it. GitHub
+  Releases are not the download source.
 - The curl installer (`deploy/install.sh`) performs platform detection and
   checksum verification before installation.
 
@@ -123,6 +125,8 @@ mode = "block"
 # Restrict tool access to read-only operations.
 [permissions]
 allowed_tools = ["read_file", "list_dir", "search_code", "ast_search"]
+# Ask before every search, read, or shell directory outside the workspace.
+allow_outside_search = false
 
 # Disable auto-formatting if untrusted formatters are a concern.
 [options]
