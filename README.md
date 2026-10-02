@@ -221,36 +221,36 @@ sensai-cli auth mfa status
 
 Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 
-| Model | Provider | Input / cached / output per 1M | Context | Notes |
-|-------|----------|--------------------------------|---------|-------|
-| Grok Build | xAI | $1.00 / $0.20 / $2.00 | 256K | Free. Above 200K at 2× |
-| Grok 4.5 | xAI | $2.00 / $0.30 / $6.00 | 500K | Above 200K at 2× |
-| Grok 4.3 | xAI | $1.25 / $0.20 / $2.50 | 1M | Above 200K at 2× |
-| Grok 4.6 | xAI | $2.00 / $0.50 / $6.00 | 500K | Above 200K at 2× |
-| Grok 4.7 | xAI | $2.20 / $0.55 / $6.60 | 500K | Above 200K at 2× |
-| Claude Sonnet 5 | Anthropic | $3.00 / $0.30 / $15.00 | 1M | Adaptive thinking |
-| Claude Sonnet 5.5 | Anthropic | $2.00 / $0.20 / $10.00 | 1M | Adaptive thinking, default high |
-| Claude Opus 5 | Anthropic | $5.00 / $0.50 / $25.00 | 1M | Adaptive thinking |
-| Claude Opus 5.5 | Anthropic | $4.00 / $0.20 / $20.00 | 1M | Adaptive thinking, default medium |
-| Claude Fable 5.1 | Anthropic | $10.00 / $0.25 / $50.00 | 1M | Adaptive thinking |
-| GPT-6 Astra | OpenAI | $10.00 / $1.00 / $50.00 | 1.05M | Sense ≥272K |
-| GPT-6 Sol | OpenAI | $2.00 / $0.20 / $10.00 | 1.05M | Sense ≥272K |
-| GPT-6.1 Sol | OpenAI | $2.20 / $0.22 / $11.00 | 1M | Sense ≥272K |
-| GPT-6 Luna | OpenAI | $0.10 / $0.01 / $0.50 | 1.05M | Sense ≥272K |
-| GPT-5.6 Sol | OpenAI | $4.00 / $0.40 / $20.00 | 1.05M | |
-| GPT-5.6 Terra | OpenAI | $2.00 / $0.20 / $12.00 | 1.05M | |
-| GPT-5.6 Luna | OpenAI | $0.20 / $0.02 / $1.20 | 1.05M | |
-| GLM-5.3 | Z.ai | $1.40 / $0.26 / $4.40 | 1M | Effort low/high/max |
-| GLM-5.3 Flash | Z.ai | $0.15 / $0.03 / $0.50 | 1M | Images. Effort low/high/max |
-| Kimi K3 | Moonshot | $3.00 / $0.30 / $15.00 | 1M | Images. Effort low/medium/high |
-| MiniMax M3 | MiniMax | $0.60 / $0.12 / $2.40 | 512K | Images. No effort picker |
-| DeepSeek V4 Flash | DeepSeek | $0.14 / $0.014 / $0.28 | 1M | Effort none/high/max |
-| DeepSeek V4.1 Flash | DeepSeek | $0.15 / $0.003 / $0.60 | 1M | Images. Effort low/high/max |
-| DeepSeek V4 Pro | DeepSeek | $0.44 / $0.04 / $0.87 | 1M | Effort none/high/max |
-| Gemma 4 | Google | $0.14 / — / $0.40 | 256K | Free. Default model for `/compact` |
-| Gemini 3.8 Flash | Google | $0.75 / $0.075 / $3.75 | 1M | Thinking low/medium/high |
+| Model | Provider | Credits | Context | Notes |
+|-------|----------|---------|---------|-------|
+| Grok Build | xAI | 1× | 256K | Free. Above 200K at 2× |
+| Grok 4.5 | xAI | 2.6× | 500K | Above 200K at 2× |
+| Grok 4.3 | xAI | 1.3× | 1M | Above 200K at 2× |
+| Grok 4.6 | xAI | 2.7× | 500K | Above 200K at 2× |
+| Grok 4.7 | xAI | 3× | 500K | Above 200K at 2× |
+| Claude Sonnet 5 | Anthropic | 5.5× | 1M | Adaptive thinking |
+| Claude Sonnet 5.5 | Anthropic | 3.7× | 1M | Adaptive thinking, default high |
+| Claude Opus 5 | Anthropic | 10.1× | 1M | Adaptive thinking |
+| Claude Opus 5.5 | Anthropic | 7.9× | 1M | Adaptive thinking, default medium |
+| Claude Fable 5.1 | Anthropic | 19.6× | 1M | Adaptive thinking |
+| GPT-6 Astra | OpenAI | 20.1× | 1.05M | Sense ≥272K |
+| GPT-6 Sol | OpenAI | 4.1× | 1.05M | Sense ≥272K |
+| GPT-6.1 Sol | OpenAI | 4.5× | 1M | Sense ≥272K |
+| GPT-6 Luna | OpenAI | 0.2× | 1.05M | Sense ≥272K |
+| GPT-5.6 Sol | OpenAI | 8.1× | 1.05M | |
+| GPT-5.6 Terra | OpenAI | 4.3× | 1.05M | |
+| GPT-5.6 Luna | OpenAI | 0.5× | 1.05M | |
+| GLM-5.3 | Z.ai | 1.9× | 1M | Effort low/high/max |
+| GLM-5.3 Flash | Z.ai | 0.3× | 1M | Images. Effort low/high/max |
+| Kimi K3 | Moonshot | 5.5× | 1M | Images. Effort low/medium/high |
+| MiniMax M3 | MiniMax | 1× | 512K | Images. No effort picker |
+| DeepSeek V4 Flash | DeepSeek | 0.3× | 1M | Effort none/high/max |
+| DeepSeek V4.1 Flash | DeepSeek | 0.3× | 1M | Images. Effort low/high/max |
+| DeepSeek V4 Pro | DeepSeek | 0.8× | 1M | Effort none/high/max |
+| Gemma 4 | Google | 0.3× | 256K | Free. Default model for `/compact` |
+| Gemini 3.8 Flash | Google | 1.4× | 1M | Thinking low/medium/high |
 
-Prices are USD per 1M tokens. On Grok, a prompt over 200K uses twice the listed rate for every token in that request.
+Credits is the credit multiplier against Grok Build (1×): a 3× model uses about three times the credits for the same work. The model picker shows the live multiplier, which can change with discounts. On Grok, a prompt over 200K uses twice the rate for every token in that request.
 
 **Sense Mode** (`/sense`) uses the full context window at that long-context rate. It is not a subscription tier and it is not Security Mode.
 
