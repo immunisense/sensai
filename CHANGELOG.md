@@ -1,3 +1,88 @@
+## v0.4.9
+
+### Models
+- Claude Haiku 5.5 is available on paid plans. It is fast and low-cost, reads images, and has a 1M-token context window.
+- Grok 4.7 now costs $2 / $0.50 cached / $6 per 1M tokens, down from $2.20 / $0.55 / $6.60. A prompt over 200K is still twice that.
+
+### Fixes
+- Text search no longer fails with a timeout error on large projects. It waits longer, returns the matches it found so far, and suggests how to narrow the search when nothing turned up in time.
+- On Windows, stopping a turn while a shell command is running now always shows the command as cancelled, not an error.
+- On Windows, several agents editing the same file at once no longer fail with a "file is being used by another process" error.
+
+### Skills
+- SensAI can suggest a change to your project's skills at the end of a turn, when you corrected it or the same errors keep coming back. Nothing changes until you approve it, and you can snooze or mute any suggestion.
+- In a project with no skills, SensAI may offer a few starter skills, at most once a week.
+- Suggestions never pop up while you are typing or while the agent is working.
+- New `sensai-cli skills` commands: `list`, `lint`, `stats`, plus `sleep` to review recent sessions offline and `adopt` or `reject` to act on what it finds.
+- New built-in skills: grilling, test-first development, two-axis code review, decision records, ticket splitting, spec implementation, session retros, and pull request descriptions.
+- Skill suggestions learn across turns. Repeated errors must recur within 7 days before SensAI suggests a fix, and your past accept and decline choices count. Added text sits in a clearly marked block that is easy to review or revert. SensAI can also suggest a short always-on project rule.
+- `/debug` now asks for a failing reproduction before it proposes a fix.
+
+### Core
+- Sub-agents launched for one task now work as a team. They share the goal, the to-do board, who owns which files, and each other's findings. They can leave notes for each other, and you get a warning when one edits a file another teammate owns.
+- The Restore button on your messages only responds to clicks on the button itself.
+
+### Billing
+- The design pass and skill suggestions now show their credits in the session total and the turn footer.
+- A cancelled turn now shows the credits it already used, counted once and at the right rate.
+- Sub-agent costs roll up to the parent turn correctly, including resumed, failed, and compacted runs.
+- `sensai-cli skills lint` warns when the skill list in the prompt is too long, or when your own skill hides a built-in one.
+- Credits from a session you are not viewing now appear on that session, not the next one you open.
+- Your account can now receive a plan for a limited time, such as Sense Pro for 3 months. When it ends, you go back to your previous plan, or Free if you had none.
+- In the last 3 days of a limited-time plan, the terminal, the IDE, and the web app remind you before it ends and link to upgrade.
+- A sub-agent that crashes mid-run still passes its credits to the parent turn.
+- `sensai-cli skills sleep` prints the credits its model call used.
+- Monthly credits go up about 10%. Prices are unchanged. Pro 500, Ultra 1,050, Sense 2,650, Sense Pro 5,500, Sense Ultra 11,000. Existing subscribers get the new amount at their next renewal.
+
+### Web
+- Chat now shows tables as tables, secondary text is easier to read, and buttons are easier to tap on phones.
+- A cleaner, calmer look across the site: landing, chat, pricing, account, docs, sign-in, and changelog.
+- Chat history is saved on your device, with pinning, renaming, and grouping by date.
+- Press ⌘K (Ctrl K on Windows and Linux) to search chats and jump anywhere.
+- Chat adds edit last message, regenerate, and per-message copy, plus shortcuts for a new chat (⌘/Ctrl Shift O) and collapsing the sidebar (⌘/Ctrl B).
+- Replies show a "Thinking…" hint before the first word and stream more smoothly on long answers. Markdown keeps snake_case names and list numbering intact.
+- Copy, rename, pin, delete, and save now confirm with a small toast.
+- A low balance under the composer is labelled "low", not only shown in colour.
+- Sign-in and sign-up show clearer field errors and keep keyboard focus where it should be.
+- If you hit your monthly spend cap mid-chat, you're told so and pointed to Account to raise it.
+- If your balance can't load, the account page offers a Retry.
+- The mobile menu and chat dialogs keep keyboard focus in place and close on Esc. Animations stay still with reduced motion.
+
+## v0.4.8
+
+### Security
+- Plan Mode writes only inside the current workspace's own `.sensai/plans`, after following symlinks. A `.sensai/plans` folder anywhere else is refused.
+- The IDE checks the plan folder again before each plan file it writes.
+
+### Core
+- `search_code` still ranks the definition first when a common name hits the result cap. A new `queries` parameter runs up to 8 searches in one call. Changed and central files rank higher; docs, vendored, and minified files rank lower.
+- `search_code` regex no longer fails on unbalanced parentheses or a lone `{`. Other invalid patterns are searched as literal text, with a note. `/search` in the terminal is literal.
+- Anchored `.sensaiignore` rules such as `/sub/x` apply when searching a subfolder.
+- `find_files` sorts every match before it stops at 100 files. Dot folders and `node_modules` are searchable when the pattern names them. `bin/`, `build/`, and `dist/` follow `.gitignore`. New `fuzzy` mode.
+- Search without ripgrep skips ignored folders such as `node_modules`.
+- `code_map` `def` returns a symbol's location and signature without a language server. `query` is faster and splits camelCase and snake_case names.
+- `git_log` `change` finds commits that added or removed a string.
+- `ast_search` is offered only when `sg` is installed.
+- Long tool loops keep the prompt cache, so fewer tokens are billed as cache writes.
+- Sub-agents no longer fail at start with `required: null`.
+- Sub-agents see the project's `AGENTS.md`, `.sensai/rules`, and their own memory. `task`, `explore`, `scout`, and `code_review` return a structured report.
+- The `verification` agent gets `check`, `expand_packed`, `tool_search`, `outline`, and `git_show`, and respects `disabled_tools`.
+- New built-in agents: `planner`, `reviewer`, `debugger`, `test-writer`, and `docs`. `options.docs_model` picks the `docs` model (default Gemma 4; `current` uses the chat model).
+
+### Memory
+- Memory writes are locked and atomic. Old notes move to `MEMORY.archive.md`; rules never move. New notes are scanned for secrets.
+- `agent_memory` searches memory, archives, rules, handoffs, and past sessions. Notes can carry a type, a reason, and paths. Notes written after web or MCP tools are marked untrusted.
+- Every agent gets its memory in the prompt, rules and corrections first.
+- `.sensai/rules` files with `paths:` or `keywords:` load only when they match.
+- Session end and `/handoff` write a handoff. The next session sees it once.
+- Reading a file adds a short context note, once per file. Turn it off with `options.file_context = false`.
+- `sensai-cli memory preview` shows which memory and rules would load.
+
+### Terminal
+- The S spinner is gold everywhere it runs.
+- The To-Do list shows every in-progress item as active. The todo pill adds `+N`.
+- `"""` on its own line opens a multi-line code block in the prompt. `"""sql` sets the language.
+
 ## v0.4.7
 
 ### Security
