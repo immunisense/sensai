@@ -227,7 +227,8 @@ Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 | Grok 4.5 | xAI | 2.6× | 500K | Above 200K at 2× |
 | Grok 4.3 | xAI | 1.3× | 1M | Above 200K at 2× |
 | Grok 4.6 | xAI | 2.7× | 500K | Above 200K at 2× |
-| Grok 4.7 | xAI | 3× | 500K | Above 200K at 2× |
+| Grok 4.7 | xAI | 2.7× | 500K | Above 200K at 2× |
+| Claude Haiku 5.5 | Anthropic | 0.2× | 1M | Images. Adaptive thinking, default medium. Above 100K at 5× |
 | Claude Sonnet 5 | Anthropic | 5.5× | 1M | Adaptive thinking |
 | Claude Sonnet 5.5 | Anthropic | 3.7× | 1M | Adaptive thinking, default high |
 | Claude Opus 5 | Anthropic | 10.1× | 1M | Adaptive thinking |
@@ -267,13 +268,13 @@ Reasoning effort does not change the credit rate. Higher effort costs more only 
 | Tier | Price | Monthly credits | Access |
 |------|-------|-----------------|--------|
 | Free | $0 | 50 | Grok Build + Gemma 4. Grok Build is 256K; prompts over 200K are 2× |
-| Pro | $20 | 450 | All models + all reasoning + Sense context |
-| Ultra | $40 | 950 | Same catalog, higher allocation |
-| Sense | $100 | 2,400 | Security Mode |
-| Sense Pro | $200 | 5,000 | Security Mode + priority routing |
-| Sense Ultra | $400 | 10,000 | Highest allocation + Security Mode + priority routing |
+| Pro | $20 | 500 | All models + all reasoning + Sense context |
+| Ultra | $40 | 1,050 | Same catalog, higher allocation |
+| Sense | $100 | 2,650 | Security Mode |
+| Sense Pro | $200 | 5,500 | Security Mode + priority routing |
+| Sense Ultra | $400 | 11,000 | Highest allocation + Security Mode + priority routing |
 
-Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is included with Sense, Sense Pro, and Sense Ultra. A $10 top-up grants 200 credits. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
+Every plan includes the CLI, IDE, SensAI-Agent, web Chat Mode, Code / Plan / Chat / Analyze / Design, MCP, LSP, custom agents, checkpoints, and the secrets scanner. Security Mode is included with Sense, Sense Pro, and Sense Ultra. A $10 top-up grants 200 credits. A plan can also be granted for a limited time (for example Sense Pro for 3 months); when it ends you return to your previous plan, or Free, and you get a reminder in the last 3 days. Plans: [sensai.immunisense.com/pricing](https://sensai.immunisense.com/pricing).
 
 ```bash
 sensai-cli credits
