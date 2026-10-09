@@ -1,3 +1,39 @@
+## v0.4.10
+
+### Improvements
+- The warning that other files depend on the one you're deleting, moving or editing now shows up when the project is opened through a symlink or a Windows short path.
+- The code map now works for projects opened through a symlink or a Windows junction.
+- Moving a file over an existing one no longer leaves the destination empty if the copy fails.
+- Parallel runs with a credit limit no longer go past it by the cost of every running task.
+- Security: SensAI is now built with Go 1.27.2, which includes the latest standard-library security fixes.
+- Background hooks no longer hold up the agent while their command runs.
+- Identical hooks each get their own ID, so turning one off no longer affects another.
+- Space works again in dialogs, so you can tick options in multi-select questions. Space also pages down in the chat again.
+- MCP servers that don't support health pings stay connected instead of being restarted over and over. The sidebar marks them "no ping".
+- Clicking near the "more…" hint in the attachment row can no longer remove an attachment you can't see.
+- Multi-line tool output inside a sub-agent card lines up under its branch.
+- Copying text warns you when the system clipboard isn't available, instead of always saying it worked.
+- `sensai-cli session` and `sensai-cli stats` respect `--cwd` and find your project's data from a subfolder.
+- Starting SensAI in a subfolder reuses your project's existing `.sensai` folder, so session history isn't split across subfolders.
+- Session token counts include cached prompt tokens. What you are charged hasn't changed.
+- Emptying your message in an external editor now clears the message box.
+- Turning an MCP server back on from SensAI works even when your project config turned it off. A hung MCP server no longer stalls tool refreshes.
+- Press `ctrl+alt+b` to show or hide the sidebar.
+- The sidebar shows your current git branch.
+- Terminals that support it show whether SensAI is working, idle, or waiting for you.
+- Renaming a session in the sessions list now changes only its title, and the new title shows right away.
+- The agent no longer ends a turn with a "not done" list of work it could still do. SensAI checks your request, failing checks and skipped tests, and sends the agent back until the work is verified or a real blocker is named.
+- New `/goal` and `sensai-cli run --goal-file` keep working in fresh sessions until your verify command passes or the budget runs out. `/contract` shows the items locked from your request.
+- After research or a proposal it didn't build, the agent asks whether to plan the full work. Yes switches to Plan Mode and writes a full plan for your approval. No keeps the session going as before.
+- You can attach up to 12 images to one message, up from 8.
+- The `@` file picker no longer suggests files and folders your `.gitignore` or `.sensaiignore` excludes, such as build output and coverage reports.
+- Long sub-agent reports are no longer lost when shortened. The full report is saved to a file, so the main agent doesn't have to re-run the sub-agent to get the rest. When all tasks are done, SensAI asks whether to delete those saved reports.
+- Impact Guard: before a command that could lose work runs, such as `rm -rf`, `git reset --hard`, `git clean` or a force-push, SensAI shows what it would destroy and how to undo it, and asks you first. It asks even in YOLO mode, and Deny is the default. When it can, SensAI saves an undo point first, so `/rewind` brings deleted files back.
+- The agent now knows what changed in your project since its last reply: a branch switch, new commits, files you edited or deleted, and unsaved files in the IDE. It re-reads them instead of working from stale copies.
+- SensAI can learn from your corrections. When you correct the agent, say "remember: …", or fix a file it just wrote, it may offer to save one lesson to memory or to your SENSAI.md (AGENTS.md if you don't have one). Nothing is saved unless you choose to.
+- New `sensai-cli memory doctor` finds notes and instructions that mention files that no longer exist. The agent sees those notes marked as stale.
+- `/memory` opens a Memory window where you can search, open, and delete saved notes. The IDE has a matching SensAI Learnings view.
+
 ## v0.4.9
 
 ### Models
