@@ -1,3 +1,57 @@
+## v0.5.0
+
+### Features
+- Plan mode now uses a per-step folder structure with separate files for research, requirements, design, and tasks.
+- Each plan step is approved separately in the TUI, CLI, and IDE.
+- Added plan sizes (quick, full, bugfix, new) and credit estimates per step.
+- Added a clarified requirements phase with a decision recording system.
+- Added live task status tracking and plan drift detection.
+- Rejecting a plan step now asks what should change, and the agent rewrites the step with your answer.
+- The plan's open questions are asked in the terminal before requirements are approved.
+- Gemini 4 Argon is available on paid plans, with a 1M context window, image input, and low/medium/high thinking.
+
+### Improvements
+- The CLI and the IDE load the latest models and prices every time they start, so credit estimates match what you are billed.
+- The Designer agent now warns that it uses more credits than other agents.
+- Sub-agents stay on their own task. If you dismiss the agent's question, the turn ends instead of the agent guessing.
+- Edits that quote the file's current text no longer fail with "you must read the file before editing it".
+- Tool output no longer shows internal context-packing details. Shortened output now just says how many lines were left out.
+- Your messages in the chat show only what you typed, not the extra notes SensAI adds for the agent.
+- Replies no longer repeat SensAI's internal instructions back to you.
+- The web sidebar has a new account menu that shows your plan by name and your full email.
+- New chats on the web show suggested prompts as cards, and errors appear right above the message box.
+- The web docs, changelog, and pricing pages have new layouts. Pricing explains credits in plain words and has a monthly/annual toggle.
+- The Monthly/Annual switch on the account page now works and shows the annual price and saving.
+- The account page has a cleaner layout with your plan, credits, billing, security, and spend cap in clear sections.
+- API keys are no longer offered on the web account page.
+- Active sessions now lists only devices that are really signed in, newest first. Signing in again ends the session it replaces, and old leftover sessions are signed out.
+- Up to 32 sub-agents can now run at once, up from 12. The limit adjusts itself to free CPU, memory, and GPU on your machine, and backs off when the service is rate-limiting. Waiting agents start as soon as a slot frees.
+- Long sessions slow down less with every turn. Long details from older tool calls are trimmed from what the model sees.
+- Later steps in a session reuse the model's prompt cache more often, so they start faster and cost less.
+- Auto-summarize still happens at 80% of the context window, but the summary is prepared in the background beforehand, so the pause is much shorter. This background summary is billed like any other request.
+- Streaming replies are smoother, and reopening a very long session no longer freezes the screen.
+- End-of-turn checks no longer repeat work on files that have not changed.
+- Questions and lookups no longer trigger extra completion-check rounds, which saves credits. A new multi-part request replaces the old checklist instead of reopening it. A reply flagged only for wording now gets one retry, not up to eight.
+- Internal agent reminders no longer appear in the chat, prompt history, queue, exports, or session titles.
+- After each edit the agent sees which problems the edit introduced and which it fixed. Results no longer repeat every old error in the project.
+- New code tools let the agent jump to a value's type and safely delete unused code. Jumping to a definition now shows its source.
+- New `sensai-cli lsp doctor` and `sensai-cli lsp install` commands help you check and install language servers.
+- Rename and quick-fix edits from language servers no longer damage files with Windows line endings or drop lines.
+- Language servers can no longer change files on their own, and a cloned repository cannot start or configure one until you trust the folder.
+- Crashed language servers restart automatically, and slow ones can be given more time with `request_timeout`.
+- Clicking an item in the `@` file picker or `/` command list now selects it. Mentioned files are highlighted in the input box, like in the IDE.
+
+### Fixes
+- Fixed a crash in long sessions where the CLI filled the terminal with error traces and exited.
+- The billing cycle you choose on the pricing page is kept through sign-up and checkout.
+- On macOS, CPU load is read correctly when deciding how many sub-agents run at once.
+- `sensai-cli hooks toggle` and `hooks delete` find hooks by the IDs that `hooks list` shows, and save changes to the config the hook came from.
+- `sensai-cli hooks run` runs only the hook you name, with its full action.
+- Hooks from global and workspace config are combined instead of overwriting each other.
+
+### Security
+- When no OS keyring is available, saved sign-in tokens are encrypted only with a password you set in `SENSAI_KEYRING_PASSWORD`. Tokens saved the old way are removed. If you used the file keyring before, set it and sign in again.
+
 ## v0.4.10
 
 ### Improvements
