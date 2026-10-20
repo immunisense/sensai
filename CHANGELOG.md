@@ -1,3 +1,48 @@
+## 0.5.1
+
+### Features
+- Plan Mode tasks are now a Markdown checklist instead of JSON, which uses fewer tokens. Each box updates in the file as tasks run.
+- After a plan is approved, Run All runs the tasks one by one and stops on a failure so you can retry or skip. Run Parallel runs independent tasks together.
+- While plan tasks run, the terminal app shows progress and the running task with a spinner. In the IDE, the tasks file has live Start task, In progress, and Retry buttons.
+- A pasted image now shows as `[Image N]` in the prompt where you pasted it.
+- Text between backticks is highlighted in the prompt while you type.
+- MiniMax M3.1 Flash is available on paid plans, with a 976K context window and image input.
+- The README model table no longer lists prices. Prices can change without a release; the model picker shows each model's live credit multiplier.
+- Type `#` in the prompt to pick a workspace repo or a sub-agent from a list.
+- New `dissect` agent explains how a compiled app, binary, package, or archive works by reading it without running it. Each answer says what was seen, what was inferred, and what is still unknown. It uses the model you selected.
+- New `probe` tool reports a file's format, hashes, headers, imports, and archive contents in one call, with secrets redacted.
+- Recent sessions on the start screen highlight when you hover over them with the mouse.
+- The agent can generate images and videos with your own fal.ai or Kie.ai API key. Keys are stored in your OS keyring and can be set in the terminal app, the IDE, or with `sensai-cli media-keys set`.
+- New setting to bypass the Impact Guard. It is off by default. When on, high-impact commands run without a fresh confirmation.
+- On machines without an OS keyring, you can now set or change the keyring password from the terminal app or the IDE. Only a hash of the password is stored. SensAI checks the password each time it starts, and asks for it if `SENSAI_KEYRING_PASSWORD` is not set.
+- You can choose how full the context gets (25% to 90%) before the conversation is summarized with `options.auto_compact_percent`. The default stays 80%, or 90% on smaller windows.
+- The sidebar shows how many tokens the session has used across all requests, including sub-agents and side calls, and how much of that came from the cache.
+- Each agent step sends fewer tokens. The built-in prompt is shorter, rarely used tools load only when needed, and very large file reads and shell output are capped lower.
+
+### Billing
+- Top-up packs: $10 for 200 credits, $20 for 500 credits, or $35 for 1,000 credits.
+- Auto top-up buys your chosen pack when your balance falls below a credit amount you set.
+- You can set a monthly dollar limit on top-ups.
+
+### Security
+- Spending limits now protect your credits if someone gets hold of your login. Each plan has an hourly credit ceiling and a default monthly spend cap. Unusual spending pauses billing. Signing out everywhere stops responses that are already streaming.
+- On machines without an OS keyring, the encrypted token file is now tied to your OS user and a random salt, so other accounts on the same machine cannot read it.
+- Sign-in never sends login codes or tokens over plain HTTP to a non-local server, and no longer follows redirects.
+- Overlapping secrets in MCP tool output are now fully redacted.
+
+### Fixes
+- A tool call with `null` arguments is now rejected with a clear message. Answering a permission prompt twice no longer leaves a request hanging, and an authenticator code submitted twice at once is sent only once.
+- Usage stats and session details now count every token used, not just the size of the last request. Sub-agent tokens count toward the session that started them.
+- Images and audio from MCP tools are no longer corrupted by a second decode.
+- A slow two-factor check from an earlier sign-in no longer blocks or overwrites a newer sign-in.
+- Stopping a reply mid-stream now counts the tokens it already used, and a failed title attempt counts too.
+- Auto-compaction now counts the output of the tools that just ran, so a very large file read or command output no longer overflows the context before the conversation is summarized.
+- Generating a session title no longer makes the context meter look fuller than it is.
+- Prompt hooks now count toward session cost and token totals.
+- The monthly Sense Ultra plan now charges the monthly price instead of the annual price.
+- Design Mode now appears in the command palette, and choosing it switches to Design mode.
+- The end-of-turn check wastes fewer rounds. It stops when two rounds find the same issues, and it no longer flags code the agent did not write.
+
 ## v0.5.0
 
 ### Features

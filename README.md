@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.5.0-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.5.1-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -221,38 +221,41 @@ sensai-cli auth mfa status
 
 Free tier: Grok Build and Gemma 4. Paid tiers can use every catalog model.
 
-| Model | Provider | Credits | Context | Notes |
-|-------|----------|---------|---------|-------|
-| Grok Build | xAI | 1× | 256K | Free. Above 200K at 2× |
-| Grok 4.5 | xAI | 2.6× | 500K | Above 200K at 2× |
-| Grok 4.3 | xAI | 1.3× | 1M | Above 200K at 2× |
-| Grok 4.6 | xAI | 2.7× | 500K | Above 200K at 2× |
-| Grok 4.7 | xAI | 2.7× | 500K | Above 200K at 2× |
-| Claude Haiku 5.5 | Anthropic | 0.2× | 1M | Images. Adaptive thinking, default medium. Above 100K at 5× |
-| Claude Sonnet 5 | Anthropic | 5.5× | 1M | Adaptive thinking |
-| Claude Sonnet 5.5 | Anthropic | 3.7× | 1M | Adaptive thinking, default high |
-| Claude Opus 5 | Anthropic | 10.1× | 1M | Adaptive thinking |
-| Claude Opus 5.5 | Anthropic | 7.9× | 1M | Adaptive thinking, default medium |
-| Claude Fable 5.1 | Anthropic | 19.6× | 1M | Adaptive thinking |
-| GPT-6 Astra | OpenAI | 20.1× | 1.05M | Sense ≥272K |
-| GPT-6 Sol | OpenAI | 4.1× | 1.05M | Sense ≥272K |
-| GPT-6.1 Sol | OpenAI | 4.5× | 1M | Sense ≥272K |
-| GPT-6 Luna | OpenAI | 0.2× | 1.05M | Sense ≥272K |
-| GPT-5.6 Sol | OpenAI | 8.1× | 1.05M | |
-| GPT-5.6 Terra | OpenAI | 4.3× | 1.05M | |
-| GPT-5.6 Luna | OpenAI | 0.5× | 1.05M | |
-| GLM-5.3 | Z.ai | 1.9× | 1M | Effort low/high/max |
-| GLM-5.3 Flash | Z.ai | 0.3× | 1M | Images. Effort low/high/max |
-| Kimi K3 | Moonshot | 5.5× | 1M | Images. Effort low/medium/high |
-| MiniMax M3 | MiniMax | 1× | 512K | Images. No effort picker |
-| DeepSeek V4 Flash | DeepSeek | 0.3× | 1M | Effort none/high/max |
-| DeepSeek V4.1 Flash | DeepSeek | 0.3× | 1M | Images. Effort low/high/max |
-| DeepSeek V4 Pro | DeepSeek | 0.8× | 1M | Effort none/high/max |
-| Gemma 4 | Google | 0.3× | 256K | Free. Default model for `/compact` |
-| Gemini 3.8 Flash | Google | 1.4× | 1M | Thinking low/medium/high |
-| Gemini 4 Argon | Google | 3.6× | 1M | Images. Thinking low/medium/high |
+Prices are set per model and can change without a new release, so this table does not list them. The model picker shows each model's live credit multiplier against Grok Build (1×): a 3× model uses about three times the credits for the same work.
 
-Credits is the credit multiplier against Grok Build (1×): a 3× model uses about three times the credits for the same work. The model picker shows the live multiplier, which can change with discounts. On Grok, a prompt over 200K uses twice the rate for every token in that request.
+| Model | Provider | Context | Notes |
+|-------|----------|---------|-------|
+| Grok Build | xAI | 256K | Free. Above 200K at 2× |
+| Grok 4.5 | xAI | 500K | Above 200K at 2× |
+| Grok 4.3 | xAI | 1M | Above 200K at 2× |
+| Grok 4.6 | xAI | 500K | Above 200K at 2× |
+| Grok 4.7 | xAI | 500K | Above 200K at 2× |
+| Claude Haiku 5.5 | Anthropic | 1M | Images. Adaptive thinking, default medium. Above 100K at 5× |
+| Claude Sonnet 5 | Anthropic | 1M | Adaptive thinking |
+| Claude Sonnet 5.5 | Anthropic | 1M | Adaptive thinking, default high |
+| Claude Opus 5 | Anthropic | 1M | Adaptive thinking |
+| Claude Opus 5.5 | Anthropic | 1M | Adaptive thinking, default medium |
+| Claude Fable 5.1 | Anthropic | 1M | Adaptive thinking |
+| GPT-6 Astra | OpenAI | 1.05M | Sense ≥272K |
+| GPT-6 Sol | OpenAI | 1.05M | Sense ≥272K |
+| GPT-6.1 Sol | OpenAI | 1M | Sense ≥272K |
+| GPT-6 Luna | OpenAI | 1.05M | Sense ≥272K |
+| GPT-5.6 Sol | OpenAI | 1.05M | |
+| GPT-5.6 Terra | OpenAI | 1.05M | |
+| GPT-5.6 Luna | OpenAI | 1.05M | |
+| GLM-5.3 | Z.ai | 1M | Effort low/high/max |
+| GLM-5.3 Flash | Z.ai | 1M | Images. Effort low/high/max |
+| Kimi K3 | Moonshot | 1M | Images. Effort low/medium/high |
+| MiniMax M3 | MiniMax | 512K | Images. No effort picker |
+| MiniMax M3.1 Flash | MiniMax | 976K | Images. No effort picker |
+| DeepSeek V4 Flash | DeepSeek | 1M | Effort none/high/max |
+| DeepSeek V4.1 Flash | DeepSeek | 1M | Images. Effort low/high/max |
+| DeepSeek V4 Pro | DeepSeek | 1M | Effort none/high/max |
+| Gemma 4 | Google | 256K | Free. Default model for `/compact` |
+| Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
+| Gemini 4 Argon | Google | 1M | Images. Thinking low/medium/high |
+
+On Grok, a prompt over 200K uses twice the rate for every token in that request.
 
 **Sense Mode** (`/sense`) uses the full context window at that long-context rate. It is not a subscription tier and it is not Security Mode.
 
