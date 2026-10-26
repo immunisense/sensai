@@ -1,3 +1,50 @@
+## v0.6.0
+
+### Terminal
+- Commands that finish with exit code 0 are no longer remembered as failures.
+- A helper agent waiting on a command that only prints warnings or errors is no longer reported as stalled.
+- Queued prompts stay in place if they cannot be saved while a session continues into a new one.
+- The agent notices when it keeps repeating the same failure, tries a different approach, and stops to report if that fails too.
+- SensAI remembers fixes for commands that failed in your project and reminds the agent next time. Manage them with `/facts`.
+- Requests are smaller: tools a project rarely uses are sent in short form.
+- New `sensai-cli stats savings` shows how many tokens and credits were saved.
+- Shift+Tab now cycles through Design mode.
+- Messages you queue while the agent works are kept if SensAI restarts.
+- New `/steer <text>` sends a note into the running turn without stopping it.
+- New `sensai-cli doctor --resources` shows CPU, memory, GPU and agent limits.
+- Search the chat with `/find`, and manage queued messages with `/queue`.
+- Tool groups show their duration and credits, and repeated identical calls collapse into one row.
+- Revert just one turn's file changes, fork a session at any message, and review a worktree merge before it runs.
+- An approvals bar lists waiting requests by risk, and one key approves only the safe ones.
+- Export a session as redacted Markdown, and see a turn's cost split by model, sub-agents and tools.
+- Pin and group sessions, and keep an unsent draft per session.
+- Agents can start a team of helper agents, and a sub-agent that stops making progress is reported to you.
+- Switching models mid-session keeps the task on track.
+- The agent now marks its to-do items done before ending a turn that only ran commands.
+- You can now run at least 20 sessions at once without "rate limited" errors.
+- The agent's to-do list shows fewer "unknown todo id" errors, and an empty update no longer clears it.
+- Sub-agents no longer stall for about a minute and then fail with "rate limited" when many run at once.
+- Edits are faster: formatters are looked up once instead of on every edit, and diagnostics return as soon as they are ready.
+- Markdown and text files no longer start a language server you did not configure.
+- Tools that load on demand can be called directly, which saves a step.
+- Long sessions prepare each step faster and reuse more of the model's prompt cache.
+- Long replies render much faster while they stream.
+- The project list no longer breaks when several sessions start at once.
+- Read tracking now works for files on a different drive than the workspace.
+- In the IDE, replies stream more smoothly and use less CPU.
+- Type `#` anywhere in a prompt to mention a skill, and the agent loads it before answering.
+- Asking the agent to run an approved plan now runs it task by task, the same as Run all.
+- Cost breakdowns no longer show small negative amounts from rounding.
+
+### Billing
+- The hourly credit limit has been removed. Your plan's credits and any monthly spend cap still apply.
+
+### Web
+- The site loads faster, and the browser caches it between visits.
+
+### Security
+- Builds now use Go 1.27.3, which refuses certificates from distrusted intermediate authorities.
+
 ## 0.5.1
 
 ### Features

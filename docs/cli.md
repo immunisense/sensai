@@ -60,7 +60,7 @@ Browser sign-in. On a machine without a browser, the login URL is printed.
 | `sensai-cli invoices` | Past invoices |
 | `sensai-cli billing portal` | Payment method, plan, and invoices |
 
-Passkeys, backup codes, and API keys are also on the [account page](https://sensai.immunisense.com/). An API key is shown once and is for scripts. It can call chat and read usage. Changing an authenticator, backup codes, a passkey, an API key, or other signed-in devices asks you to confirm again.
+Passkeys and backup codes are also on the [account page](https://sensai.immunisense.com/). Changing an authenticator, backup codes, a passkey, or other signed-in devices asks you to confirm again.
 
 ## Project
 

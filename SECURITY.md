@@ -46,8 +46,8 @@ requests to the upstream provider.
 - Silent token refresh before expiry; no plaintext credentials on disk.
 - Optional authenticator (enroll, verify, and disable through the CLI, the TUI, or the account page). Turning it on shows backup codes once. `sensai-cli auth mfa backup-codes` makes a new set.
 - Passkey sign-in from the account page.
-- API keys for scripts, created on the account page and shown once. A key can call chat and read usage.
-- Changing an authenticator, backup codes, a passkey, an API key, or other signed-in devices asks you to confirm again.
+- Changing an authenticator, backup codes, a passkey, or other signed-in devices asks you to confirm again.
+- Without an OS keyring, tokens are encrypted with a password you set (`SENSAI_KEYRING_PASSWORD` or a hidden prompt). Only a salted hash of it is stored.
 - Headless/WSL/SSH fallback prints the login URL for manual use.
 
 ### Pre-Flight Secrets Scanning

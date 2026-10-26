@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.5.1-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.6.0-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -115,13 +115,14 @@ flowchart TD
   HEAD[your checkout HEAD]
   HEAD --> A[Analyze / Security<br/>throwaway detached worktree]
   HEAD --> F["/fork sibling session"]
-  HEAD --> W["writing agents<br/>.sensai/worktrees — cap 12"]
+  HEAD --> W["writing agents<br/>.sensai/worktrees"]
   A --> D[deleted on exit]
 ```
 
 | Layer | What it does |
 |-------|----------------|
 | **Git worktrees** | Analyze and Security never write HEAD. Writing sub-agents (`writable: true`) get `.sensai/worktrees/`. `/fork` binds the new session to that tree. |
+| **Sub-agents** | Up to 32 at once, adjusted live to free CPU, RAM, and GPU and to provider rate limits. `sensai-cli doctor --resources` shows the current limit. |
 | **Multi-repo workspace** | `.sensai/workspace.toml`. Mention `@repo:name` or `name:src/app.ts`. |
 | **OS sandbox** | `run_shell` on macOS and Linux. Credential paths (`~/.ssh`, `~/.aws`, `~/.sensai`) are denied. Windows has no sandbox. |
 | **Path guards** | Writes stay inside the workspace. A read outside it asks first. |
@@ -142,9 +143,9 @@ flowchart TD
 | **Design** | `/design` | Architecture / DESIGN.md. No shell. |
 | **Security** | `/security` | Sense Protocol v1.2 hunt. Read-only hunters + verifiers. Included with Sense, Sense Pro, and Sense Ultra. |
 
-`Shift+Tab` cycles Code → Security → Plan → Chat on Sense, Sense Pro, and Sense Ultra. On other plans it skips Security. `/security` stays in the list and explains the requirement. Analyze (`/analyze`) and Design (`/design`) are explicit.
+`Shift+Tab` cycles Code → Security → Plan → Design → Chat on Sense, Sense Pro, and Sense Ultra. On other plans it skips Security. `/security` stays in the list and explains the requirement. Analyze (`/analyze`) is explicit.
 
-Plan Mode starts with a research pass, then Requirements → Design → Tasks. Each phase is checked and approved. Then **Run All** (disjoint tasks in parallel worktrees) or `#run_task:N`. Guide: [`docs/plan_mode.md`](docs/plan_mode.md). `/wide` can fan out design alternatives.
+Plan Mode starts with a research pass, then Requirements → Design → Tasks. Each phase is checked and approved. Then **Run All** (one task at a time; stops on a failure so you can retry or skip), **Run Parallel** (disjoint tasks together in git worktrees), or `#run_task:N`. Plan sizes: `--quick` (no design), `--full`, `--bugfix`, `--new`. `sensai-cli plan refresh` updates task status from file changes, `sensai-cli plan pr` writes a PR description, and `@plan:<name>` attaches a plan to a message. Guide: [`docs/plan_mode.md`](docs/plan_mode.md). `/wide` can fan out design alternatives.
 
 ---
 
@@ -178,14 +179,20 @@ Product reports: **security@immunisense.com**. See [`SECURITY.md`](SECURITY.md).
 
 | Command | What happens |
 |---------|----------------|
-| `/rewind` `/fork` `/replay` `/pr` | Undo, clone into a worktree, re-run, open a PR |
+| `/rewind` `/fork` `/replay` `/pr` | Undo, fork at a message you pick, re-run, open a PR |
+| `/ledger` | Files each turn changed; revert just one turn |
+| `/steer` `/queue` | Add a note to the running turn (Ctrl+Alt+S), or list and reorder queued messages |
+| `/find` | Search the loaded chat |
+| `/facts` | Fixes learned from failed commands: list, pin, or retire |
+| `/export` | Save the session as redacted Markdown |
 | `/skillify` | Write a `SKILL.md` from this session. See [`docs/skills.md`](docs/skills.md) |
 | `sensai-cli tasks` | List, create, diff, and archive isolated worktrees |
 | `/wide` | Isolated design alternatives, then a shortlist |
 | `/profile` | Named model presets (global or this project), with optional per-agent model pins |
-| `/cost` `/context` `/sessions` `/split` | Turn cost, context, session list, split view |
+| `/cost` `/context` `/sessions` `/split` | Turn cost split by model, sub-agents and tools; context; session list; split view |
 | `/sense-engineer` | Talk packing (`light`/`full`/`ultra`/`auto`). `/compress` is the same command |
-| `/compact` | Summarize with Gemma 4 by default, then continue (auto at 80–95%). The agent resumes from the summary |
+| `/compact` | Summarize with Gemma 4 by default, then continue. Auto at 80% (90% on windows up to 200K); change it with `options.auto_compact_percent` (25–90). The agent resumes from the summary |
+| `#` | Mention a skill (`#skill:<name>`), agent (`#agent:<name>`), or workspace repo (`@repo:<name>`) |
 | `/pin` `/pack` | Keep a file in the prompt, or copy a secrets-scanned pack of what this session read |
 | `/test` `/lint` | Run the turn's checks on demand |
 | `/summarize-model` | Choose that model. **Chat model** keeps the conversation's model |
@@ -198,7 +205,14 @@ The full slash list, keyboard shortcuts, and `config.toml` are in [`docs/cli.md`
 ```bash
 sensai-cli checkpoints list
 sensai-cli run --json "…"
+sensai-cli stats savings
+sensai-cli doctor --resources
+sensai-cli lsp doctor            # language server status and fix hints
+sensai-cli lsp install <name>
+sensai-cli media-keys set fal    # your own fal.ai / Kie.ai key for images and video
 ```
+
+The `dissect` agent explains how a built app, binary, package, or archive works without running it. The agent can generate images and videos with your own fal.ai or Kie.ai key (`generate_media`, asks first); those are billed by the provider, not SensAI credits.
 
 ---
 
@@ -206,7 +220,9 @@ sensai-cli run --json "…"
 
 Browser sign-in. The CLI and IDE store the login in the OS keyring (macOS Keychain, Windows Credential Manager, Linux `libsecret` / `pass`). MCP env and header literals use the same keyring — config keeps a reference, not the secret. Web uses an HttpOnly session cookie — never `localStorage`.
 
-Sign in with email, GitHub, Google, or a passkey. An authenticator is optional. Turning it on shows backup codes once. The [account page](https://sensai.immunisense.com/) can create an API key for scripts (shown once, chat and usage). Changing an authenticator, backup codes, a passkey, an API key, or other signed-in devices asks you to confirm again.
+Sign in with email, GitHub, Google, or a passkey. An authenticator is optional. Turning it on shows backup codes once. Changing an authenticator, backup codes, a passkey, or other signed-in devices asks you to confirm again.
+
+On machines without an OS keyring, tokens are encrypted with a password you set in `SENSAI_KEYRING_PASSWORD` (or enter at a hidden prompt). Change it from the command palette → **Keyring Password**.
 
 ```bash
 sensai-cli auth login
