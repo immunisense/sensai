@@ -244,6 +244,7 @@ All models in a profile must be from the live catalog:
 | `gpt-6-astra` | GPT-6 Astra | Reasoning |
 | `gpt-6-sol` | GPT-6 Sol | Reasoning (default medium) |
 | `gpt-6.1-sol` | GPT-6.1 Sol | Reasoning (default medium) |
+| `gpt-6.1-terra` | GPT-6.1 Terra | Reasoning (default medium) |
 | `gpt-6-luna` | GPT-6 Luna | Reasoning (default medium) |
 | `gpt-5.6-sol` | GPT-5.6 Sol | Reasoning |
 | `gpt-5.6-terra` | GPT-5.6 Terra | Reasoning |

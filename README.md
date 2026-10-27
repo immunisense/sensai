@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.6.0-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.6.1-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -255,6 +255,7 @@ Prices are set per model and can change without a new release, so this table doe
 | GPT-6 Astra | OpenAI | 1.05M | Sense ≥272K |
 | GPT-6 Sol | OpenAI | 1.05M | Sense ≥272K |
 | GPT-6.1 Sol | OpenAI | 1M | Sense ≥272K |
+| GPT-6.1 Terra | OpenAI | 1M | Sense ≥272K |
 | GPT-6 Luna | OpenAI | 1.05M | Sense ≥272K |
 | GPT-5.6 Sol | OpenAI | 1.05M | |
 | GPT-5.6 Terra | OpenAI | 1.05M | |

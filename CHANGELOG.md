@@ -1,3 +1,10 @@
+## v0.6.1
+
+- The unusual-usage email is sent only when chat is paused on your account. Heavy normal use no longer triggers it.
+- Prompt-cache hits on more models now show up in your usage and context stats.
+- Long-running agents remember more of their recent work, so they stop re-reading the same files.
+- Add **GPT-6.1 Terra**, a lower-cost GPT-6.1 model. Paid tiers, image input, 1M context, reasoning none through max (default medium). Prompts over 272K use the long-context rate.
+
 ## v0.6.0
 
 ### Terminal
