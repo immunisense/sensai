@@ -1,3 +1,30 @@
+## v0.6.2
+
+- Plan Mode: if a plan's spec changes have critical problems, archiving it now leaves your project's specs as they were.
+- IDE: when you run several sessions at once, closing one no longer removes the session marker of another that is still running.
+- CLI: `sensai-cli update-providers` now fails when given more than one argument instead of ignoring the extras.
+- Plan Mode: running tasks one at a time no longer commits your other uncommitted work, and a task that edits files outside the ones it owns now fails.
+- Plan Mode: fixes for dependent task numbers in task prompts, duplicate task numbers, and open questions that contain a semicolon. A plan now warns when it cannot check for drift.
+- Plan Mode: you can go back from requirements to research, in the terminal and in the IDE.
+- Plan Mode: explore a topic without saving anything, fast-forward through phases, revise an approved phase without starting over, edit tasks while they run, and see every plan in one list.
+- Plan Mode: new refactor, migration and spike plans, custom plan kinds, automatic sizing for small goals, and your project rules in every phase.
+- Plan Mode: requirements get stable IDs and scenarios, tasks can list their tests and pick an agent, and the final report shows pass or fail for each requirement.
+- Plan Mode: after the last task, the plan re-checks every requirement and reopens tasks that fail. Refreshing a plan now revises only the tasks whose code changed.
+- Plan Mode: living specs. Finished plans can merge their requirement changes into your project's specs, with a check for conflicts between plans.
+- New plan settings for a shared plans folder, strict checks, forbidden phrases, a credit budget, and routing tasks to agents.
+- New plan commands for status, validation, headless runs, archiving, importing from OpenSpec, Kiro and spec-kit, exporting to OpenSpec, opening a pull request, and a guided walkthrough.
+- New hook events when a plan phase is approved and when a plan is done. Task hooks now fire for plan tasks.
+- A failed tool call with a missing argument now shows only the error, not the tool's internal description.
+- A new optional `.sensaiindexignore` file keeps files out of the code map and @ suggestions while still letting you attach them yourself.
+- The IDE Usage tab now shows your account's usage across every device you sign in from.
+- The IDE Board, GitHub, and Usage tabs have a refreshed look, with clearer loading, empty, and error states.
+- The cost breakdown under each reply now shows what tool calls such as web search cost, instead of "n/a".
+- Web searches run by helper agents now count as tool costs.
+- A web search you cancel after it was charged still shows in the reply's cost.
+- In the IDE, the "credits so far" line updates while a reply is running.
+- The IDE Usage balance ring reads the same total to screen readers that it shows on screen.
+- Updated a networking library to pick up two security fixes in its HTML parser.
+
 ## v0.6.1
 
 - The unusual-usage email is sent only when chat is paused on your account. Heavy normal use no longer triggers it.
