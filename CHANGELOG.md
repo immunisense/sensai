@@ -1,3 +1,23 @@
+## v0.6.3
+
+- New model: Kimi K3.1 Pro for paid plans, with a 1M-token context window, image input, and adjustable thinking effort.
+- The npm installer now needs Node.js 22 or newer.
+- Security Mode: audits now keep a checked record of findings and coverage, write a SARIF report, and say plainly when a run is incomplete. The agent that finds an issue can no longer confirm it on its own.
+- On Linux, shell commands no longer fail when you have a Docker config file. That file stays hidden from sandboxed commands.
+- On Linux, the shell sandbox now protects credential files even before they exist, and applies to every command.
+- Security Mode: new `sensai-cli security` command for CI. It can audit just your branch's changes, save a SARIF report, and fail the build on serious confirmed findings.
+- Security Mode: optional extra leads from common scanners you already have installed, and an optional check that runs in a container with no network. Both ask first.
+- Security Mode: helper agents now have a per-audit budget, with the last calls held back for double-checking.
+- Security Mode: extra guides for memory safety, desktop and local apps, cloud setup, messaging, and browser code, loaded only when your project needs them.
+- Security Mode is stricter: it only looks things up on vulnerability advisory sites, refuses requests that look like they contain a secret, cannot change agent memory, and ignores instructions hidden in the code it audits.
+- Designer: in the SensAI IDE, the designer can look at your running app in the IDE browser, check it on desktop and phone sizes, and fix what it finds.
+- Designer: it now sorts a screen into heavy, light or no clean-up before editing, works through fixes in a set order, and leaves good screens mostly alone.
+- Designer: clearer design direction, a "swap the product name" check, one shared scoring guide, and better guidance for generated images.
+- Design checks now flag more signs of AI-looking UI, such as placeholder names, emoji icons, generic buttons, removed focus outlines, glows and off-grid spacing.
+- Billing: your account is never paused with a "payment disputed" message anymore, and accounts paused by mistake are unpaused.
+- To-do list: updating the agent's to-do list no longer fails with an "invalid parameters" error.
+- Agents: the agent no longer stops right after starting background helpers. It waits for their results and carries on with the remaining work.
+
 ## v0.6.2
 
 - Plan Mode: if a plan's spec changes have critical problems, archiving it now leaves your project's specs as they were.
