@@ -253,6 +253,7 @@ All models in a profile must be from the live catalog:
 | `glm-5.3-flash` | GLM-5.3 Flash | Reasoning (low/high/max) |
 | `kimi-k3` | Kimi K3 | Reasoning (low/medium/high) |
 | `kimi-k3.1-pro` | Kimi K3.1 Pro | Reasoning (low/medium/high) |
+| `kimi-k3.1-pro-highspeed` | Kimi K3.1 Pro Highspeed | Reasoning (low/medium/high/xhigh/max) |
 | `minimax-m3` | MiniMax M3 | Reasoning (auto, no picker) |
 | `minimax-m3.1-flash` | MiniMax M3.1 Flash | Reasoning (auto, no picker) |
 | `deepseek-v4-flash` | DeepSeek V4 Flash | Reasoning (none/high/max) |

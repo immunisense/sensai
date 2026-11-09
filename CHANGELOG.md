@@ -1,3 +1,14 @@
+## 0.6.4
+
+- New model: Kimi K3.1 Pro Highspeed for paid plans, a faster Kimi K3.1 Pro with a 1M-token context window, image input, and thinking effort from low to max.
+- Images sent to GPT models now use the format their API requires.
+- Gemini requests now stay within Gemini's reply length limit, which could cause an "invalid argument" error.
+- IDE browser: the agent can now scroll, drag, fill forms, upload files, inspect and audit pages, check several screen sizes at once, try dark mode and reduced motion, fake API responses, compare a page with a saved image, and turn its steps into a test.
+- IDE browser: failed actions now say why, waits are more flexible, and slow pages return what has loaded.
+- IDE browser: fewer permission prompts on your local dev server; public sites still ask every time.
+- IDE browser: text and addresses the agent sends to a page are checked for secrets first.
+- IDE browser: more agents can use it, and Analyze and Security Mode get a read-only version for localhost.
+
 ## v0.6.3
 
 - New model: Kimi K3.1 Pro for paid plans, with a 1M-token context window, image input, and adjustable thinking effort.
