@@ -1,3 +1,8 @@
+## 0.6.5
+
+- New model: Claude Fable 5.2 for paid plans, with a 1M-token context window, image input, and thinking effort from low to max.
+- Images from files, tools, and the IDE browser no longer fail with "cannot measure image dimensions" on any model, including in existing sessions.
+
 ## 0.6.4
 
 - New model: Kimi K3.1 Pro Highspeed for paid plans, a faster Kimi K3.1 Pro with a 1M-token context window, image input, and thinking effort from low to max.

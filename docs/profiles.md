@@ -241,6 +241,7 @@ All models in a profile must be from the live catalog:
 | `claude-opus-5` | Claude Opus 5 | Reasoning |
 | `claude-opus-5-5` | Claude Opus 5.5 | Reasoning (default medium) |
 | `claude-fable-5.1` | Claude Fable 5.1 | Reasoning |
+| `claude-fable-5.2` | Claude Fable 5.2 | Reasoning |
 | `gpt-6-astra` | GPT-6 Astra | Reasoning |
 | `gpt-6-sol` | GPT-6 Sol | Reasoning (default medium) |
 | `gpt-6.1-sol` | GPT-6.1 Sol | Reasoning (default medium) |
