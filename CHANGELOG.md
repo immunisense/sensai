@@ -1,3 +1,10 @@
+## 0.6.7
+
+- The web chat now locks models that are not included in your plan, and shows which plan unlocks them.
+- The Free plan can no longer use models that are not included in it, in the CLI, the IDE, or the web.
+- Web chat: images you attach while editing your last message are now sent with it.
+- The upcoming price multiplier shown for a model now matches the prices in effect when the change happens.
+
 ## 0.6.6
 
 - New model: Gemini 4 Carbon for paid plans, with a 1M context window, image input, and low/medium/high thinking.
