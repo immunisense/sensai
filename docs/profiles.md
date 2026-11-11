@@ -262,6 +262,7 @@ All models in a profile must be from the live catalog:
 | `deepseek-v4-pro` | DeepSeek V4 Pro | Reasoning (none/high/max) |
 | `gemma-4-31b` | Gemma 4 | Reasoning (auto, no picker) |
 | `gemini-3.8-flash` | Gemini 3.8 Flash | Reasoning (low/medium/high) |
+| `gemini-4-carbon` | Gemini 4 Carbon | Reasoning (low/medium/high) |
 
 Retired IDs still resolve: `grok-code-fast` → `grok-build-0.1`; `grok-4-1-fast-*` and `grok-4-fast-*` → `grok-4.3`. Models without a picker ignore `reasoning_effort`. Other reasoning models default to the model's standard effort when the field is omitted. Effort does not change the credit rate.
 

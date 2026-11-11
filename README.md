@@ -7,7 +7,7 @@
 This repository is **docs and issues**. Source is proprietary. Binaries come from the proxy, not from GitHub Releases.
 
 [![App](https://img.shields.io/badge/app-sensai.immunisense.com-C4A035?style=flat-square)](https://sensai.immunisense.com/)
-[![CLI](https://img.shields.io/badge/sensai--cli-v0.6.5-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
+[![CLI](https://img.shields.io/badge/sensai--cli-v0.6.6-12C78F?style=flat-square)](https://sensai.immunisense.com/install)
 [![Issues](https://img.shields.io/badge/issues-cli%20·%20ide%20·%20extension%20·%20web-00A4FF?style=flat-square)](https://github.com/immunisense/sensai/issues/new/choose)
 [![License](https://img.shields.io/badge/license-proprietary-333?style=flat-square)](LICENSE.md)
 
@@ -274,6 +274,7 @@ Prices are set per model and can change without a new release, so this table doe
 | Gemma 4 | Google | 256K | Free. Default model for `/compact` |
 | Gemini 3.8 Flash | Google | 1M | Thinking low/medium/high |
 | Gemini 4 Argon | Google | 1M | Images. Thinking low/medium/high |
+| Gemini 4 Carbon | Google | 1M | Images. Thinking low/medium/high |
 
 On Grok, a prompt over 200K uses twice the rate for every token in that request.
 

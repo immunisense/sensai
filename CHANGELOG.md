@@ -1,3 +1,14 @@
+## 0.6.6
+
+- New model: Gemini 4 Carbon for paid plans, with a 1M context window, image input, and low/medium/high thinking.
+- Security: updated to Go 1.27.4, which fixes security issues in the Go standard library and toolchain.
+- List Directory no longer fails when the ignore list arrives as text.
+- Claude Fable 5.2 now uses adaptive thinking on Bedrock and follows your reasoning effort setting.
+- Security: file names in attached files can no longer alter the prompt structure.
+- Security: the text of an attached file can no longer break out of its file block and add instructions to the prompt.
+- Ending a session while it is still starting no longer leaves background file watching running.
+- Shutting down now ends every open session even if a session-end hook is slow, and background file watching no longer starts a second watcher.
+
 ## 0.6.5
 
 - New model: Claude Fable 5.2 for paid plans, with a 1M-token context window, image input, and thinking effort from low to max.
