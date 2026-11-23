@@ -1,3 +1,34 @@
+## 0.7.0
+
+- Model credit multipliers now show one decimal, such as 1.3x.
+- On Windows, commands run by the agent are now sandboxed, so they can only write inside your project.
+- MCP servers start when they are first needed and stop when idle, which saves memory.
+- Your personal rules in `~/.sensai/rules` now apply to every project.
+- You can save multi-agent workflows and run them again.
+- Plans can be started as a bugfix plan.
+- New models: GPT-6.2 Astra and GPT-6.2 Sol for paid plans, with image input and long context.
+- New model: GPT-6.2 Astra Ultrafast, a faster version of Astra at a higher rate.
+- New models: Gemini 4 Hydrogen and Gemini 4 Neon for paid plans, with a 1M context window, image input, and thinking up to xhigh.
+- Usage stats now show only the models you chose. Background tasks like session titles use Gemma 4, and helper agents use your selected model.
+- Web search no longer shows up as a model in usage stats.
+- The command sandbox now refuses a command when it cannot protect your project, instead of running it unprotected.
+- On Linux and macOS, sandboxed commands can no longer redirect output to files outside your project.
+- The MCP dialog's filter accepts every letter. Delete, restart and add now use Ctrl+X, Ctrl+R and Ctrl+A.
+- Workflow run totals now match the sum of their steps.
+- A workflow run now tells you when its log could not be saved.
+- Sandboxed commands can no longer delete protected project folders with `rm -rf`.
+- Choosing a model in your config file now uses that model's own output limit.
+- Saved provider options for your selected model are kept at startup.
+- The command sandbox now also protects your project's git config from sandboxed gzip and gunzip, and refuses a Windows workspace that is a symlink or junction.
+- If your saved model is no longer available, the model from your config file is used instead of a provider default.
+- The command sandbox no longer lets links send writes outside your project or into protected folders.
+- Sandboxed file commands like touch, mkdir and rm now run with the same restrictions as other commands, and hard links can no longer be used to write outside your project.
+- If your saved model is no longer available, the reasoning level from your config file is used too.
+- Switching to a model without reasoning levels no longer keeps the previous model's reasoning setting.
+- The model in your config file now keeps applying on every launch when your saved model is no longer available.
+- On Linux and macOS, sandboxed commands can no longer be tricked into writing to protected project files through a link swapped in at the last moment.
+- A saved background model that is no longer available is replaced for that run only, and is not written to your saved settings.
+
 ## 0.6.7
 
 - The web chat now locks models that are not included in your plan, and shows which plan unlocks them.

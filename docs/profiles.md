@@ -246,6 +246,9 @@ All models in a profile must be from the live catalog:
 | `gpt-6-sol` | GPT-6 Sol | Reasoning (default medium) |
 | `gpt-6.1-sol` | GPT-6.1 Sol | Reasoning (default medium) |
 | `gpt-6.1-terra` | GPT-6.1 Terra | Reasoning (default medium) |
+| `gpt-6.2-astra` | GPT-6.2 Astra | Reasoning (low/medium/high/xhigh/max) |
+| `gpt-6.2-astra-ultrafast` | GPT-6.2 Astra Ultrafast | Reasoning (low/medium/high/xhigh/max) |
+| `gpt-6.2-sol` | GPT-6.2 Sol | Reasoning (default medium) |
 | `gpt-6-luna` | GPT-6 Luna | Reasoning (default medium) |
 | `gpt-5.6-sol` | GPT-5.6 Sol | Reasoning |
 | `gpt-5.6-terra` | GPT-5.6 Terra | Reasoning |
@@ -263,6 +266,8 @@ All models in a profile must be from the live catalog:
 | `gemma-4-31b` | Gemma 4 | Reasoning (auto, no picker) |
 | `gemini-3.8-flash` | Gemini 3.8 Flash | Reasoning (low/medium/high) |
 | `gemini-4-carbon` | Gemini 4 Carbon | Reasoning (low/medium/high) |
+| `gemini-4-hydrogen` | Gemini 4 Hydrogen | Reasoning (low/medium/high/xhigh) |
+| `gemini-4-neon` | Gemini 4 Neon | Reasoning (low/medium/high/xhigh) |
 
 Retired IDs still resolve: `grok-code-fast` → `grok-build-0.1`; `grok-4-1-fast-*` and `grok-4-fast-*` → `grok-4.3`. Models without a picker ignore `reasoning_effort`. Other reasoning models default to the model's standard effort when the field is omitted. Effort does not change the credit rate.
 
