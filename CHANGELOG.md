@@ -1,3 +1,11 @@
+## 0.7.1
+
+- Gemini models no longer fail with an "invalid JSON input" error when they call several tools at once.
+- WebSocket connections now use a secure random mask key.
+- The IDE usage page shows correct shares for very small amounts.
+- The IDE usage page puts late-night usage on the right day.
+- Gemini handles several tool calls in one turn more reliably.
+
 ## 0.7.0
 
 - Model credit multipliers now show one decimal, such as 1.3x.
